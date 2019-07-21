@@ -29,6 +29,7 @@ namespace Script_game.menu
         public Transform Place_line_instatnt;
         LineRenderer[] line_collector = new LineRenderer[10];
         Vector3[] Target_line = new Vector3[10];
+        Vector3[] Target_line_2 = new Vector3[10];
 
         private void Start()
         {
@@ -70,10 +71,11 @@ namespace Script_game.menu
         /// <param name="eventData"></param>
         public void OnPointerEnter(PointerEventData eventData)
         {
-            int count = Random.Range(5, 10);
+            int count = Random.Range(5, 11);
             for (int i = 0; i < count; i++)
             {
-                Target_line[i] = new Vector3(Random.Range(-4, 4f), Random.Range(-4, 4f));
+                Target_line[i] = new Vector3(Random.Range(0, 2f), Random.Range(-2, 2f));
+                Target_line_2[i] = new Vector3(Target_line[i].x + Random.Range(1, 10), Target_line[i].y);
             }
 
             for (int i = 0; i < count; i++)
@@ -135,11 +137,23 @@ namespace Script_game.menu
 
         public void OnDrag(PointerEventData eventData)
         {
+
             for (int i = 0; i < line_collector.Length; i++)
             {
                 if (line_collector[i] != null)
                 {
-                    
+
+                    if (line_collector[i].GetPosition(1) != Target_line[i])
+                    {
+
+                        line_collector[i].SetPosition(1, Vector3.MoveTowards(line_collector[i].GetPosition(1), Target_line[i], 0.03f));
+                        line_collector[i].SetPosition(2, Vector3.MoveTowards(line_collector[i].GetPosition(2), Target_line[i], 0.03f));
+                    }
+                    else
+                    {
+                        line_collector[i].SetPosition(2, Vector3.MoveTowards(line_collector[i].GetPosition(2), Target_line_2[i], 0.03f));
+                    }
+
                 }
             }
         }
