@@ -24,26 +24,32 @@ namespace Script_game.menu
         public LineRenderer[] Lines;
         Envorment_dot Dot_envorment = new Envorment_dot();
 
+
         int Active_BTN_play;
 
-        Vector3[] Frist_location;
+        Vector3[] Frist_Pos = new Vector3[6];
+        Vector3[] Frist_Pos_internal_dot = new Vector3[6];
         private void Start()
         {
-
-            Frist_location = new Vector3[6] { Pos_dots[0], Pos_dots[1], Pos_dots[2], Pos_dots[3], Pos_dots[4], Pos_dots[5] };
-            print(Frist_location[0]);
+            pos_dots_internal = new Vector3[] { new Vector2(Pos_dots[0].x, Pos_dots[0].y - Degress_dot_internal - 0.2f), new Vector2(Pos_dots[1].x - Degress_dot_internal, Pos_dots[1].y - Degress_dot_internal), new Vector2(Pos_dots[2].x - Degress_dot_internal, Pos_dots[2].y + Degress_dot_internal), new Vector2(Pos_dots[3].x, Pos_dots[3].y + Degress_dot_internal + 0.2f), new Vector2(Pos_dots[4].x + Degress_dot_internal, Pos_dots[4].y + Degress_dot_internal), new Vector2(Pos_dots[5].x + Degress_dot_internal, Pos_dots[5].y - Degress_dot_internal) };
             for (int i = 0; i < Pos_dots.Length; i++)
             {
                 Dots[i] = Instantiate(Dot_shape, Place_Dots);
                 Dots_internal[i] = Instantiate(Dot_shape, Place_Dots);
             }
-            pos_dots_internal = new Vector3[] { new Vector2(Pos_dots[0].x, Pos_dots[0].y - Degress_dot_internal - 0.2f), new Vector2(Pos_dots[1].x - Degress_dot_internal, Pos_dots[1].y - Degress_dot_internal), new Vector2(Pos_dots[2].x - Degress_dot_internal, Pos_dots[2].y + Degress_dot_internal), new Vector2(Pos_dots[3].x, Pos_dots[3].y + Degress_dot_internal + 0.2f), new Vector2(Pos_dots[4].x + Degress_dot_internal, Pos_dots[4].y + Degress_dot_internal), new Vector2(Pos_dots[5].x + Degress_dot_internal, Pos_dots[5].y - Degress_dot_internal) };
+            for (int i = 0; i < Pos_dots.Length; i++)
+            {
+                Frist_Pos[i] = Pos_dots[i];
+                Frist_Pos_internal_dot[i] = pos_dots_internal[i];
+            }
+
 
         }
 
         private void Update()
         {
-            print(Frist_location[0]);
+            pos_dots_internal = new Vector3[] { new Vector2(Pos_dots[0].x, Pos_dots[0].y - Degress_dot_internal - 0.2f), new Vector2(Pos_dots[1].x - Degress_dot_internal, Pos_dots[1].y - Degress_dot_internal), new Vector2(Pos_dots[2].x - Degress_dot_internal, Pos_dots[2].y + Degress_dot_internal), new Vector2(Pos_dots[3].x, Pos_dots[3].y + Degress_dot_internal + 0.2f), new Vector2(Pos_dots[4].x + Degress_dot_internal, Pos_dots[4].y + Degress_dot_internal), new Vector2(Pos_dots[5].x + Degress_dot_internal, Pos_dots[5].y - Degress_dot_internal) };
+            print(Frist_Pos[0]);
             Dot_envorment.Instant_Dot_Envorment(Dots, Pos_dots, Speed_dot);
             Dot_envorment.Instant_Dot_Envorment(Dots_internal, pos_dots_internal, Speed_dot / 3);
 
@@ -68,7 +74,9 @@ namespace Script_game.menu
                     for (int i = 0; i < Pos_dots.Length; i++)
                     {
                         Pos_dots[i] = Vector3.MoveTowards(Pos_dots[i], Vector3.zero, 0.1f);
+                        pos_dots_internal[i] = Vector3.MoveTowards(pos_dots_internal[i], Frist_Pos_internal_dot[i], 0.1f);
                     }
+
                 }
                 else
                 {
@@ -88,13 +96,13 @@ namespace Script_game.menu
             while (true)
             {
 
-                if (Vector3.Distance(Pos_dots[0], Vector3.zero) < Vector3.Distance(Frist_location[0], Vector3.zero))
+                if (Vector3.Distance(Pos_dots[0], Vector3.zero) < Vector3.Distance(Frist_Pos[0], Vector3.zero))
                 {
                     for (int i = 0; i < Pos_dots.Length; i++)
                     {
-                        Pos_dots[i] = Vector3.MoveTowards(Pos_dots[i], Frist_location[i], 0.1f);
+                        Pos_dots[i] = Vector3.MoveTowards(Pos_dots[i], Frist_Pos[i], 0.1f);
+                        pos_dots_internal[i] = Vector3.MoveTowards(pos_dots_internal[i], Frist_Pos_internal_dot[i], 0.1f);
                     }
-
                 }
                 else
                 {
@@ -119,6 +127,7 @@ namespace Script_game.menu
             for (int i = 0; i < Dot.Length; i++)
             {
                 Dot[i].transform.localPosition = Vector3.MoveTowards(Dot[i].transform.localPosition, Pos_dots[i], Speed);
+
             }
         }
     }
