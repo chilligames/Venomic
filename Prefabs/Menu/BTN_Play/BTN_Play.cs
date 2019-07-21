@@ -7,30 +7,32 @@ using UnityEngine.EventSystems;
 namespace Script_game.menu
 {
 
-    public class BTN_Play : Menu, IPointerEnterHandler, IPointerExitHandler
+    public class BTN_Play : Menu, IPointerEnterHandler, IPointerExitHandler, IDragHandler
     {
-
-
+        [Header("Envorment")]
+        Envorment_dot Dot_envorment = new Envorment_dot();
         public RawImage Dot_shape;
         public Transform Place_Dots;
+        public LineRenderer[] Lines;
         public float Speed_dot;
         public float Degress_dot_internal;
         public Vector3[] Pos_dots;
-
         Vector3[] pos_dots_internal;
-        RawImage[] Dots = new RawImage[6];
-        RawImage[] Dots_internal = new RawImage[6];
-
-        public LineRenderer[] Lines;
-        Envorment_dot Dot_envorment = new Envorment_dot();
-
-
-        int Active_BTN_play;
-
         Vector3[] Frist_Pos = new Vector3[6];
         Vector3[] Frist_Pos_internal_dot = new Vector3[6];
+        RawImage[] Dots = new RawImage[6];
+        RawImage[] Dots_internal = new RawImage[6];
+        [Space(30f)]
+        [Header("Lines")]
+
+        public LineRenderer line_raw;
+        public Transform Place_line_instatnt;
+        LineRenderer[] line_collector = new LineRenderer[10];
+        Vector3[] Target_line = new Vector3[10];
+
         private void Start()
         {
+
             pos_dots_internal = new Vector3[] { new Vector2(Pos_dots[0].x, Pos_dots[0].y - Degress_dot_internal - 0.2f), new Vector2(Pos_dots[1].x - Degress_dot_internal, Pos_dots[1].y - Degress_dot_internal), new Vector2(Pos_dots[2].x - Degress_dot_internal, Pos_dots[2].y + Degress_dot_internal), new Vector2(Pos_dots[3].x, Pos_dots[3].y + Degress_dot_internal + 0.2f), new Vector2(Pos_dots[4].x + Degress_dot_internal, Pos_dots[4].y + Degress_dot_internal), new Vector2(Pos_dots[5].x + Degress_dot_internal, Pos_dots[5].y - Degress_dot_internal) };
             for (int i = 0; i < Pos_dots.Length; i++)
             {
@@ -46,10 +48,10 @@ namespace Script_game.menu
 
         }
 
+
         private void Update()
         {
             pos_dots_internal = new Vector3[] { new Vector2(Pos_dots[0].x, Pos_dots[0].y - Degress_dot_internal - 0.2f), new Vector2(Pos_dots[1].x - Degress_dot_internal, Pos_dots[1].y - Degress_dot_internal), new Vector2(Pos_dots[2].x - Degress_dot_internal, Pos_dots[2].y + Degress_dot_internal), new Vector2(Pos_dots[3].x, Pos_dots[3].y + Degress_dot_internal + 0.2f), new Vector2(Pos_dots[4].x + Degress_dot_internal, Pos_dots[4].y + Degress_dot_internal), new Vector2(Pos_dots[5].x + Degress_dot_internal, Pos_dots[5].y - Degress_dot_internal) };
-            print(Frist_Pos[0]);
             Dot_envorment.Instant_Dot_Envorment(Dots, Pos_dots, Speed_dot);
             Dot_envorment.Instant_Dot_Envorment(Dots_internal, pos_dots_internal, Speed_dot / 3);
 
@@ -60,12 +62,24 @@ namespace Script_game.menu
             }
 
         }
+
+
         /// <summary>
         /// animation Enter
         /// </summary>
         /// <param name="eventData"></param>
         public void OnPointerEnter(PointerEventData eventData)
         {
+            int count = Random.Range(5, 10);
+            for (int i = 0; i < count; i++)
+            {
+                Target_line[i] = new Vector3(Random.Range(-4, 4f), Random.Range(-4, 4f));
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                line_collector[i] = Instantiate(line_raw, Place_line_instatnt);
+            }
 
             while (true)
             {
@@ -82,9 +96,9 @@ namespace Script_game.menu
                 {
                     break;
                 }
-
             }
         }
+
 
         /// <summary>
         /// animation EXit
@@ -92,6 +106,14 @@ namespace Script_game.menu
         /// <param name="eventData"></param>
         public void OnPointerExit(PointerEventData eventData)
         {
+            for (int i = 0; i < line_collector.Length; i++)
+            {
+
+                if (line_collector[i] != null)
+                {
+                    Destroy(line_collector[i].gameObject);
+                }
+            }
 
             while (true)
             {
@@ -109,12 +131,18 @@ namespace Script_game.menu
                     break;
                 }
             }
-
-
-
-
         }
 
+        public void OnDrag(PointerEventData eventData)
+        {
+            for (int i = 0; i < line_collector.Length; i++)
+            {
+                if (line_collector[i] != null)
+                {
+                    
+                }
+            }
+        }
     }
 
 
@@ -129,7 +157,11 @@ namespace Script_game.menu
                 Dot[i].transform.localPosition = Vector3.MoveTowards(Dot[i].transform.localPosition, Pos_dots[i], Speed);
 
             }
+
         }
     }
+
+
+
 }
 
