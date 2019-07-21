@@ -145,7 +145,6 @@ namespace Script_game.menu
 
                     if (line_collector[i].GetPosition(1) != Target_line[i])
                     {
-
                         line_collector[i].SetPosition(1, Vector3.MoveTowards(line_collector[i].GetPosition(1), Target_line[i], 0.03f));
                         line_collector[i].SetPosition(2, Vector3.MoveTowards(line_collector[i].GetPosition(2), Target_line[i], 0.03f));
                     }
