@@ -6,10 +6,10 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AgQAAJCAECEAAAAAARBAAAAAKhAwAAECCAEKAQAAAAA=</HashCode>
+      <HashCode>IARAAJQAECEAAAAAARBAAAAAChAwAAUCAAEKAQAAAAQ=</HashCode>
       <FileName>Assets\Scripts\Prefabs\Menu\BTN_Play\BTN_Play.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.1" />
+    <Lollipop Position="0.475" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
