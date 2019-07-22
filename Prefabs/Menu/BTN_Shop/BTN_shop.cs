@@ -84,6 +84,7 @@ namespace Script_game.menu
                 }
             }
 
+
             if (Status_anim == 2)
             {
                 for (int i = 0; i < Lines.Length; i++)

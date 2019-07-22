@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 82353422}
   m_Layer: 5
-  m_Name: Place_line
+  m_Name: Place_line_inject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1787,9 +1787,20 @@ MonoBehaviour:
   - {x: 0, y: -1.5, z: 0}
   - {x: -1.4, y: -0.8, z: 0}
   - {x: -1.4, y: 0.8, z: 0}
-  line_raw: {fileID: 9011736306383064397, guid: 6b549f67d5c9bf847b33ba6a9adc3ae0,
+  line_raw_inject: {fileID: 9011736306383064397, guid: 6b549f67d5c9bf847b33ba6a9adc3ae0,
     type: 3}
-  Place_line_instatnt: {fileID: 82353422}
+  Line_inject_place: {fileID: 82353422}
+  line_inject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Line_raw_Snap: {fileID: 1782587672040917425, guid: 5ffd5a782d7050e4ea243d9cfd976cc9,
     type: 3}
   Place_line_Snap: {fileID: 345757222}
