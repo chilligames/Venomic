@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 999814433}
   - component: {fileID: 999814432}
   - component: {fileID: 999814431}
+  - component: {fileID: 999814430}
   m_Layer: 5
   m_Name: Button_Shop
   m_TagString: Untagged
@@ -1474,6 +1475,28 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5, y: -2.5}
   m_SizeDelta: {x: 1.8, y: 1.8}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &999814430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999814428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5845d6c47864e894eb6f9c6390bae91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dots:
+  - {fileID: 464710584}
+  - {fileID: 1091841951}
+  - {fileID: 619536804}
+  - {fileID: 1790737733}
+  Lines:
+  - {fileID: 1313454601}
+  - {fileID: 1214391485}
+  - {fileID: 1651490925}
+  - {fileID: 1173936116}
 --- !u!114 &999814431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1985,15 +2008,15 @@ RectTransform:
   m_Children:
   - {fileID: 1313454600}
   - {fileID: 1214391484}
-  - {fileID: 1173936115}
   - {fileID: 1651490924}
+  - {fileID: 1173936115}
   m_Father: {fileID: 2087582719}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1173936114
 GameObject:
@@ -2006,7 +2029,7 @@ GameObject:
   - component: {fileID: 1173936115}
   - component: {fileID: 1173936116}
   m_Layer: 5
-  m_Name: Line_2
+  m_Name: Line_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2024,11 +2047,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1143762973}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.2, y: 0.2}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!120 &1173936116
@@ -2069,13 +2092,12 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
+  - {x: -0.2, y: 0.2, z: 0}
+  - {x: -0.2, y: 0.2, z: 0}
+  - {x: -0.2, y: 0.2, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.04
+    widthMultiplier: 0.03
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2161,7 +2183,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.20000005, y: -0.2}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!120 &1214391485
@@ -2202,13 +2224,12 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0.5, y: 0, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.2, y: -0.2, z: 0}
+  - {x: 0.2, y: -0.2, z: 0}
+  - {x: 0.2, y: -0.2, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.04
+    widthMultiplier: 0.03
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2425,7 +2446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.2, y: 0.2}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!120 &1313454601
@@ -2466,13 +2487,12 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0.5, y: 0, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.2, y: 0.2, z: 0}
+  - {x: 0.2, y: 0.2, z: 0}
+  - {x: 0.2, y: 0.2, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.04
+    widthMultiplier: 0.03
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2517,7 +2537,7 @@ LineRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 5
+    numCornerVertices: 3
     numCapVertices: 3
     alignment: 0
     textureMode: 0
@@ -2964,7 +2984,7 @@ GameObject:
   - component: {fileID: 1651490924}
   - component: {fileID: 1651490925}
   m_Layer: 5
-  m_Name: Line_3
+  m_Name: Line_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2982,11 +3002,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1143762973}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.20000005, y: -0.2}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!120 &1651490925
@@ -3027,13 +3047,12 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: 0}
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.2, y: -0.2, z: 0}
+  - {x: -0.2, y: -0.2, z: 0}
+  - {x: -0.2, y: -0.2, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.04
+    widthMultiplier: 0.03
     widthCurve:
       serializedVersion: 2
       m_Curve:
