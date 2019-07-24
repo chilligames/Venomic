@@ -4,11 +4,9 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 using System.IO;
-
+using System.Linq;
 public class Game_play : MonoBehaviour
 {
-
-
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
     public GameObject BTN_sampel;
@@ -18,14 +16,23 @@ public class Game_play : MonoBehaviour
     public int Level;
     public int State_pass;
     public GameObject[] BTNS;
-
+    object[] Pass_map;
+    object[] pass_sampel;
     private void Start()
     {
+        Check_pass();
+
+        Pass_map = new object[BTNS.Length];
+        pass_sampel = new object[BTNS.Length];
+
+        for (int i = 0; i < Pass_map.Length; i++)
+        {
+            Pass_map[i] = 1;
+        }
         Text_Level_number.text = Level.ToString();
         Text_Time_number.text = Time.ToString();
 
         Animation_spawn();
-        Check_pass();
 
 
         async void Animation_spawn()
@@ -105,7 +112,37 @@ public class Game_play : MonoBehaviour
                 Panel_pass.SetActive(false);
                 Panel_BTNs.SetActive(true);
             }
-
         }
     }
+
+    private void Update()
+    {
+        if (State_pass == 0)
+        {
+
+
+            for (int i = 0; i < pass_sampel.Length; i++)
+            {
+                if (pass_sampel[i] == null && BTNS[i].GetComponent<BTN_sample>().Passed != null)
+                {
+                    pass_sampel[i] = 1;
+
+                    break;
+                }
+            }
+
+
+            if (pass_sampel.SequenceEqual(Pass_map))
+            {
+                Panel_BTNs.SetActive(false);
+                Panel_pass.SetActive(true);
+
+
+
+            }
+
+        }
+
+    }
+
 }

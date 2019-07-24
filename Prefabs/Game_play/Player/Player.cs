@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+
+
 public class Player : MonoBehaviour
 {
     public static Camera cam;
-    public Transform Place_missions;
-    GameObject[] Mission_Collector;
+    public static Transform Place_mission;
+    public Transform Place;
+    public static Mission_Collector mission_Collection = new Mission_Collector();
     public GameObject Raw_mision;
     void Start()
     {
+        Place_mission = Place;
+
         cam = Camera.main;
 
 
@@ -18,6 +23,7 @@ public class Player : MonoBehaviour
         void read_data_from_local()
         {
 
+
             if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
             {
                 StreamReader read_data = new StreamReader(Application.persistentDataPath + "/Info.Chi");
@@ -25,14 +31,15 @@ public class Player : MonoBehaviour
                 read_data.Close();
 
                 var Data = JsonUtility.FromJson<Entity_player_model>(Data_string);
-                Mission_Collector = new GameObject[Data.Pos_G.Length];
-                for (int i = 0; i < Data.Pos_G.Length; i++)
+                mission_Collection.Count = Data.Pos_G.Length;
+                print(mission_Collection.Count);
+                for (int i = 0; i < mission_Collection.Count; i++)
                 {
-                    Mission_Collector[i] = Instantiate(Raw_mision, Place_missions);
-                    Mission_Collector[i].transform.position = Data.Pos_G[i];
-                    Mission_Collector[i].GetComponent<Game_play>().Time = Data.T_M[i];
-                    Mission_Collector[i].GetComponent<Game_play>().Level = i;
-                    Mission_Collector[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
+                    mission_Collection.Add(Raw_mision);
+                    mission_Collection[i].transform.position = Data.Pos_G[i];
+                    mission_Collection[i].GetComponent<Game_play>().Level = i;
+                    mission_Collection[i].GetComponent<Game_play>().Time = Data.T_M[i];
+                    mission_Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
                 }
             }
             else
@@ -48,7 +55,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
 
 
     public static class Cam
@@ -88,6 +94,87 @@ public class Player : MonoBehaviour
         public int[] ST_P = { };
     }
 
+    public class Mission_Collector : IList<GameObject>
+    {
+        GameObject[] Collection;
 
+        public GameObject this[int index]
+        {
+            get
+            {
+                return Collection[index];
+            }
+            set
+            {
+                Collection[index] = value;
+            }
+        }
+
+        public int Count
+        {
+            get { return Collection.Length; }
+            set { Collection = new GameObject[value]; }
+        }
+
+        public bool IsReadOnly { get; set; }
+
+        public void Add(GameObject item)
+        {
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (Collection[i] == null)
+                {
+                    Collection[i] = Instantiate(item, Place_mission);
+                }
+            }
+
+        }
+
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Contains(GameObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CopyTo(GameObject[] array, int arrayIndex)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerator<GameObject> GetEnumerator()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int IndexOf(GameObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Insert(int index, GameObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Remove(GameObject item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
 

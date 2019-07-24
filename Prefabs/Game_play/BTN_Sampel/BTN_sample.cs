@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
+using System.IO;
 public class BTN_sample : MonoBehaviour
 {
     public int Tap_count;
     public int Sampel_count;
+    public object Passed;
     public TextMeshProUGUI text;
     Vector3 pos_BTN;
 
@@ -15,8 +17,6 @@ public class BTN_sample : MonoBehaviour
     {
 
         animation_spawn();
-        print(Sampel_count);
-
         async void animation_spawn()
         {
             while (true)
@@ -51,7 +51,16 @@ public class BTN_sample : MonoBehaviour
     {
         anim_Press();
         Tap_count++;
-
+       
+        if (Tap_count == Sampel_count)
+        {
+            Passed = 1;
+            print("passed");
+        }
+        else if (Tap_count > Sampel_count)
+        {
+            print("dead");
+        }
 
         async void anim_Press()
         {
@@ -71,10 +80,7 @@ public class BTN_sample : MonoBehaviour
                             await Task.Delay(10);
 
                             text.text = Tap_count.ToString();
-                            if (Tap_count > Sampel_count)
-                            {
-                                print("dead");
-                            }
+
                             text.transform.localScale = Vector3.MoveTowards(text.transform.localScale, Vector3.one, 0.4f);
                         }
                         else
