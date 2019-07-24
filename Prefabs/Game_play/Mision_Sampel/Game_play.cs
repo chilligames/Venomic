@@ -12,9 +12,10 @@ public class Game_play : MonoBehaviour
     public GameObject BTN_sampel;
     public GameObject Panel_pass;
     public GameObject Panel_BTNs;
-    public float Time;
+    public float Time_mision;
     public int Level;
     public int State_pass;
+    public int Star;
     public GameObject[] BTNS;
     object[] Pass_map;
     object[] pass_sampel;
@@ -30,7 +31,7 @@ public class Game_play : MonoBehaviour
             Pass_map[i] = 1;
         }
         Text_Level_number.text = Level.ToString();
-        Text_Time_number.text = Time.ToString();
+        Text_Time_number.text = Time_mision.ToString();
 
         Animation_spawn();
 
@@ -136,9 +137,9 @@ public class Game_play : MonoBehaviour
             {
                 Panel_BTNs.SetActive(false);
                 Panel_pass.SetActive(true);
-
-
-
+                State_pass = 1;
+                Time_mision = Time.time;
+                Player.Inser_mission(transform.position, Time_mision, Star, State_pass);
             }
 
         }

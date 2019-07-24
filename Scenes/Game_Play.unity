@@ -2980,8 +2980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Place: {fileID: 1412210064}
-  Raw_mision: {fileID: 2483544818635534395, guid: ec8ec05243eb517489570ffb50e1110d,
-    type: 3}
+  mision: {fileID: 2483544818635534395, guid: ec8ec05243eb517489570ffb50e1110d, type: 3}
 --- !u!4 &1759673861
 Transform:
   m_ObjectHideFlags: 0
@@ -3226,7 +3225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859467354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1759673861}
