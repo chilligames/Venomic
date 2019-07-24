@@ -11,11 +11,13 @@ public class Game_play : MonoBehaviour
 
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
+    public GameObject BTN_sampel;
     public GameObject Panel_pass;
     public GameObject Panel_BTNs;
     public float Time;
     public int Level;
     public int State_pass;
+    public GameObject[] BTNS;
 
     private void Start()
     {
@@ -64,15 +66,46 @@ public class Game_play : MonoBehaviour
             {
                 Panel_pass.SetActive(true);
                 Panel_BTNs.SetActive(false);
+
             }
             else
             {
+                if (Level < 100)
+                {
+
+                    int Count = Random.Range(1, 5);
+                    BTNS = new GameObject[Count];
+                    for (int i = 0; i < Count; i++)
+                    {
+                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                    }
+                }
+                else if (Level < 300)
+                {
+
+                    int Count = Random.Range(1, 7);
+                    BTNS = new GameObject[Count];
+                    for (int i = 0; i < Count; i++)
+                    {
+                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                    }
+                }
+                else if (Level > 500)
+                {
+                    int Count = Random.Range(1, 10);
+                    BTNS = new GameObject[Count];
+                    for (int i = 0; i < Count; i++)
+                    {
+                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                    }
+                }
                 Panel_pass.SetActive(false);
                 Panel_BTNs.SetActive(true);
             }
 
         }
     }
-
-
 }

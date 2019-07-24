@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
         void read_data_from_local()
         {
-            print(Application.persistentDataPath);
+
             if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
             {
                 StreamReader read_data = new StreamReader(Application.persistentDataPath + "/Info.Chi");
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
                     Mission_Collector[i].transform.position = Data.Pos_G[i];
                     Mission_Collector[i].GetComponent<Game_play>().Time = Data.T_M[i];
                     Mission_Collector[i].GetComponent<Game_play>().Level = i;
+                    Mission_Collector[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
                 }
             }
             else

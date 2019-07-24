@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public class BTN_sample : MonoBehaviour
 {
     public int Tap_count;
-    public static int Sampel_count;
+    public int Sampel_count;
     public TextMeshProUGUI text;
     Vector3 pos_BTN;
 
@@ -15,8 +15,7 @@ public class BTN_sample : MonoBehaviour
     {
 
         animation_spawn();
-
-        Sampel_count = 2;
+        print(Sampel_count);
 
         async void animation_spawn()
         {
@@ -67,7 +66,6 @@ public class BTN_sample : MonoBehaviour
                 {
                     while (true)
                     {
-
                         if (text.transform.localScale != Vector3.one)
                         {
                             await Task.Delay(10);
