@@ -1,37 +1,78 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using TMPro;
+using System.Threading.Tasks;
+using System.IO;
 
 public class Game_play : MonoBehaviour
 {
-    public Camera Camera;
-    public static Camera cam;
+
+
+    public TextMeshProUGUI Text_Time_number;
+    public TextMeshProUGUI Text_Level_number;
+    public GameObject Panel_pass;
+    public GameObject Panel_BTNs;
+    public float Time;
+    public int Level;
+    public int State_pass;
 
     private void Start()
     {
-        cam = Camera;
-    }
+        Text_Level_number.text = Level.ToString();
+        Text_Time_number.text = Time.ToString();
 
-    public static class Cam
-    {
-        public static int move_camera;
-        public static Vector3 Target_camera;
-        public static int camera_move;
+        Animation_spawn();
+        Check_pass();
 
-        public static void Move_camera(Stop_camera stop)
+
+        async void Animation_spawn()
         {
-            stop();
-            cam.transform.position = Vector3.MoveTowards(cam.transform.position, Target_camera, 0.01f);
-        }
-        public static void Camera_new_pos()
-        {
-            if (camera_move == 0)
+
+            while (true)
             {
-                Target_camera = new Vector3(cam.transform.position.x + 10, 0, -10);
-                camera_move = 1;
+                if (transform.localScale != Vector3.zero)
+                {
+                    await Task.Delay(10);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
+                }
+                else
+                {
+                    while (true)
+                    {
+                        if (transform.localScale != Vector3.one)
+                        {
+                            await Task.Delay(10);
+                            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.1f);
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    break;
+                }
+
             }
+
         }
-        public delegate void Stop_camera();
+
+        void Check_pass()
+        {
+            if (State_pass == 1)
+            {
+                Panel_pass.SetActive(true);
+                Panel_BTNs.SetActive(false);
+            }
+            else
+            {
+                Panel_pass.SetActive(false);
+                Panel_BTNs.SetActive(true);
+            }
+
+        }
     }
+
+
 }

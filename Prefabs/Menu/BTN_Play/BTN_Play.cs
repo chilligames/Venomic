@@ -107,11 +107,11 @@ namespace Script_game.menu
                             line_inject[a].SetPosition(2, Vector3.MoveTowards(line_inject[a].GetPosition(2), Target_2_inject[a], 0.01f));
                             if (line_inject[a].GetPosition(2) == Target_2_inject[a])
                             {
-                                Game_play.Cam.Camera_new_pos();
+                                Player.Cam.Camera_new_pos();
 
-                                Game_play.Cam.Move_camera(() =>
+                                Player.Cam.Move_camera(() =>
                                 {
-                                    if (Game_play.cam.transform.position == Game_play.Cam.Target_camera)
+                                    if (Player.cam.transform.position == Player.Cam.Target_camera)
                                     {
                                         inject = 0;
                                     }
