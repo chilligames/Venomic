@@ -34,7 +34,7 @@ public class Game_play : MonoBehaviour
         Text_Time_number.text = Time_mision.ToString();
 
         Animation_spawn();
-
+        
 
         async void Animation_spawn()
         {
@@ -139,7 +139,7 @@ public class Game_play : MonoBehaviour
                 Panel_pass.SetActive(true);
                 State_pass = 1;
                 Time_mision = Time.time;
-                Player.Inser_mission(transform.position, Time_mision, Star, State_pass);
+                Player.Inser_mission(transform.position);
             }
 
         }

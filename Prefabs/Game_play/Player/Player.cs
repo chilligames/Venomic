@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
                     mission_Collection[i].GetComponent<Game_play>().Level = i;
                     mission_Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];
                     mission_Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
+
+                    //last posion for camera
+                    mission_Collection.last_pos = mission_Collection[i].transform.position;
                 }
             }
             else
@@ -55,8 +58,13 @@ public class Player : MonoBehaviour
         }
 
     }
+    private void Update()
+    {
 
-    public static void Inser_mission(Vector3 Last_posion, float Time, int star, int statuspass)
+        print(mission_Collection.last_pos);
+    }
+
+    public static void Inser_mission(Vector3 Last_posion)
     {
         Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10, -10));
         mission_Collection.Add(new Vector3(Last_posion.x + 10, Last_posion.y + 10, Last_posion.z)); ;
@@ -64,10 +72,6 @@ public class Player : MonoBehaviour
 
     public static class Cam
     {
-        public static int move_camera;
-        public static Vector3 Target_camera;
-        public static int camera_move;
-
         /// <summary>
         /// animation move camera
         /// </summary>
@@ -95,25 +99,27 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        public static void Move_camera(Stop_camera stop)
-        {
-            stop();
-            cam.transform.position = Vector3.MoveTowards(cam.transform.position, Target_camera, 0.01f);
-        }
 
-        public static void Camera_new_pos()
+
+        public static void Move_camera()
         {
-            if (camera_move == 0)
+            Move();
+            async void Move()
             {
-                Target_camera = new Vector3(cam.transform.position.x + 10, 0, -10);
-                camera_move = 1;
+                while (true)
+                {
+                    if (cam.transform.position != mission_Collection.last_pos)
+                    {
+                        await Task.Delay(10);
+                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, mission_Collection.last_pos, 0.1f);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
         }
-
-        public delegate void Stop_camera();
-
-
-
     }
 
     public class Entity_player_model
@@ -127,7 +133,7 @@ public class Player : MonoBehaviour
     public class Mission_Collector : IList<GameObject>
     {
         GameObject[] Collection;
-
+        public Vector3 last_pos;
         public GameObject this[int index]
         {
             get
@@ -213,25 +219,67 @@ public class Player : MonoBehaviour
 
         }
 
+
+        /// <summary>
+        /// collection 0 mishe
+        /// </summary>
         public void Clear()
         {
-            throw new System.NotImplementedException();
+            Collection = new GameObject[] { };
         }
 
+
+        /// <summary>
+        /// search mikone bebeine kasi to pos hast ya na 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(GameObject item)
         {
-            throw new System.NotImplementedException();
+            bool result_contains = false;
+            for (int i = 0; i < Collection.Length; i++)
+            {
+                if (item.transform.position==Collection[i].transform.position)
+                {
+                    result_contains = true;
+                }
+                else
+                {
+                    result_contains=false;
+                }
+            }
+            return result_contains;
         }
 
+
+        /// <summary>
+        /// copy mikone ye list az gm toy collectio
+        /// </summary>
+        /// <param name="array"> meghdar collection jadid k jayghozin mishe to collection ghadim</param>
+        /// <param name="arrayIndex"></param>
         public void CopyTo(GameObject[] array, int arrayIndex)
         {
-            throw new System.NotImplementedException();
+            Count = arrayIndex;
+            for (int i = 0; i < array.Length; i++)
+            {
+                Collection[i] = array[i];
+            }
         }
 
+
+        /// <summary>
+        /// litrator baray dashtan tamami arry hay collection;
+        /// </summary>
+        /// <returns> collection member </returns>
         public IEnumerator<GameObject> GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            foreach (var item in Collection)
+            {
+                yield return item;
+
+            }
         }
+
 
         public int IndexOf(GameObject item)
         {

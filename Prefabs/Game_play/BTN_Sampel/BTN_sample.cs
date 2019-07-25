@@ -15,7 +15,6 @@ public class BTN_sample : MonoBehaviour
 
     private void Start()
     {
-
         animation_spawn();
         async void animation_spawn()
         {
