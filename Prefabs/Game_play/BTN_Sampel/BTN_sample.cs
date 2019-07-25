@@ -47,11 +47,17 @@ public class BTN_sample : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 1:anim_press run mishe 
+    /// 2:tap ++ mishe
+    /// 3:chekmikone dead 
+    /// </summary>
     public void Press_BTN()
     {
         anim_Press();
         Tap_count++;
-       
+        GetComponentInParent<Game_play>().start_mision = 1;
+
         if (Tap_count == Sampel_count)
         {
             Passed = 1;
@@ -61,6 +67,7 @@ public class BTN_sample : MonoBehaviour
         {
             print("dead");
         }
+
 
         async void anim_Press()
         {
@@ -94,4 +101,7 @@ public class BTN_sample : MonoBehaviour
 
         }
     }
+
+
+
 }

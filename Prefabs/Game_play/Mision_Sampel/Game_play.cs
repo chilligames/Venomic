@@ -5,6 +5,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
@@ -20,6 +21,8 @@ public class Game_play : MonoBehaviour
     public GameObject[] BTNS;
     object[] Pass_map;
     object[] pass_sampel;
+    float Time_local;
+    public int start_mision = 0;
 
     private void Start()
     {
@@ -76,7 +79,6 @@ public class Game_play : MonoBehaviour
             {
                 Panel_pass.SetActive(true);
                 Panel_BTNs.SetActive(false);
-
             }
             else
             {
@@ -94,7 +96,7 @@ public class Game_play : MonoBehaviour
                 else if (Level < 300)
                 {
 
-                    int Count = Random.Range(1, 7);
+                    int Count = Random.Range(4, 8);//#check 
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
@@ -104,7 +106,7 @@ public class Game_play : MonoBehaviour
                 }
                 else if (Level > 500)
                 {
-                    int Count = Random.Range(1, 10);
+                    int Count = Random.Range(6, 11);//#check
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
@@ -116,6 +118,34 @@ public class Game_play : MonoBehaviour
                 Panel_BTNs.SetActive(true);
             }
         }
+
+        Time_collect();
+
+        async void Time_collect()
+        {
+            while (true)
+            {
+                if (State_pass == 0)
+                {
+                    if (start_mision == 1)
+                    {
+                        await Task.Delay(50);
+                        Time_local += 0.1f;
+                        Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
+                        print(Time_mision);
+                    }
+                    else
+                    {
+                        await Task.Delay(50);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
     }
 
 
@@ -140,21 +170,30 @@ public class Game_play : MonoBehaviour
                 Panel_BTNs.SetActive(false);
                 Panel_pass.SetActive(true);
                 State_pass = 1;
-                Time_mision = Time.time;
+                Time_mision = Time_local;
                 if (Reset == 1)
                 {
                     Player.Cam.Move_camera();
+                    Reset = 0;
+                    Player.mission_Collection.Update_singel_mision(Level);
+                    print("reset_mision");
                 }
                 else
                 {
                     Player.Insert_mission(transform.position);
-
+                    print("creat mision");
                 }
             }
         }
     }
 
 
+    /// <summary>
+    /// 1: meghdar haro 0 mikone 
+    /// 2:reset 1 mikone baray inke load mishe reset bashe
+    /// 3:reset mission run mishe
+    /// 4: run ejra mishe bara chek
+    /// </summary>
     public void Reset_mision()
     {
         State_pass = 0;
@@ -164,5 +203,7 @@ public class Game_play : MonoBehaviour
         Player.mission_Collection.Reset_mision(Level);
         Start();
     }
+
+
 
 }

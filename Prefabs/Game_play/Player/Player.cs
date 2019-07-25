@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     public static Mission_Collector mission_Collection = new Mission_Collector();
     public GameObject mision;
     public static GameObject Raw_mision;
+
+
+
     void Start()
     {
         Place_mission = Place;
@@ -20,8 +23,6 @@ public class Player : MonoBehaviour
         Load_data();
         void Load_data()
         {
-
-
             if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
             {
                 StreamReader read_data = new StreamReader(Application.persistentDataPath + "/Info.Chi");
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour
                     mission_Collection[i].GetComponent<Game_play>().Level = i;
                     mission_Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];
                     mission_Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
+                    mission_Collection[i].GetComponent<Game_play>().Reset = Data.R_M[i];
+                    mission_Collection[i].GetComponent<Game_play>().Star = Data.S[i];
 
                     //last posion for camera
                     mission_Collection.last_pos = mission_Collection[i].transform.position;
@@ -48,14 +51,27 @@ public class Player : MonoBehaviour
                 New_model.Pos_G = new Vector3[] { new Vector3(10, 0, 0) };
                 New_model.ST_P = new int[] { 0 };
                 New_model.T_M = new float[] { 0 };
-                StreamWriter Creat_file = File.CreateText(Application.persistentDataPath + "/Info.Chi");
-                Creat_file.Write(JsonUtility.ToJson(New_model));
+                New_model.R_M = new int[] { 0 };
+                New_model.S = new int[] { 0 };
+
+
+                string string_data = JsonUtility.ToJson(New_model);
+
+                StreamWriter Creat_file = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
+                Creat_file.Write(string_data);
                 Creat_file.Close();
                 Load_data();
             }
         }
     }
 
+
+
+    /// <summary>
+    /// 1:camera move mishe to akharim mogheyat+10
+    /// 2: mission ezafe mishe
+    /// </summary>
+    /// <param name="Last_posion"></param>
     public static void Insert_mission(Vector3 Last_posion)
     {
         Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10, -10));
@@ -63,8 +79,11 @@ public class Player : MonoBehaviour
     }
 
 
-    public static class Cam
+
+    public class Cam
     {
+        static int Zoom;
+        static Vector3 last_pos_camera;
         /// <summary>
         /// animation move camera
         /// </summary>
@@ -94,6 +113,10 @@ public class Player : MonoBehaviour
         }
 
 
+
+        /// <summary>
+        /// camera move mishe 
+        /// </summary>
         public static void Move_camera()
         {
             Move();
@@ -113,7 +136,79 @@ public class Player : MonoBehaviour
                 }
             }
         }
+
+        /// <summary>
+        /// camera zoom_back mikone be meghdar maelom
+        /// </summary>
+        public static void Zoom_Back()
+        {
+            Zoom_in();
+            async void Zoom_in()
+            {
+                while (true)
+                {
+                    if (cam.orthographicSize < 50)
+                    {
+                        Zoom = 1;
+                        last_pos_camera = cam.transform.position;
+                        for (int i = 0; i < 50; i++)
+                        {
+                            await Task.Delay(10);
+                            cam.orthographicSize++;
+                        }
+                        break;
+                    }
+                    else if (cam.orthographicSize > 6)
+                    {
+                        Zoom = 0;
+                        for (int i = 0; i < 50; i++)
+                        {
+
+                            while (true)
+                            {
+                                if (Vector3.Distance(last_pos_camera, cam.transform.position) > 0)
+                                {
+                                    await Task.Delay(10);
+                                    cam.transform.position = Vector3.MoveTowards(cam.transform.position, last_pos_camera, 0.3f);
+                                }
+                                else
+                                {
+                                    break;
+
+                                }
+                            }
+
+
+                            await Task.Delay(10);
+
+                            cam.orthographicSize--;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// nativ camera
+        /// </summary>
+        public static void Native_camera(Vector3 move_to)
+        {
+            if (Zoom == 1)
+            {
+                cam.transform.Translate(move_to * Time.deltaTime*2);
+
+            }
+        }
+
+
+
+
     }
+
+
+
 
 
     public class Mission_Collector : IList<GameObject>
@@ -153,6 +248,7 @@ public class Player : MonoBehaviour
                 {
                     col_n[i] = Instantiate(Raw_mision, Place_mission);
                     col_n[i].transform.position = next_pos;
+                    col_n[i].GetComponent<Game_play>().Level = i;
                     Collection = col_n;
                     Collection = new GameObject[col_n.Length];
                     Collection = col_n;
@@ -170,6 +266,7 @@ public class Player : MonoBehaviour
             new_model.S = new int[Collection.Length];
             new_model.ST_P = new int[Collection.Length];
             new_model.T_M = new float[Collection.Length];
+            new_model.R_M = new int[Collection.Length];
 
             for (int i = 0; i < Collection.Length; i++)
             {
@@ -177,6 +274,7 @@ public class Player : MonoBehaviour
                 new_model.S[i] = Collection[i].GetComponent<Game_play>().Star;
                 new_model.ST_P[i] = Collection[i].GetComponent<Game_play>().State_pass;
                 new_model.T_M[i] = Collection[i].GetComponent<Game_play>().Time_mision;
+                new_model.R_M[i] = Collection[i].GetComponent<Game_play>().Reset;
             }
 
             string new_data = JsonUtility.ToJson(new_model);
@@ -210,30 +308,24 @@ public class Player : MonoBehaviour
         /// reset mikone mishon ro va file  info taghir mide
         /// </summary>
         /// <param name="Mission_number"> mision number for change</param>
-        public void Reset_mision(int Mission_number)
+        public void Reset_mision(int level_number)
         {
-            print(Collection.Length);
-
             for (int i = 0; i < Collection.Length; i++)
             {
-                if (Mission_number == i-1)
+                if (level_number == i)//check
                 {
-                    print(Collection[i].GetComponent<Game_play>().Level);
                     Collection[i].GetComponent<Game_play>().Star = 0;
                     Collection[i].GetComponent<Game_play>().State_pass = 0;
                     Collection[i].GetComponent<Game_play>().Time_mision = 0;
+                    Collection[i].GetComponent<Game_play>().Reset = 1;
                 }
-
             }
-
-            print(Collection.Length);
-
             Entity_player_model new_model_entity = new Entity_player_model();
-
             new_model_entity.Pos_G = new Vector3[Collection.Length];
             new_model_entity.S = new int[Collection.Length];
             new_model_entity.ST_P = new int[Collection.Length];
             new_model_entity.T_M = new float[Collection.Length];
+            new_model_entity.R_M = new int[Collection.Length];
 
             for (int i = 0; i < Collection.Length; i++)
             {
@@ -241,12 +333,53 @@ public class Player : MonoBehaviour
                 new_model_entity.S[i] = Collection[i].GetComponent<Game_play>().Star;
                 new_model_entity.ST_P[i] = Collection[i].GetComponent<Game_play>().State_pass;
                 new_model_entity.T_M[i] = Collection[i].GetComponent<Game_play>().Time_mision;
+                new_model_entity.R_M[i] = Collection[i].GetComponent<Game_play>().Reset;
             }
-            
+
             StreamWriter File_info_model = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
             string String_data = JsonUtility.ToJson(new_model_entity);
             File_info_model.Write(String_data);
             File_info_model.Close();
+
+        }
+
+
+        /// <summary>
+        /// mision Update mikone 
+        /// </summary>
+        /// <param name="Level"> level for change</param>
+        public void Update_singel_mision(int Level)
+        {
+            for (int i = 0; i < Collection.Length; i++)
+            {
+                if (Collection.Length - 1 == Level)
+                {
+                    Collection[i].GetComponent<Game_play>().Reset = 0;
+                    Collection[i].GetComponent<Game_play>().State_pass = 1;
+                }
+            }
+
+            Entity_player_model New_model = new Entity_player_model();
+            New_model.Pos_G = new Vector3[Collection.Length];
+            New_model.R_M = new int[Collection.Length];
+            New_model.S = new int[Collection.Length];
+            New_model.ST_P = new int[Collection.Length];
+            New_model.T_M = new float[Collection.Length];
+
+            for (int i = 0; i < Collection.Length; i++)
+            {
+                New_model.Pos_G[i] = Collection[i].GetComponent<Game_play>().transform.position;
+                New_model.R_M[i] = Collection[i].GetComponent<Game_play>().Reset;
+                New_model.S[i] = Collection[i].GetComponent<Game_play>().Star;
+                New_model.ST_P[i] = Collection[i].GetComponent<Game_play>().State_pass;
+                New_model.T_M[i] = Collection[i].GetComponent<Game_play>().Time_mision;
+            }
+
+            StreamWriter file_info = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
+
+            string String_data = JsonUtility.ToJson(New_model);
+            file_info.Write(String_data);
+            file_info.Close();
 
         }
 
@@ -340,13 +473,17 @@ public class Player : MonoBehaviour
     }
 
 
+
     public class Entity_player_model
     {
         public Vector3[] Pos_G = { };
         public float[] T_M = { };
         public int[] ST_P = { };
         public int[] S = { };
+        public int[] R_M = { };
     }
 
-}
 
+
+
+}
