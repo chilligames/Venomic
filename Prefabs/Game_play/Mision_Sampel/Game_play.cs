@@ -16,9 +16,11 @@ public class Game_play : MonoBehaviour
     public int Level;
     public int State_pass;
     public int Star;
+    public int Reset;
     public GameObject[] BTNS;
     object[] Pass_map;
     object[] pass_sampel;
+
     private void Start()
     {
         Check_pass();
@@ -34,7 +36,7 @@ public class Game_play : MonoBehaviour
         Text_Time_number.text = Time_mision.ToString();
 
         Animation_spawn();
-        
+
 
         async void Animation_spawn()
         {
@@ -116,12 +118,12 @@ public class Game_play : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
+
         if (State_pass == 0)
         {
-
-
             for (int i = 0; i < pass_sampel.Length; i++)
             {
                 if (pass_sampel[i] == null && BTNS[i].GetComponent<BTN_sample>().Passed != null)
@@ -139,11 +141,28 @@ public class Game_play : MonoBehaviour
                 Panel_pass.SetActive(true);
                 State_pass = 1;
                 Time_mision = Time.time;
-                Player.Inser_mission(transform.position);
+                if (Reset == 1)
+                {
+                    Player.Cam.Move_camera();
+                }
+                else
+                {
+                    Player.Insert_mission(transform.position);
+
+                }
             }
-
         }
+    }
 
+
+    public void Reset_mision()
+    {
+        State_pass = 0;
+        Star = 0;
+        Time_mision = 0;
+        Reset = 1;
+        Player.mission_Collection.Reset_mision(Level);
+        Start();
     }
 
 }

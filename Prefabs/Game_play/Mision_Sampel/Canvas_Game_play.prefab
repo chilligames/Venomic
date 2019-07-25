@@ -947,9 +947,10 @@ MonoBehaviour:
     type: 3}
   Panel_pass: {fileID: 8611498642028068917}
   Panel_BTNs: {fileID: 2483544818039738309}
-  Time: 0
+  Time_mision: 0
   Level: 0
   State_pass: 0
+  Star: 0
   BTNS: []
 --- !u!1 &2483544818717057651
 GameObject:
@@ -1814,7 +1815,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1654065955229347022}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2483544818635534528}
+        m_MethodName: Reset_mision
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3664281984830637967

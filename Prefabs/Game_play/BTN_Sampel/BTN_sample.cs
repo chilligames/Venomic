@@ -46,6 +46,7 @@ public class BTN_sample : MonoBehaviour
         }
     }
 
+
     public void Press_BTN()
     {
         anim_Press();

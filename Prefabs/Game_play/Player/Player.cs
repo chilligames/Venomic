@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
         Place_mission = Place;
         Raw_mision = mision;
         cam = Camera.main;
-
         Load_data();
-
         void Load_data()
         {
 
@@ -56,19 +54,14 @@ public class Player : MonoBehaviour
                 Load_data();
             }
         }
-
-    }
-    private void Update()
-    {
-
-        print(mission_Collection.last_pos);
     }
 
-    public static void Inser_mission(Vector3 Last_posion)
+    public static void Insert_mission(Vector3 Last_posion)
     {
         Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10, -10));
         mission_Collection.Add(new Vector3(Last_posion.x + 10, Last_posion.y + 10, Last_posion.z)); ;
     }
+
 
     public static class Cam
     {
@@ -122,13 +115,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public class Entity_player_model
-    {
-        public Vector3[] Pos_G = { };
-        public float[] T_M = { };
-        public int[] ST_P = { };
-        public int[] S = { };
-    }
 
     public class Mission_Collector : IList<GameObject>
     {
@@ -221,6 +207,52 @@ public class Player : MonoBehaviour
 
 
         /// <summary>
+        /// reset mikone mishon ro va file  info taghir mide
+        /// </summary>
+        /// <param name="Mission_number"> mision number for change</param>
+        public void Reset_mision(int Mission_number)
+        {
+            print(Collection.Length);
+
+            for (int i = 0; i < Collection.Length; i++)
+            {
+                if (Mission_number == i-1)
+                {
+                    print(Collection[i].GetComponent<Game_play>().Level);
+                    Collection[i].GetComponent<Game_play>().Star = 0;
+                    Collection[i].GetComponent<Game_play>().State_pass = 0;
+                    Collection[i].GetComponent<Game_play>().Time_mision = 0;
+                }
+
+            }
+
+            print(Collection.Length);
+
+            Entity_player_model new_model_entity = new Entity_player_model();
+
+            new_model_entity.Pos_G = new Vector3[Collection.Length];
+            new_model_entity.S = new int[Collection.Length];
+            new_model_entity.ST_P = new int[Collection.Length];
+            new_model_entity.T_M = new float[Collection.Length];
+
+            for (int i = 0; i < Collection.Length; i++)
+            {
+                new_model_entity.Pos_G[i] = Collection[i].GetComponent<Game_play>().transform.position;
+                new_model_entity.S[i] = Collection[i].GetComponent<Game_play>().Star;
+                new_model_entity.ST_P[i] = Collection[i].GetComponent<Game_play>().State_pass;
+                new_model_entity.T_M[i] = Collection[i].GetComponent<Game_play>().Time_mision;
+            }
+            
+            StreamWriter File_info_model = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
+            string String_data = JsonUtility.ToJson(new_model_entity);
+            File_info_model.Write(String_data);
+            File_info_model.Close();
+
+        }
+
+
+
+        /// <summary>
         /// collection 0 mishe
         /// </summary>
         public void Clear()
@@ -239,13 +271,13 @@ public class Player : MonoBehaviour
             bool result_contains = false;
             for (int i = 0; i < Collection.Length; i++)
             {
-                if (item.transform.position==Collection[i].transform.position)
+                if (item.transform.position == Collection[i].transform.position)
                 {
                     result_contains = true;
                 }
                 else
                 {
-                    result_contains=false;
+                    result_contains = false;
                 }
             }
             return result_contains;
@@ -305,6 +337,15 @@ public class Player : MonoBehaviour
         {
             throw new System.NotImplementedException();
         }
+    }
+
+
+    public class Entity_player_model
+    {
+        public Vector3[] Pos_G = { };
+        public float[] T_M = { };
+        public int[] ST_P = { };
+        public int[] S = { };
     }
 
 }
