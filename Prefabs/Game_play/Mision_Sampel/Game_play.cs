@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Threading;
+
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
@@ -28,6 +29,8 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
+
+        Result_mission(75f, 30);
 
         Check_pass();
 
@@ -207,7 +210,7 @@ public class Game_play : MonoBehaviour
                 Panel_pass.SetActive(true);
                 State_pass = 1;
 
-                
+
 
 
                 Time_mision = Time_local;
@@ -232,7 +235,7 @@ public class Game_play : MonoBehaviour
         }
 
 
-        
+
 
     }
 
@@ -248,15 +251,51 @@ public class Game_play : MonoBehaviour
         State_pass = 0;
         Star = 0;
         Time_mision = 0;
-        
+
         Reset = 1;
         Player.mission_Collection.Reset_mision(Level);
         Start();
     }
 
-    int result_mission(float Final_time,int Totall_Click)
+
+    /// <summary>
+    /// formul star chek mikone va setare morede nazar bar migardone
+    /// </summary>
+    /// <param name="Final_time"> Time_player </param>
+    /// <param name="Totall_Click"> totall CLick hay mission</param>
+    /// <returns>count star</returns>
+    int Result_mission(float Final_time, int Totall_Click)
     {
-        return 2;
+        float master = Totall_Click * 0.75f;
+        float Star_3 = Totall_Click * 1.5f;
+        float Star_2 = Totall_Click * 2.5f;
+        float star_1 = Totall_Click * 3f;
+
+        if (Final_time <= master)
+        {
+            print("Star4:" + master);
+            return 4;
+        }
+        else if (Final_time <= Star_3)
+        {
+            print("star3:" + Star_3);
+            return 3;
+        }
+        else if (Final_time <= Star_2)
+        {
+            print("Star2:" + Star_2);
+            return 2;
+        }
+        else if (Final_time >= star_1)
+        {
+            print("Star1" + star_1);
+            return 1;
+        }
+        else
+        {
+            print("Star_1");
+            return 1;
+        }
 
     }
 
