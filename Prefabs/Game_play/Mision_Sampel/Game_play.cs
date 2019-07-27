@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Threading;
-
+using UnityEngine.UI;
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
@@ -15,6 +15,10 @@ public class Game_play : MonoBehaviour
     public GameObject Panel_pass;
     public GameObject Panel_In_zoom;
     public GameObject Panel_BTNs;
+    public RawImage[] Stars;
+
+    Panel_pass_model panel_Pass;
+
     public int Level;
     public int State_pass;
     public int Star;
@@ -27,9 +31,11 @@ public class Game_play : MonoBehaviour
     float Time_local;
     public int start_mision = 0;
 
+
     private void Start()
     {
-
+        panel_Pass = new Panel_pass_model(Panel_pass, Stars);
+        print(panel_Pass.Stars.Length);
         Result_mission(75f, 30);
 
         Check_pass();
@@ -90,9 +96,12 @@ public class Game_play : MonoBehaviour
         //chek mikone mission pass shode ya na age nashode bashe mision misaze
         void Check_pass()
         {
+
+
             if (State_pass == 1)
             {
-                Panel_pass.SetActive(true);
+                panel_Pass.Show_panel_pass(Star);
+
                 Panel_BTNs.SetActive(false);
             }
             else
@@ -129,7 +138,7 @@ public class Game_play : MonoBehaviour
                         BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
                     }
                 }
-                Panel_pass.SetActive(false);
+                panel_Pass.Show_off_panel_pass();
                 Panel_BTNs.SetActive(true);
             }
         }
@@ -207,11 +216,9 @@ public class Game_play : MonoBehaviour
             if (pass_sampel.SequenceEqual(Pass_map))
             {
                 Panel_BTNs.SetActive(false);
-                Panel_pass.SetActive(true);
                 State_pass = 1;
-
-
-
+                Star = Result_mission(Time_local, TotallClick);
+                panel_Pass.Show_panel_pass(Star);
 
                 Time_mision = Time_local;
 
@@ -228,15 +235,7 @@ public class Game_play : MonoBehaviour
                     print("creat mision");
                 }
             }
-
-
-
-
         }
-
-
-
-
     }
 
 
@@ -296,6 +295,49 @@ public class Game_play : MonoBehaviour
             print("Star_1");
             return 1;
         }
+
+    }
+
+
+
+    public class Panel_pass_model
+    {
+        public GameObject Panel_pass;
+        public RawImage[] Stars;
+        public Panel_pass_model(GameObject Panel_pass_gameobject, RawImage[] Stars)
+        {
+            Panel_pass = Panel_pass_gameobject;
+            this.Stars = Stars;
+        }
+
+
+        /// <summary>
+        /// be tedad setareha stare rangesho avaz mikone
+        /// va sho mikone panle pass
+        /// </summary>
+        /// <param name="star_count"> tedad setarehay be dast omade</param>
+        public void Show_panel_pass(int star_count)
+        {
+            for (int i = 0; i < star_count; i++)
+            {
+                Stars[i].color = Color.black;
+            }
+
+            Panel_pass.SetActive(true);
+
+        }
+
+
+        /// <summary>
+        /// panle_off mikone
+        /// </summary>
+        public void Show_off_panel_pass()
+        {
+
+            Panel_pass.SetActive(false);
+        }
+
+
 
     }
 
