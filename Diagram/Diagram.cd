@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
   <Class Name="Script_game.menu.BTN_Play">
-    <Position X="0.5" Y="2.25" Width="2.5" />
+    <Position X="0.5" Y="2" Width="2.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>IARAAJQAECEAAAAAARBAAAAAChAwAAUCAAEKAQAAAAQ=</HashCode>
+      <HashCode>IARAAJQAECEAAAAAARAAAAAAChAwAAUCAAEKAQAAAAQ=</HashCode>
       <FileName>Assets\Scripts\Prefabs\Menu\BTN_Play\BTN_Play.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.475" />

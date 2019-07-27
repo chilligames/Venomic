@@ -5,15 +5,15 @@ using TMPro;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
-
+using System.Threading;
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
     public GameObject BTN_sampel;
     public GameObject Panel_pass;
+    public GameObject Panel_In_zoom;
     public GameObject Panel_BTNs;
-    public float Time_mision;
     public int Level;
     public int State_pass;
     public int Star;
@@ -21,22 +21,33 @@ public class Game_play : MonoBehaviour
     public GameObject[] BTNS;
     object[] Pass_map;
     object[] pass_sampel;
+    int TotallClick;
+    public float Time_mision;
     float Time_local;
     public int start_mision = 0;
 
     private void Start()
     {
+
         Check_pass();
 
         Pass_map = new object[BTNS.Length];
         pass_sampel = new object[BTNS.Length];
-
         for (int i = 0; i < Pass_map.Length; i++)
         {
             Pass_map[i] = 1;
         }
+
         Text_Level_number.text = Level.ToString();
+
         Text_Time_number.text = Time_mision.ToString();
+
+
+        //tedad Click hay mision dar miarde baray mohasebe
+        for (int i = 0; i < BTNS.Length; i++)
+        {
+            TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
+        }
 
         Animation_spawn();
 
@@ -73,6 +84,7 @@ public class Game_play : MonoBehaviour
 
         }
 
+        //chek mikone mission pass shode ya na age nashode bashe mision misaze
         void Check_pass()
         {
             if (State_pass == 1)
@@ -121,6 +133,7 @@ public class Game_play : MonoBehaviour
 
         Time_collect();
 
+        //Chek mikone k mission pass shode ya na age nashode baashe mision mision shoro mishe
         async void Time_collect()
         {
             while (true)
@@ -132,7 +145,6 @@ public class Game_play : MonoBehaviour
                         await Task.Delay(50);
                         Time_local += 0.1f;
                         Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
-                        print(Time_mision);
                     }
                     else
                     {
@@ -151,7 +163,31 @@ public class Game_play : MonoBehaviour
 
     private void Update()
     {
+        //check zoom age zoom bashe panel zoom true mikone
+        if (Player.Cam.Zoom == 1)
+        {
+            Panel_In_zoom.SetActive(true);
 
+            Panel_In_zoom.GetComponentInChildren<TextMeshProUGUI>().text = System.Math.Round(Time_mision, 1).ToString();
+
+            Panel_In_zoom.transform.localScale = Vector3.MoveTowards(Panel_In_zoom.transform.localScale, Vector3.one, 0.03f);
+        }
+        else
+        {
+            if (Panel_In_zoom.transform.localScale != Vector3.zero)
+            {
+                Panel_In_zoom.transform.localScale = Vector3.MoveTowards(Panel_In_zoom.transform.localScale, Vector3.zero, 0.03f);
+                if (transform.localScale == Vector3.zero)
+                {
+                    print("delet");
+                    Panel_In_zoom.SetActive(false);
+                }
+            }
+        }
+
+
+
+        //Check ta mission pass beshe
         if (State_pass == 0)
         {
             for (int i = 0; i < pass_sampel.Length; i++)
@@ -170,7 +206,12 @@ public class Game_play : MonoBehaviour
                 Panel_BTNs.SetActive(false);
                 Panel_pass.SetActive(true);
                 State_pass = 1;
+
+                
+
+
                 Time_mision = Time_local;
+
                 if (Reset == 1)
                 {
                     Player.Cam.Move_camera();
@@ -184,7 +225,15 @@ public class Game_play : MonoBehaviour
                     print("creat mision");
                 }
             }
+
+
+
+
         }
+
+
+        
+
     }
 
 
@@ -199,11 +248,16 @@ public class Game_play : MonoBehaviour
         State_pass = 0;
         Star = 0;
         Time_mision = 0;
+        
         Reset = 1;
         Player.mission_Collection.Reset_mision(Level);
         Start();
     }
 
+    int result_mission(float Final_time,int Totall_Click)
+    {
+        return 2;
 
+    }
 
 }

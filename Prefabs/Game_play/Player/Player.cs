@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public static Mission_Collector mission_Collection = new Mission_Collector();
     public GameObject mision;
     public static GameObject Raw_mision;
-
+    public int a { get; set; }
 
 
     void Start()
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
 
     public class Cam
     {
-        static int Zoom;
+        public static int Zoom;
         static Vector3 last_pos_camera;
         /// <summary>
         /// animation move camera
@@ -145,45 +145,54 @@ public class Player : MonoBehaviour
             Zoom_in();
             async void Zoom_in()
             {
+
+
                 while (true)
                 {
                     if (cam.orthographicSize < 50)
                     {
-                        Zoom = 1;
                         last_pos_camera = cam.transform.position;
+                        Zoom = 1;
+
+                        cam.orthographicSize = 6;
+
                         for (int i = 0; i < 50; i++)
                         {
                             await Task.Delay(10);
+
                             cam.orthographicSize++;
+                            if (cam.orthographicSize == 50)
+                            {
+                                break;
+                            }
                         }
+
                         break;
                     }
                     else if (cam.orthographicSize > 6)
                     {
                         Zoom = 0;
-                        for (int i = 0; i < 50; i++)
-                        {
 
-                            while (true)
+                        cam.orthographicSize = 50;
+                        if (cam.transform.position != last_pos_camera)
+                        {
+                            await Task.Delay(20);
+                            cam.transform.position = Vector3.MoveTowards(cam.transform.position, last_pos_camera, 0.5f);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < 50; i++)
                             {
-                                if (Vector3.Distance(last_pos_camera, cam.transform.position) > 0)
-                                {
-                                    await Task.Delay(10);
-                                    cam.transform.position = Vector3.MoveTowards(cam.transform.position, last_pos_camera, 0.3f);
-                                }
-                                else
+                                await Task.Delay(10);
+                                cam.orthographicSize--;
+                                if (cam.orthographicSize == 6)
                                 {
                                     break;
-
                                 }
                             }
-
-
-                            await Task.Delay(10);
-
-                            cam.orthographicSize--;
+                            break;
                         }
-                        break;
+
                     }
                 }
             }
@@ -197,14 +206,10 @@ public class Player : MonoBehaviour
         {
             if (Zoom == 1)
             {
-                cam.transform.Translate(move_to * Time.deltaTime*2);
+                cam.transform.Translate(move_to * Time.deltaTime * 2);
 
             }
         }
-
-
-
-
     }
 
 
@@ -252,6 +257,7 @@ public class Player : MonoBehaviour
                     Collection = col_n;
                     Collection = new GameObject[col_n.Length];
                     Collection = col_n;
+                    last_pos = Collection[i].transform.position;//#chek
                     break;
                 }
                 else
@@ -298,6 +304,7 @@ public class Player : MonoBehaviour
                 if (Collection[i] == null)
                 {
                     Collection[i] = Instantiate(item, Place_mission);
+
                 }
             }
 

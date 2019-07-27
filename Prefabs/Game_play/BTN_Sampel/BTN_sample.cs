@@ -56,6 +56,7 @@ public class BTN_sample : MonoBehaviour
     {
         anim_Press();
         Tap_count++;
+
         GetComponentInParent<Game_play>().start_mision = 1;
 
         if (Tap_count == Sampel_count)
