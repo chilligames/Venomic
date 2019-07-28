@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Script_game.menu
 {
-    public class BTN_shop : Menu, IPointerEnterHandler, IPointerExitHandler
+    public class BTN_shop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public RawImage[] Dots;
         public LineRenderer[] Lines;

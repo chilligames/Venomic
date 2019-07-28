@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public static Mission_Collector mission_Collection = new Mission_Collector();
     public GameObject mision;
     public static GameObject Raw_mision;
-    public int a { get; set; }
+    
 
 
     void Start()
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
             else
             {
                 Entity_player_model New_model = new Entity_player_model();
-                New_model.Pos_G = new Vector3[] { new Vector3(10, 0, 0) };
+                New_model.Pos_G = new Vector3[] { new Vector3(10, 10, 0) };
                 New_model.ST_P = new int[] { 0 };
                 New_model.T_M = new float[] { 0 };
                 New_model.R_M = new int[] { 0 };
@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
     {
         public static int Zoom;
         static Vector3 last_pos_camera;
+
         /// <summary>
         /// animation move camera
         /// </summary>
@@ -198,18 +199,6 @@ public class Player : MonoBehaviour
             }
         }
 
-
-        /// <summary>
-        /// nativ camera
-        /// </summary>
-        public static void Native_camera(Vector3 move_to)
-        {
-            if (Zoom == 1)
-            {
-                cam.transform.Translate(move_to * Time.deltaTime * 2);
-
-            }
-        }
     }
 
 

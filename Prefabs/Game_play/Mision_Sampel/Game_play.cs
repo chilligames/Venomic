@@ -11,13 +11,16 @@ public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
-    public GameObject BTN_sampel;
-    public GameObject Panel_pass;
-    public GameObject Panel_In_zoom;
-    public GameObject Panel_BTNs;
-    public RawImage[] Stars;
-
+    public GameObject Game_object_BTN_sampel;
+    public GameObject Game_object_Panel_pass;
+    public RawImage[] Game_objects_Stars_panel_pass;
     Panel_pass_model panel_Pass;
+    public GameObject Game_object_Panel_In_zoom;
+    public TextMeshProUGUI[] Texts_panel_in_zoom;
+    public RawImage[] Stars_in_zoom;
+    Panel_Zoom_in panel_Zoom_In;
+    public GameObject Panel_BTNs;
+
 
     public int Level;
     public int State_pass;
@@ -34,9 +37,9 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
-        panel_Pass = new Panel_pass_model(Panel_pass, Stars);
-        print(panel_Pass.Stars.Length);
-        Result_mission(75f, 30);
+        panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass);
+        panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
+
 
         Check_pass();
 
@@ -113,7 +116,7 @@ public class Game_play : MonoBehaviour
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
-                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
                         BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
                     }
                 }
@@ -124,7 +127,7 @@ public class Game_play : MonoBehaviour
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
-                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
                         BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
                     }
                 }
@@ -134,7 +137,7 @@ public class Game_play : MonoBehaviour
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
-                        BTNS[i] = Instantiate(BTN_sampel, Panel_BTNs.transform);
+                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
                         BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
                     }
                 }
@@ -176,28 +179,7 @@ public class Game_play : MonoBehaviour
     private void Update()
     {
         //check zoom age zoom bashe panel zoom true mikone
-        if (Player.Cam.Zoom == 1)
-        {
-            Panel_In_zoom.SetActive(true);
-
-            Panel_In_zoom.GetComponentInChildren<TextMeshProUGUI>().text = System.Math.Round(Time_mision, 1).ToString();
-
-            Panel_In_zoom.transform.localScale = Vector3.MoveTowards(Panel_In_zoom.transform.localScale, Vector3.one, 0.03f);
-        }
-        else
-        {
-            if (Panel_In_zoom.transform.localScale != Vector3.zero)
-            {
-                Panel_In_zoom.transform.localScale = Vector3.MoveTowards(Panel_In_zoom.transform.localScale, Vector3.zero, 0.03f);
-                if (transform.localScale == Vector3.zero)
-                {
-                    print("delet");
-                    Panel_In_zoom.SetActive(false);
-                }
-            }
-        }
-
-
+        panel_Zoom_In.Show_panel_zoom(Star, Time_mision, Level);
 
         //Check ta mission pass beshe
         if (State_pass == 0)
@@ -300,10 +282,16 @@ public class Game_play : MonoBehaviour
 
 
 
-    public class Panel_pass_model
+    class Panel_pass_model
     {
         public GameObject Panel_pass;
         public RawImage[] Stars;
+
+        /// <summary>
+        /// panel_pass misaze ba panle darkhasti k sazande darre
+        /// </summary>
+        /// <param name="Panel_pass_gameobject"> Game_object panel_pass</param>
+        /// <param name="Stars"> count stars</param>
         public Panel_pass_model(GameObject Panel_pass_gameobject, RawImage[] Stars)
         {
             Panel_pass = Panel_pass_gameobject;
@@ -340,5 +328,82 @@ public class Game_play : MonoBehaviour
 
 
     }
+
+
+
+    class Panel_Zoom_in
+    {
+        public GameObject panel_zoom;
+        public TextMeshProUGUI[] text_panel_zoom;
+        public RawImage[] Stars;
+        public Panel_Zoom_in(GameObject Game_object_Panel_zoom, TextMeshProUGUI[] Texts_panel_zoom, RawImage[] Stars)
+        {
+            panel_zoom = Game_object_Panel_zoom;
+            this.Stars = Stars;
+            text_panel_zoom = Texts_panel_zoom;
+        }
+
+        /// <summary>
+        /// vaghti to zoom bashe jaygozari ha anjam mishe
+        /// </summary>
+        /// <param name="Stars">tedad star chek mikone</param>
+        /// <param name="Time">tedad time jamizare</param>
+        /// <param name="level">meghdar time mizare</param>
+        public void Show_panel_zoom(int Stars, float Time, int level)
+        {
+            text_panel_zoom[0].text = System.Math.Round(Time, 1).ToString();
+            text_panel_zoom[1].text = level.ToString();
+            for (int i = 0; i < Stars; i++)
+            {
+                this.Stars[i].color = Color.black;
+            }
+
+            animation_show();
+
+            async void animation_show()
+            {
+                if (Player.Cam.Zoom == 1)
+                {
+
+                    while (true)
+                    {
+
+                        if (panel_zoom.transform.localScale != Vector3.one)
+                        {
+                            await Task.Delay(10);
+                            panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.one, 0.1f);
+                        }
+                        else
+                        {
+                            panel_zoom.SetActive(true);
+                            break;
+                        }
+                    }
+                }
+                else if (Player.Cam.Zoom == 0)
+                {
+                    while (true)
+                    {
+                        if (panel_zoom.transform.localScale != Vector3.zero)
+                        {
+                            await Task.Delay(10);
+                            panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.zero, 0.1f);
+                        }
+                        else
+                        {
+                            panel_zoom.SetActive(false);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
+
+
 
 }

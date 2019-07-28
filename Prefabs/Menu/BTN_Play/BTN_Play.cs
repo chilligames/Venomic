@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace Script_game.menu
 {
 
-    public class BTN_Play : Menu, IPointerEnterHandler, IPointerExitHandler
+    public class BTN_Play : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
 
         [Header("Envorment")]
