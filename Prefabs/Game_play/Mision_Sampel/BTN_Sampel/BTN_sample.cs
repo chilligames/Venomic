@@ -12,6 +12,7 @@ public class BTN_sample : MonoBehaviour
     public TextMeshProUGUI text;
     Vector3 pos_BTN;
 
+    public int Status_show;
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class BTN_sample : MonoBehaviour
                 if (transform.localScale != Vector3.zero)
                 {
                     await Task.Delay(10);
-                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.4f);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.2f);
                 }
                 else
                 {
@@ -32,20 +33,24 @@ public class BTN_sample : MonoBehaviour
                         await Task.Delay(10);
                         if (transform.localScale != Vector3.one)
                         {
-                            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.4f);
+                            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.2f);
                         }
                         else
                         {
                             break;
-
                         }
                     }
                     break;
                 }
             }
         }
+        Show_hint();
     }
 
+    private void Update()
+    {
+        Show_hint();
+    }
 
     /// <summary>
     /// 1:anim_press run mishe 
@@ -104,5 +109,50 @@ public class BTN_sample : MonoBehaviour
     }
 
 
+    public void Show_hint()
+    {
+        if (GetComponentInParent<Game_play>().transform.position == Player.cam.transform.position&&Status_show==0)
+        {
+            Animation_show();
+            Status_show = 1;
+        }
 
+
+        async void Animation_show()
+        {
+            for (int i = 0; i < Sampel_count; i++)
+            {
+                await Task.Delay(700);
+                animation_hint();
+            }
+        }
+
+        async void animation_hint()
+        {
+            while (true)
+            {
+
+                if (transform.localScale != Vector3.zero)
+                {
+                    await Task.Delay(10);
+
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
+                }
+                else
+                {
+                    while (true)
+                    {
+                        await Task.Delay(10);
+                        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.1f);
+                        if (transform.localScale == Vector3.one)
+                        {
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }
+

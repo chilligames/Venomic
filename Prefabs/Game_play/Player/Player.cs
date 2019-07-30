@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public static Mission_Collector mission_Collection = new Mission_Collector();
     public GameObject mision;
     public static GameObject Raw_mision;
-    
+
 
 
     void Start()
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     /// <param name="Last_posion"></param>
     public static void Insert_mission(Vector3 Last_posion)
     {
-        Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10, -10));
+        Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10,0));
         mission_Collection.Add(new Vector3(Last_posion.x + 10, Last_posion.y + 10, Last_posion.z)); ;
     }
 
@@ -138,6 +138,7 @@ public class Player : MonoBehaviour
             }
         }
 
+
         /// <summary>
         /// camera zoom_back mikone be meghdar maelom
         /// </summary>
@@ -146,8 +147,6 @@ public class Player : MonoBehaviour
             Zoom_in();
             async void Zoom_in()
             {
-
-
                 while (true)
                 {
                     if (cam.orthographicSize < 50)
@@ -173,7 +172,6 @@ public class Player : MonoBehaviour
                     else if (cam.orthographicSize > 6)
                     {
                         Zoom = 0;
-
                         cam.orthographicSize = 50;
                         if (cam.transform.position != last_pos_camera)
                         {

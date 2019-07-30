@@ -87,7 +87,7 @@ public class Menu : MonoBehaviour
                     recive = 1;
                 }
 
-                panel_stars.transform.position = Vector3.MoveTowards(panel_stars.transform.position, new Vector3(Player.cam.transform.position.x, Player.cam.transform.position.y + 30), 0.1f);
+                panel_stars.transform.position = Vector3.MoveTowards(panel_stars.transform.position, new Vector3(Player.cam.transform.position.x, Player.cam.transform.position.y + 30), 0.01f);
 
 
                 async void Animation_open()

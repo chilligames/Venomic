@@ -4,68 +4,242 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
+    Control_zoom Control_Zoom;
+    public Texture[] Images_zoom;
+    public GameObject BTN_zoom;
+    public GameObject[] BTN_up_down;
 
 
-    /// <summary>
-    /// 1: chek mikone status zoom 
-    /// </summary>
-    public void Press_BTN_zoom()
+    private void Start()
     {
-        Player.Cam.Zoom_Back();
+        Control_Zoom = new Control_zoom(Images_zoom, BTN_zoom, BTN_up_down);
+
     }
 
-    /// <summary>
-    /// move camera to up
-    /// </summary>
+    public void Prees_btn_zoom()
+    {
+        Control_Zoom.Zoom();
+    }
+
     public void Press_BTN_Up()
     {
-        Move();
-
-        async void Move()
-        {
-            Vector3 next_pos_move = new Vector3(Player.cam.transform.position.x + 10, Player.cam.transform.position.y + 10);
-
-            while (true)
-            {
-                if (Player.cam.transform.position != next_pos_move)
-                {
-                    await Task.Delay(10);
-                    Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, next_pos_move, 1f);
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
+        Control_Zoom.Press_BTN_Up();
     }
-
-
-    /// <summary>
-    /// move camera to down
-    /// </summary>
-    public void Press_BTN_Down()
+    public void Press_BTN_down()
     {
-        Move();
-        async void Move()
-        {
-            Vector3 Pos_previsue = new Vector3(Player.cam.transform.position.x - 10, Player.cam.transform.position.y - 10);
+        Control_Zoom.Press_BTN_Down();
+    }
 
-            while (true)
+
+    class Control_zoom
+    {
+        Texture[] Texture_zoom;
+        GameObject BTN_zoom;
+        GameObject[] BTN_up_down;
+
+        public Control_zoom(Texture[] Texture_zoom, GameObject BTN_zoom, GameObject[] BTN_up_down)
+        {
+            this.Texture_zoom = Texture_zoom;
+            this.BTN_zoom = BTN_zoom;
+            this.BTN_up_down = BTN_up_down;
+        }
+
+
+        /// <summary>
+        /// 1: chek mikone status zoom 
+        /// </summary>
+        public void Zoom()
+        {
+
+            Player.Cam.Zoom_Back();
+
+            if (Player.Cam.Zoom == 1)
             {
-                if (Player.cam.transform.position != Pos_previsue)
+                Animation_zoom_in();
+
+            }
+            else
+            {
+                animation_zoom_back();
+            }
+
+
+
+
+            async void Animation_zoom_in()
+            {
+
+                if (BTN_zoom.transform.localScale != Vector3.zero)
                 {
-                    await Task.Delay(10);
-                    Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Pos_previsue, 1f);
+
+                    Show_btn_zoom();
+                    while (true)
+                    {
+                        await Task.Delay(10);
+                        BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.zero, 0.1f);
+
+                        if (BTN_zoom.transform.localScale == Vector3.zero)
+                        {
+                            BTN_zoom.GetComponent<RawImage>().texture = Texture_zoom[1];
+                            break;
+                        }
+                    }
                 }
-                else
+
+                if (BTN_zoom.transform.localScale == Vector3.zero)
                 {
-                    break;
+                    Show_btn_zoom();
+                    while (true)
+                    {
+                        await Task.Delay(10);
+                        BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.one, 0.1f);
+                        if (BTN_zoom.transform.localScale == Vector3.one)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            async void animation_zoom_back()
+            {
+                if (BTN_zoom.transform.localScale != Vector3.zero)
+                {
+                    Show_btn_zoom();
+                    while (true)
+                    {
+                        await Task.Delay(10);
+                        BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.zero, 0.1f);
+                        if (BTN_zoom.transform.localScale == Vector3.zero)
+                        {
+                            BTN_zoom.GetComponent<RawImage>().texture = Texture_zoom[0];
+                            break;
+                        }
+
+                    }
+                }
+
+                if (BTN_zoom.transform.localScale != Vector3.one)
+                {
+                    while (true)
+                    {
+                        await Task.Delay(10);
+                        BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.one, 0.1f);
+                        if (BTN_zoom.transform.localScale == Vector3.one)
+                        {
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+
+            async void Show_btn_zoom()
+            {
+                foreach (var item in BTN_up_down)
+                {
+                    if (Player.Cam.Zoom == 1)
+                    {
+                        item.SetActive(true);
+                        while (true)
+                        {
+                            await Task.Delay(10);
+                            item.transform.localScale = Vector3.MoveTowards(item.transform.localScale, Vector3.one, 0.1f);
+                            if (item.transform.localScale == Vector3.one)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        while (true)
+                        {
+                            await Task.Delay(10);
+                            item.transform.localScale = Vector3.MoveTowards(item.transform.localScale, Vector3.zero, 0.1f);
+                            if (item.transform.localScale == Vector3.zero)
+                            {
+                                item.SetActive(false);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// move camera to up
+        /// </summary>
+        public void Press_BTN_Up()
+        {
+            Move();
+
+            async void Move()
+            {
+                Vector3 next_pos_move = new Vector3(Player.cam.transform.position.x + 10, Player.cam.transform.position.y + 10);
+                if (next_pos_move.x > Player.mission_Collection.last_pos.x)//control mikone akharin pos k bishtar move nashe
+                {
+                    next_pos_move = Player.mission_Collection.last_pos;
+                }
+
+                while (true)
+                {
+                    if (Player.cam.transform.position != next_pos_move)
+                    {
+                        await Task.Delay(10);
+                        Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, next_pos_move, 1f);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
-    }
 
+
+
+        /// <summary>
+        /// move camera to down
+        /// </summary>
+        public void Press_BTN_Down()
+        {
+            Move();
+            async void Move()
+            {
+                Vector3 Pos_previsue = new Vector3(Player.cam.transform.position.x - 10, Player.cam.transform.position.y - 10);
+                if (Pos_previsue.x < 0)// chek mikone ke mogheiat camera cam taraz home nashe
+                {
+                    Pos_previsue = Vector3.zero;
+                }
+                while (true)
+                {
+                    if (Player.cam.transform.position != Pos_previsue)
+                    {
+                        await Task.Delay(10);
+                        Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Pos_previsue, 1f);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+
+
+    }
 }
+

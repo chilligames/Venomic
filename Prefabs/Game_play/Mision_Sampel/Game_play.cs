@@ -99,8 +99,6 @@ public class Game_play : MonoBehaviour
         //chek mikone mission pass shode ya na age nashode bashe mision misaze
         void Check_pass()
         {
-
-
             if (State_pass == 1)
             {
                 panel_Pass.Show_panel_pass(Star);
@@ -117,7 +115,7 @@ public class Game_play : MonoBehaviour
                     for (int i = 0; i < Count; i++)
                     {
                         BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
                     }
                 }
                 else if (Level < 300)
@@ -128,7 +126,7 @@ public class Game_play : MonoBehaviour
                     for (int i = 0; i < Count; i++)
                     {
                         BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
                     }
                 }
                 else if (Level > 500)
@@ -138,11 +136,19 @@ public class Game_play : MonoBehaviour
                     for (int i = 0; i < Count; i++)
                     {
                         BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, Count);
+                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
                     }
                 }
                 panel_Pass.Show_off_panel_pass();
                 Panel_BTNs.SetActive(true);
+
+
+                foreach (var item in BTNS) //show hint 
+                {
+
+                    //item.GetComponent<BTN_sample>().Show_hint();
+                }
+
             }
         }
 
