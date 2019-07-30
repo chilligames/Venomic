@@ -11,7 +11,7 @@ public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
-    public GameObject Game_object_BTN_sampel;
+
     public GameObject Game_object_Panel_pass;
     public RawImage[] Game_objects_Stars_panel_pass;
     Panel_pass_model panel_Pass;
@@ -19,17 +19,23 @@ public class Game_play : MonoBehaviour
     public TextMeshProUGUI[] Texts_panel_in_zoom;
     public RawImage[] Stars_in_zoom;
     Panel_Zoom_in panel_Zoom_In;
-    public GameObject Panel_BTNs;
 
+    public GameObject Panel_BTNs;
+    public GameObject[] BTNS;
+    public GameObject Game_object_BTN_sampel;
+
+    public Slider Game_object_Slider;
+    Slider_model Slider;
 
     public int Level;
     public int State_pass;
     public int Star;
     public int Reset;
-    public GameObject[] BTNS;
+
     object[] Pass_map;
     object[] pass_sampel;
     int TotallClick;
+
     public float Time_mision;
     float Time_local;
     public int start_mision = 0;
@@ -60,6 +66,8 @@ public class Game_play : MonoBehaviour
         {
             TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
         }
+
+        Slider = new Slider_model(Game_object_Slider, TotallClick);//cheack
 
         Animation_spawn();
 
@@ -166,6 +174,8 @@ public class Game_play : MonoBehaviour
                         await Task.Delay(50);
                         Time_local += 0.1f;
                         Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
+
+                        Slider.Change_entity_slider(Time_local);//cheack
                     }
                     else
                     {
@@ -409,7 +419,25 @@ public class Game_play : MonoBehaviour
     }
 
 
+    class Slider_model
+    {
+        Slider Slider;
+        public Slider_model(Slider slider, float totallcount)
+        {
+            Slider = slider;
+            Slider.maxValue = totallcount * 3;
+        }
 
+        /// <summary>
+        /// meghdar value slider taein mikone k bayad *3 beshe bekhater setareha
+        /// </summary>
+        /// <param name="time"> time local migere baed jagozari mikone</param>
+        public void Change_entity_slider(float time)
+        {
+            Slider.value = time;
+        }
+
+    }
 
 
 }

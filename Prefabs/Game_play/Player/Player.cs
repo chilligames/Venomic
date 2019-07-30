@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
         Raw_mision = mision;
         cam = Camera.main;
         Load_data();
+        
         void Load_data()
         {
             if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
@@ -244,7 +245,7 @@ public class Player : MonoBehaviour
                     Collection = col_n;
                     Collection = new GameObject[col_n.Length];
                     Collection = col_n;
-                    last_pos = Collection[i].transform.position;//#chek
+                    last_pos = Collection[i].transform.position;
                     break;
                 }
                 else
@@ -291,7 +292,6 @@ public class Player : MonoBehaviour
                 if (Collection[i] == null)
                 {
                     Collection[i] = Instantiate(item, Place_mission);
-
                 }
             }
 
