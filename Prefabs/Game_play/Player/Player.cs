@@ -20,50 +20,9 @@ public class Player : MonoBehaviour
         Place_mission = Place;
         Raw_mision = mision;
         cam = Camera.main;
-        Load_data();
-        
-        void Load_data()
-        {
-            if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
-            {
-                StreamReader read_data = new StreamReader(Application.persistentDataPath + "/Info.Chi");
-                string Data_string = read_data.ReadToEnd();
-                read_data.Close();
-                var Data = JsonUtility.FromJson<Entity_player_model>(Data_string);
-
-                mission_Collection.Count = Data.Pos_G.Length;
-                for (int i = 0; i < mission_Collection.Count; i++)
-                {
-                    mission_Collection.Add(Raw_mision);
-                    mission_Collection[i].transform.position = Data.Pos_G[i];
-                    mission_Collection[i].GetComponent<Game_play>().Level = i;
-                    mission_Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];
-                    mission_Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
-                    mission_Collection[i].GetComponent<Game_play>().Reset = Data.R_M[i];
-                    mission_Collection[i].GetComponent<Game_play>().Star = Data.S[i];
-
-                    //last posion for camera
-                    mission_Collection.last_pos = mission_Collection[i].transform.position;
-                }
-            }
-            else
-            {
-                Entity_player_model New_model = new Entity_player_model();
-                New_model.Pos_G = new Vector3[] { new Vector3(10, 10, 0) };
-                New_model.ST_P = new int[] { 0 };
-                New_model.T_M = new float[] { 0 };
-                New_model.R_M = new int[] { 0 };
-                New_model.S = new int[] { 0 };
+        mission_Collection.Add(Raw_mision);
 
 
-                string string_data = JsonUtility.ToJson(New_model);
-
-                StreamWriter Creat_file = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
-                Creat_file.Write(string_data);
-                Creat_file.Close();
-                Load_data();
-            }
-        }
     }
 
 
@@ -75,7 +34,7 @@ public class Player : MonoBehaviour
     /// <param name="Last_posion"></param>
     public static void Insert_mission(Vector3 Last_posion)
     {
-        Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10,0));
+        Cam.Move_camera(new Vector3(Last_posion.x + 10, Last_posion.y + 10, 0));
         mission_Collection.Add(new Vector3(Last_posion.x + 10, Last_posion.y + 10, Last_posion.z)); ;
     }
 
@@ -284,14 +243,60 @@ public class Player : MonoBehaviour
         /// <summary>
         /// add update frist start
         /// </summary>
-        /// <param name="item"></param>
-        public void Add(GameObject item)
+        /// <param name="raw_mission"></param>
+        public void Add(GameObject raw_mission)
         {
-            for (int i = 0; i < Count; i++)
+            Load_data();
+
+            void Load_data()
             {
-                if (Collection[i] == null)
+                if (File.Exists(Application.persistentDataPath + "/Info.Chi"))
                 {
-                    Collection[i] = Instantiate(item, Place_mission);
+                    StreamReader read_data = new StreamReader(Application.persistentDataPath + "/Info.Chi");
+                    string Data_string = read_data.ReadToEnd();
+                    read_data.Close();
+                    var Data = JsonUtility.FromJson<Entity_player_model>(Data_string);
+
+                    Count = Data.Pos_G.Length;
+
+                    for (int i = 0; i < Count; i++)
+                    {
+                        if (Collection[i] == null)
+                        {
+                            Collection[i] = Instantiate(raw_mission, Place_mission);
+                        }
+                    }
+
+                    for (int i = 0; i < Count; i++)
+                    {
+                        Collection[i] = raw_mission;
+                        Collection[i].transform.position = Data.Pos_G[i];
+                        Collection[i].GetComponent<Game_play>().Level = i;
+                        Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];
+                        Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
+                        Collection[i].GetComponent<Game_play>().Reset = Data.R_M[i];
+                        Collection[i].GetComponent<Game_play>().Star = Data.S[i];
+
+                        //last posion for camera
+                        last_pos = Collection[i].transform.position;
+                    }
+                }
+                else
+                {
+                    Entity_player_model New_model = new Entity_player_model();
+                    New_model.Pos_G = new Vector3[] { new Vector3(10, 10, 0) };
+                    New_model.ST_P = new int[] { 0 };
+                    New_model.T_M = new float[] { 0 };
+                    New_model.R_M = new int[] { 0 };
+                    New_model.S = new int[] { 0 };
+
+
+                    string string_data = JsonUtility.ToJson(New_model);
+
+                    StreamWriter Creat_file = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
+                    Creat_file.Write(string_data);
+                    Creat_file.Close();
+                    Load_data();
                 }
             }
 

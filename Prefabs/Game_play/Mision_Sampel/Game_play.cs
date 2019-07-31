@@ -25,7 +25,9 @@ public class Game_play : MonoBehaviour
     public GameObject Game_object_BTN_sampel;
 
     public Slider Game_object_Slider;
+    public RawImage[] Star_slider;
     Slider_model Slider;
+
 
     public int Level;
     public int State_pass;
@@ -67,7 +69,8 @@ public class Game_play : MonoBehaviour
             TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
         }
 
-        Slider = new Slider_model(Game_object_Slider, TotallClick);//cheack
+        Slider = new Slider_model(Game_object_Slider, TotallClick, Star_slider);
+
 
         Animation_spawn();
 
@@ -118,7 +121,7 @@ public class Game_play : MonoBehaviour
                 if (Level < 100)
                 {
 
-                    int Count = Random.Range(1, 5);
+                    int Count = Random.Range(2, 5);
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
@@ -175,7 +178,7 @@ public class Game_play : MonoBehaviour
                         Time_local += 0.1f;
                         Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
 
-                        Slider.Change_entity_slider(Time_local);//cheack
+                        Slider.Change_entity_slider(Time_local, TotallClick);
                     }
                     else
                     {
@@ -194,6 +197,7 @@ public class Game_play : MonoBehaviour
 
     private void Update()
     {
+       
         //check zoom age zoom bashe panel zoom true mikone
         panel_Zoom_In.Show_panel_zoom(Star, Time_mision, Level);
 
@@ -422,21 +426,53 @@ public class Game_play : MonoBehaviour
     class Slider_model
     {
         Slider Slider;
-        public Slider_model(Slider slider, float totallcount)
+        RawImage[] Stars;
+        Color Color_Off = new Color(255f, 254f, 245f, 255);
+        public Slider_model(Slider slider, float totallcount, RawImage[] Stars)
         {
             Slider = slider;
             Slider.maxValue = totallcount * 3;
+            this.Stars = Stars;
         }
 
         /// <summary>
         /// meghdar value slider taein mikone k bayad *3 beshe bekhater setareha
         /// </summary>
         /// <param name="time"> time local migere baed jagozari mikone</param>
-        public void Change_entity_slider(float time)
+        public void Change_entity_slider(float time, int Total_Click)
         {
-            Slider.value = time;
-        }
 
+            Slider.value = time;
+            float Master = Total_Click * 0.75f;
+            float Star_3 = Total_Click * 1.5f;
+            float Star_2 = Total_Click * 2.5f;
+            float Star_1 = Total_Click * 3;
+            print(Color_Off.b);
+
+            if (time <= Master)
+            {
+                Stars[0].color = Color.black;
+            }
+            else if (time <= Star_3)
+            {
+                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
+                Stars[1].color = Color.black;
+            }
+            else if (time <= Star_2)
+            {
+                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
+                Stars[1].color = Color.Lerp(Stars[1].color, Color_Off, 0.001f);
+                Stars[2].color = Color.black;
+            }
+            else if (time >= Star_1)
+            {
+                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
+                Stars[1].color = Color.Lerp(Stars[1].color, Color_Off, 0.001f);
+                Stars[2].color = Color.Lerp(Stars[2].color, Color_Off, 0.001f);
+                Stars[3].color = Color.black;
+            }
+
+        }
     }
 
 
