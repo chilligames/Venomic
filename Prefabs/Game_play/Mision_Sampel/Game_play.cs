@@ -56,36 +56,19 @@ public class Game_play : MonoBehaviour
     private void Start()
     {
 
-        panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass, Text_Time_Panel_Pass,Time_mision);
+        panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass, Text_Time_Panel_Pass, Time_mision);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
         Text_Freez_number.text = PlayerPrefs.GetInt("Freez_Count").ToString();
         Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
 
-        Check_pass();
-
-        Pass_map = new object[BTNS.Length];
-        pass_sampel = new object[BTNS.Length];
-        for (int i = 0; i < Pass_map.Length; i++)
-        {
-            Pass_map[i] = 1;
-        }
+        Chek_setup();
 
         Text_Level_number.text = Level.ToString();
 
         Text_Time_number.text = Time_mision.ToString();
 
-
-        //tedad Click hay mision dar miarde baray mohasebe
-        for (int i = 0; i < BTNS.Length; i++)
-        {
-            TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
-        }
-
-        Slider = new Slider_model(Game_object_Slider, TotallClick, Star_slider);
-
-
         Animation_spawn();
-
+        Time_collect();
 
         async void Animation_spawn()
         {
@@ -119,64 +102,6 @@ public class Game_play : MonoBehaviour
 
         }
 
-        //chek mikone mission pass shode ya na age nashode bashe mision misaze
-        void Check_pass()
-        {
-            if (State_pass == 1)
-            {
-                panel_Pass.Show_panel_pass(Star,Time_mision);
-
-                Panel_BTNs.SetActive(false);
-                Panel_ui.SetActive(false);
-
-            }
-            else
-            {
-                for (int i = 0; i < BTNS.Length; i++)//vaghti reset mishe toy zoom bayad btn ghabli destroy beshan
-                {
-                    Destroy(BTNS[i]);
-                }
-
-                if (Level < 100)
-                {
-
-                    int Count = Random.Range(2, 5);
-                    BTNS = new GameObject[Count];
-                    for (int i = 0; i < Count; i++)
-                    {
-                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
-                    }
-                }
-                else if (Level < 300)
-                {
-
-                    int Count = Random.Range(4, 8);
-                    BTNS = new GameObject[Count];
-                    for (int i = 0; i < Count; i++)
-                    {
-                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
-                    }
-                }
-                else if (Level > 500)
-                {
-                    int Count = Random.Range(6, 11);
-                    BTNS = new GameObject[Count];
-                    for (int i = 0; i < Count; i++)
-                    {
-                        BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                        BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
-                    }
-                }
-                panel_Pass.Show_off_panel_pass();
-                Panel_BTNs.SetActive(true);
-            }
-
-        }
-
-        Time_collect();
-
         //Chek mikone k mission pass shode ya na age nashode baashe mision mision shoro mishe
         async void Time_collect()
         {
@@ -184,17 +109,20 @@ public class Game_play : MonoBehaviour
             {
                 if (State_pass == 0)
                 {
+
                     if (start_mision == 1)
                     {
-                        await Task.Delay(50);
-                        Time_local += 0.1f;
+                        await Task.Delay(100);
                         Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
-
+                        Time_local += 0.1f;
                         Slider.Change_entity_slider(Time_local, TotallClick);
                     }
                     else
                     {
+                        Time_local = 0;
+
                         await Task.Delay(50);
+
                     }
                 }
                 else
@@ -202,6 +130,8 @@ public class Game_play : MonoBehaviour
                     break;
                 }
             }
+
+
         }
 
     }
@@ -232,8 +162,8 @@ public class Game_play : MonoBehaviour
                 Panel_ui.SetActive(false);
                 State_pass = 1;
                 Star = Result_mission(Time_local, TotallClick);
-                panel_Pass.Show_panel_pass(Star,Time_local);
-                
+                panel_Pass.Show_panel_pass(Star, Time_local);
+
 
                 Time_mision = Time_local;
 
@@ -251,6 +181,82 @@ public class Game_play : MonoBehaviour
                 }
             }
         }
+    }
+
+    //chek mikone mission pass shode ya na age nashode bashe mision misaze
+    public void Chek_setup()
+    {
+        if (State_pass == 1)
+        {
+            panel_Pass.Show_panel_pass(Star, Time_mision);
+
+            Panel_BTNs.SetActive(false);
+            Panel_ui.SetActive(false);
+
+        }
+        else
+        {
+            panel_Pass.Show_off_panel_pass();
+            Panel_BTNs.SetActive(true);
+
+            for (int i = 0; i < BTNS.Length; i++)//vaghti reset mishe toy zoom bayad btn ghabli destroy beshan
+            {
+                Destroy(BTNS[i]);
+            }
+
+            if (Level < 100)
+            {
+
+                int Count = Random.Range(2, 5);
+                BTNS = new GameObject[Count];
+                for (int i = 0; i < Count; i++)
+                {
+                    BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                }
+            }
+            else if (Level < 300)
+            {
+
+                int Count = Random.Range(4, 8);
+                BTNS = new GameObject[Count];
+                for (int i = 0; i < Count; i++)
+                {
+                    BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                }
+            }
+            else if (Level > 500)
+            {
+                int Count = Random.Range(6, 11);
+                BTNS = new GameObject[Count];
+                for (int i = 0; i < Count; i++)
+                {
+                    BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                }
+            }
+         
+
+            Pass_map = new object[BTNS.Length];
+            pass_sampel = new object[BTNS.Length];
+
+            for (int i = 0; i < Pass_map.Length; i++)
+            {
+                Pass_map[i] = 1;
+            }
+
+
+            //tedad Click hay mision dar miarde baray mohasebe
+            for (int i = 0; i < BTNS.Length; i++)
+            {
+                TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
+            }
+
+            Slider = new Slider_model(Game_object_Slider, TotallClick, Star_slider);
+
+        }
+
     }
 
 
@@ -272,6 +278,21 @@ public class Game_play : MonoBehaviour
         Player.mission_Collection.Reset_mision(Level);
         Start();
     }
+
+
+
+    public void Press_BTN_Reset_Mission_raw()
+    {
+        State_pass = 0;
+        start_mision = 0;
+        Time_local = 0;
+        Time_mision = 0;
+        TotallClick = 0;//cheack
+        Star = 0;
+        Text_Time_number.text = "0";
+        Chek_setup();
+    }
+
 
 
     /// <summary>
@@ -307,6 +328,9 @@ public class Game_play : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// tedad sampel_count hay btn kam mikone ta 2
+    /// </summary>
     public void Press_BTN_Minus_count()
     {
         PlayerPrefs.SetInt("Minus_Count", 20);
@@ -333,6 +357,7 @@ public class Game_play : MonoBehaviour
         }
 
     }
+
 
     /// <summary>
     /// formul star chek mikone va setare morede nazar bar migardone
@@ -402,10 +427,10 @@ public class Game_play : MonoBehaviour
         /// va sho mikone panle pass
         /// </summary>
         /// <param name="star_count"> tedad setarehay be dast omade</param>
-        public void Show_panel_pass(int star_count,float Time_mission)
+        public void Show_panel_pass(int star_count, float Time_mission)
         {
             Text_Time.text = System.Math.Round(Time_pass, 1).ToString();
-            Text_Time.text =System.Math.Round( Time_mission,1).ToString();
+            Text_Time.text = System.Math.Round(Time_mission, 1).ToString();
 
             for (int i = 0; i < star_count; i++)
             {
@@ -583,7 +608,7 @@ public class Game_play : MonoBehaviour
             float Star_3 = Total_Click * 1.5f;
             float Star_2 = Total_Click * 2.5f;
             float Star_1 = Total_Click * 3;
-            print(Color_Off.b);
+
 
             if (time <= Master)
             {

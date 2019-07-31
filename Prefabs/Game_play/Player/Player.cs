@@ -312,11 +312,13 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < Collection.Length; i++)
             {
-                if (level_number == i)//check
+                if (level_number == i)
                 {
                     Collection[i].GetComponent<Game_play>().Star = 0;
                     Collection[i].GetComponent<Game_play>().State_pass = 0;
                     Collection[i].GetComponent<Game_play>().Time_mision = 0;
+                    Collection[i].GetComponent<Game_play>().Game_object_Slider.value = 0;
+                    Collection[i].GetComponent<Game_play>().Game_object_Slider.maxValue = 0;
                     Collection[i].GetComponent<Game_play>().Reset = 1;
                 }
             }
