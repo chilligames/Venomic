@@ -273,7 +273,7 @@ public class Player : MonoBehaviour
                     {
                         Collection[i].transform.position = Data.Pos_G[i];
                         Collection[i].GetComponent<Game_play>().Level = i;
-                        Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];
+                        Collection[i].GetComponent<Game_play>().Time_mision = (float)System.Math.Round( Data.T_M[i],1);
                         Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
                         Collection[i].GetComponent<Game_play>().Reset = Data.R_M[i];
                         Collection[i].GetComponent<Game_play>().Star = Data.S[i];

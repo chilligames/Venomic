@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// <summary>
 /// playerPref
 /// 1: Freez_Count
-/// 2: Minus_Count+
+/// 2: Minus_Count
 /// </summary>
 
 public class Game_play : MonoBehaviour
@@ -19,7 +19,9 @@ public class Game_play : MonoBehaviour
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
     public TextMeshProUGUI Text_Freez_number;
-
+    public TextMeshProUGUI Text_Minus_number;
+    public TextMeshProUGUI Text_Time_Panel_Pass;
+    public GameObject Panel_ui;
     public GameObject Game_object_Panel_pass;
     public RawImage[] Game_objects_Stars_panel_pass;
     Panel_pass_model panel_Pass;
@@ -54,10 +56,10 @@ public class Game_play : MonoBehaviour
     private void Start()
     {
 
-        panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass);
+        panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass, Text_Time_Panel_Pass,Time_mision);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
         Text_Freez_number.text = PlayerPrefs.GetInt("Freez_Count").ToString();
-
+        Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
 
         Check_pass();
 
@@ -122,9 +124,11 @@ public class Game_play : MonoBehaviour
         {
             if (State_pass == 1)
             {
-                panel_Pass.Show_panel_pass(Star);
+                panel_Pass.Show_panel_pass(Star,Time_mision);
 
                 Panel_BTNs.SetActive(false);
+                Panel_ui.SetActive(false);
+
             }
             else
             {
@@ -205,7 +209,6 @@ public class Game_play : MonoBehaviour
 
     private void Update()
     {
-
         //check zoom age zoom bashe panel zoom true mikone
         panel_Zoom_In.Show_panel_zoom(Star, Time_mision, Level);
 
@@ -226,9 +229,11 @@ public class Game_play : MonoBehaviour
             if (pass_sampel.SequenceEqual(Pass_map))
             {
                 Panel_BTNs.SetActive(false);
+                Panel_ui.SetActive(false);
                 State_pass = 1;
                 Star = Result_mission(Time_local, TotallClick);
-                panel_Pass.Show_panel_pass(Star);
+                panel_Pass.Show_panel_pass(Star,Time_local);
+                
 
                 Time_mision = Time_local;
 
@@ -260,7 +265,9 @@ public class Game_play : MonoBehaviour
         State_pass = 0;
         Star = 0;
         Time_mision = 0;
-
+        Time_local = 0;
+        start_mision = 0;
+        Panel_ui.SetActive(true);
         Reset = 1;
         Player.mission_Collection.Reset_mision(Level);
         Start();
@@ -296,19 +303,32 @@ public class Game_play : MonoBehaviour
             print("no_freezz");
         }
 
-        print("Code_freez"+"animation change number");
+        print("Code_freez" + "animation change number");
     }
 
 
     public void Press_BTN_Minus_count()
     {
+        PlayerPrefs.SetInt("Minus_Count", 20);
 
-        if (PlayerPrefs.GetInt("Minus_Count") < 0)
-        {
-        foreach (var item in BTNS)
+        if (PlayerPrefs.GetInt("Minus_Count") > 0)
         {
 
-        }
+            foreach (var item in BTNS)
+            {
+                if (item.GetComponent<BTN_sample>().Sampel_count > 1)
+                {
+                    item.GetComponent<BTN_sample>().Sampel_count -= 1;
+                    PlayerPrefs.SetInt("Minus_Count", PlayerPrefs.GetInt("Minus_Count") - 1);
+                    Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
+                    print("Code_minus_here");
+                }
+                else
+                {
+                    print("we cant help_u");
+                }
+
+            }
 
         }
 
@@ -361,16 +381,19 @@ public class Game_play : MonoBehaviour
     {
         public GameObject Panel_pass;
         public RawImage[] Stars;
-
+        TextMeshProUGUI Text_Time;
+        float Time_pass;
         /// <summary>
         /// panel_pass misaze ba panle darkhasti k sazande darre
         /// </summary>
         /// <param name="Panel_pass_gameobject"> Game_object panel_pass</param>
         /// <param name="Stars"> count stars</param>
-        public Panel_pass_model(GameObject Panel_pass_gameobject, RawImage[] Stars)
+        public Panel_pass_model(GameObject Panel_pass_gameobject, RawImage[] Stars, TextMeshProUGUI Text_Time_pass, float Time_pass)
         {
             Panel_pass = Panel_pass_gameobject;
             this.Stars = Stars;
+            Text_Time = Text_Time_pass;
+            this.Time_pass = Time_pass;
         }
 
 
@@ -379,8 +402,11 @@ public class Game_play : MonoBehaviour
         /// va sho mikone panle pass
         /// </summary>
         /// <param name="star_count"> tedad setarehay be dast omade</param>
-        public void Show_panel_pass(int star_count)
+        public void Show_panel_pass(int star_count,float Time_mission)
         {
+            Text_Time.text = System.Math.Round(Time_pass, 1).ToString();
+            Text_Time.text =System.Math.Round( Time_mission,1).ToString();
+
             for (int i = 0; i < star_count; i++)
             {
                 Stars[i].color = Color.black;
