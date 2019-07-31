@@ -8,12 +8,17 @@ using System.Linq;
 using System.Threading;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// playerPref
+/// 1: Freez_Count
+/// 2: Minus_Count+
+/// </summary>
 
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
     public TextMeshProUGUI Text_Level_number;
+    public TextMeshProUGUI Text_Freez_number;
 
     public GameObject Game_object_Panel_pass;
     public RawImage[] Game_objects_Stars_panel_pass;
@@ -48,10 +53,10 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
-       
+
         panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
-        
+        Text_Freez_number.text = PlayerPrefs.GetInt("Freez_Count").ToString();
 
 
         Check_pass();
@@ -130,7 +135,7 @@ public class Game_play : MonoBehaviour
 
                 if (Level < 100)
                 {
-                  
+
                     int Count = Random.Range(2, 5);
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
@@ -267,10 +272,47 @@ public class Game_play : MonoBehaviour
     /// </summary>
     public void Press_panel_in_zoom()
     {
-        panel_Zoom_In.Go_to_mission(transform.position,Start);
-       
+        panel_Zoom_In.Go_to_mission(transform.position, Start);
+
     }
 
+
+    /// <summary>
+    /// animation_hint freez mikone az btn_migire etelaeatesho
+    /// </summary>
+    public void Press_BTN_Freez()
+    {
+        if (PlayerPrefs.GetInt("Freez_Count") > 0)
+        {
+            PlayerPrefs.SetInt("Freez_Count", PlayerPrefs.GetInt("Freez_Count") - 1);
+            Text_Freez_number.text = PlayerPrefs.GetInt("Freez_Count").ToString();
+            foreach (var item in BTNS)
+            {
+                item.GetComponent<BTN_sample>().Freez = 1;
+            }
+        }
+        else
+        {
+            print("no_freezz");
+        }
+
+        print("Code_freez"+"animation change number");
+    }
+
+
+    public void Press_BTN_Minus_count()
+    {
+
+        if (PlayerPrefs.GetInt("Minus_Count") < 0)
+        {
+        foreach (var item in BTNS)
+        {
+
+        }
+
+        }
+
+    }
 
     /// <summary>
     /// formul star chek mikone va setare morede nazar bar migardone
@@ -437,10 +479,10 @@ public class Game_play : MonoBehaviour
         /// camera mibare b mooghiati k behesh midan size cam cam mikone
         /// </summary>
         /// <param name="Position_mission"></param>
-        public  void Go_to_mission(Vector3 Position_mission,Player.Cam.Cam_in_position cam_In_Position)
+        public void Go_to_mission(Vector3 Position_mission, Player.Cam.Cam_in_position cam_In_Position)
         {
-            
-            
+
+
             Move();
 
             async void Move()
@@ -482,14 +524,15 @@ public class Game_play : MonoBehaviour
 
             }
 
-            
+
 
         }
-        
+
 
     }
-     
-     
+
+
+
     class Slider_model
     {
         Slider Slider;

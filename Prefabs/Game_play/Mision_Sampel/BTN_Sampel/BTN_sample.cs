@@ -4,11 +4,18 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 using System.IO;
+/// <summary>
+/// playerpref
+/// 1: Freez
+/// </summary>
+
+
 public class BTN_sample : MonoBehaviour
 {
     public int Tap_count;
     public int Sampel_count;
     public object Passed;
+    public int Freez;
     public TextMeshProUGUI text;
     Vector3 pos_BTN;
 
@@ -44,7 +51,7 @@ public class BTN_sample : MonoBehaviour
                 }
             }
         }
-        Show_hint();
+
     }
 
     private void Update()
@@ -66,6 +73,7 @@ public class BTN_sample : MonoBehaviour
 
         if (Tap_count == Sampel_count)
         {
+
             Passed = 1;
             print("passed");
         }
@@ -109,9 +117,13 @@ public class BTN_sample : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// hit aval bazi mide b player
+    /// </summary>
     public void Show_hint()
     {
-        if (GetComponentInParent<Game_play>().transform.position == Player.cam.transform.position&&Status_show==0)
+
+        if (GetComponentInParent<Game_play>().transform.position == Player.cam.transform.position && Status_show == 0)
         {
             Animation_show();
             Status_show = 1;
@@ -120,11 +132,19 @@ public class BTN_sample : MonoBehaviour
 
         async void Animation_show()
         {
-            for (int i = 0; i < Sampel_count; i++)
+            for (int i = 0; i < Sampel_count; i++) //chek mikone freez bodano 
             {
-                await Task.Delay(700);
+                if (Freez == 1)
+                {
+                    await Task.Delay(2000);
+                }
+                else
+                {
+                    await Task.Delay(700);
+                }
                 animation_hint();
             }
+            Freez = 0;
         }
 
         async void animation_hint()
