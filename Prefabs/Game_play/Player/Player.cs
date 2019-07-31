@@ -52,8 +52,6 @@ public class Player : MonoBehaviour
         public static void Move_camera(Vector3 Pos_new)
         {
             move();
-
-
             async void move()
             {
 
@@ -156,6 +154,9 @@ public class Player : MonoBehaviour
                 }
             }
         }
+
+
+        public delegate void Cam_in_position();
 
     }
 

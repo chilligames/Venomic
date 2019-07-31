@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using UnityEngine.UI;
+
+
+
 public class Game_play : MonoBehaviour
 {
     public TextMeshProUGUI Text_Time_number;
@@ -45,9 +48,10 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
-        print(Application.persistentDataPath);
+       
         panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
+        
 
 
         Check_pass();
@@ -119,9 +123,14 @@ public class Game_play : MonoBehaviour
             }
             else
             {
+                for (int i = 0; i < BTNS.Length; i++)//vaghti reset mishe toy zoom bayad btn ghabli destroy beshan
+                {
+                    Destroy(BTNS[i]);
+                }
+
                 if (Level < 100)
                 {
-
+                  
                     int Count = Random.Range(2, 5);
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
@@ -133,7 +142,7 @@ public class Game_play : MonoBehaviour
                 else if (Level < 300)
                 {
 
-                    int Count = Random.Range(4, 8);//#check 
+                    int Count = Random.Range(4, 8);
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
@@ -143,7 +152,7 @@ public class Game_play : MonoBehaviour
                 }
                 else if (Level > 500)
                 {
-                    int Count = Random.Range(6, 11);//#check
+                    int Count = Random.Range(6, 11);
                     BTNS = new GameObject[Count];
                     for (int i = 0; i < Count; i++)
                     {
@@ -153,15 +162,8 @@ public class Game_play : MonoBehaviour
                 }
                 panel_Pass.Show_off_panel_pass();
                 Panel_BTNs.SetActive(true);
-
-
-                foreach (var item in BTNS) //show hint 
-                {
-
-                    //item.GetComponent<BTN_sample>().Show_hint();
-                }
-
             }
+
         }
 
         Time_collect();
@@ -265,7 +267,8 @@ public class Game_play : MonoBehaviour
     /// </summary>
     public void Press_panel_in_zoom()
     {
-        panel_Zoom_In.Go_to_mission(transform.position);
+        panel_Zoom_In.Go_to_mission(transform.position,Start);
+       
     }
 
 
@@ -434,8 +437,10 @@ public class Game_play : MonoBehaviour
         /// camera mibare b mooghiati k behesh midan size cam cam mikone
         /// </summary>
         /// <param name="Position_mission"></param>
-        public void Go_to_mission(Vector3 Position_mission)
+        public  void Go_to_mission(Vector3 Position_mission,Player.Cam.Cam_in_position cam_In_Position)
         {
+            
+            
             Move();
 
             async void Move()
@@ -461,8 +466,12 @@ public class Game_play : MonoBehaviour
                         {
                             await Task.Delay(10);
                             Player.cam.orthographicSize -= 1;
-                            if (Player.cam.orthographicSize == 6)
+                            if (Player.cam.orthographicSize <= 6)
                             {
+                                Player.cam.orthographicSize = 6;
+
+                                cam_In_Position();
+
                                 break;
                             }
 
@@ -473,7 +482,10 @@ public class Game_play : MonoBehaviour
 
             }
 
+            
+
         }
+        
 
     }
      
