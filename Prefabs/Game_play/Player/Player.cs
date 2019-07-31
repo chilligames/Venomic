@@ -187,6 +187,7 @@ public class Player : MonoBehaviour
 
         public bool IsReadOnly { get; set; }
 
+
         /// <summary>
         /// add new mision after finish misision;
         /// </summary>
@@ -241,7 +242,7 @@ public class Player : MonoBehaviour
 
 
         /// <summary>
-        /// add update frist start
+        /// missions_update mikone
         /// </summary>
         /// <param name="raw_mission"></param>
         public void Add(GameObject raw_mission)
@@ -269,7 +270,6 @@ public class Player : MonoBehaviour
 
                     for (int i = 0; i < Count; i++)
                     {
-                        Collection[i] = raw_mission;
                         Collection[i].transform.position = Data.Pos_G[i];
                         Collection[i].GetComponent<Game_play>().Level = i;
                         Collection[i].GetComponent<Game_play>().Time_mision = Data.T_M[i];

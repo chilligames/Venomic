@@ -45,6 +45,7 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
+        print(Application.persistentDataPath);
         panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
 
@@ -197,7 +198,7 @@ public class Game_play : MonoBehaviour
 
     private void Update()
     {
-       
+
         //check zoom age zoom bashe panel zoom true mikone
         panel_Zoom_In.Show_panel_zoom(Star, Time_mision, Level);
 
@@ -256,6 +257,15 @@ public class Game_play : MonoBehaviour
         Reset = 1;
         Player.mission_Collection.Reset_mision(Level);
         Start();
+    }
+
+
+    /// <summary>
+    /// mission mire be on migheiat
+    /// </summary>
+    public void Press_panel_in_zoom()
+    {
+        panel_Zoom_In.Go_to_mission(transform.position);
     }
 
 
@@ -420,9 +430,54 @@ public class Game_play : MonoBehaviour
         }
 
 
+        /// <summary>
+        /// camera mibare b mooghiati k behesh midan size cam cam mikone
+        /// </summary>
+        /// <param name="Position_mission"></param>
+        public void Go_to_mission(Vector3 Position_mission)
+        {
+            Move();
+
+            async void Move()
+            {
+                Player.Cam.Zoom = 0;
+
+                while (true)
+                {
+                    if (Player.cam.transform.position != Position_mission)
+                    {
+                        await Task.Delay(10);
+                        Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Position_mission, 0.1f);
+                        panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.zero, 0.2f);
+
+                        if (panel_zoom.transform.localScale == Vector3.zero)
+                        {
+                            panel_zoom.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        if (Player.cam.orthographicSize >= 6)
+                        {
+                            await Task.Delay(10);
+                            Player.cam.orthographicSize -= 1;
+                            if (Player.cam.orthographicSize == 6)
+                            {
+                                break;
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
     }
-
-
+     
+     
     class Slider_model
     {
         Slider Slider;

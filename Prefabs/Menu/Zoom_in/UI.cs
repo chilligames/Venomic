@@ -19,6 +19,7 @@ public class UI : MonoBehaviour
 
     }
 
+  
     public void Prees_btn_zoom()
     {
         Control_Zoom.Zoom();
