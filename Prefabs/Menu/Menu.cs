@@ -179,19 +179,22 @@ public class Menu : MonoBehaviour
 
         public void Quick_Login()
         {
-            if (PlayerPrefs.GetString("Token_Player").Length >3)
+            if (PlayerPrefs.GetString("Token_Player").Length > 3)
             {
                 print("Logined");
-                Chilligames_SDK.API_Client.Quick_login(new Req_Login { Name_app = "Venomic", Token_player = _id }, null, null);
+                Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("Token_Player") }, null, null);
+
             }
             else
             {
                 print("register");
-                Chilligames_SDK.API_Client.Quick_register(result => {
+                Chilligames_SDK.API_Client.Quick_register(result =>
+                {
 
                     PlayerPrefs.SetString("Token_Player", result._id);
                     print(PlayerPrefs.GetString("Token_Player"));
                     Quick_Login();
+
                 }, err => { });
             }
 
