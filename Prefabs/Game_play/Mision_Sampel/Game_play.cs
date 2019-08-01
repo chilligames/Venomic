@@ -183,7 +183,9 @@ public class Game_play : MonoBehaviour
         }
     }
 
-    //chek mikone mission pass shode ya na age nashode bashe mision misaze
+    /// <summary>
+    /// mission misaze va tay reset shodan mission raw estefade mishe
+    /// </summary>
     public void Chek_setup()
     {
         if (State_pass == 1)
@@ -236,7 +238,7 @@ public class Game_play : MonoBehaviour
                     BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
                 }
             }
-         
+
 
             Pass_map = new object[BTNS.Length];
             pass_sampel = new object[BTNS.Length];
@@ -280,7 +282,9 @@ public class Game_play : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// mission jadid ba meghdarhay jadid misaze
+    /// </summary>
     public void Press_BTN_Reset_Mission_raw()
     {
         State_pass = 0;

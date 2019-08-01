@@ -43,7 +43,6 @@ public class Player : MonoBehaviour
     public class Cam
     {
         public static int Zoom;
-        static Vector3 last_pos_camera;
 
         /// <summary>
         /// animation move camera
@@ -103,13 +102,13 @@ public class Player : MonoBehaviour
         public static void Zoom_Back()
         {
             Zoom_in();
+
             async void Zoom_in()
             {
                 while (true)
                 {
                     if (cam.orthographicSize < 50)
                     {
-                        last_pos_camera = cam.transform.position;
                         Zoom = 1;
 
                         cam.orthographicSize = 6;
@@ -131,25 +130,17 @@ public class Player : MonoBehaviour
                     {
                         Zoom = 0;
                         cam.orthographicSize = 50;
-                        if (cam.transform.position != last_pos_camera)
-                        {
-                            await Task.Delay(20);
-                            cam.transform.position = Vector3.MoveTowards(cam.transform.position, last_pos_camera, 0.5f);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < 50; i++)
-                            {
-                                await Task.Delay(10);
-                                cam.orthographicSize--;
-                                if (cam.orthographicSize == 6)
-                                {
-                                    break;
-                                }
-                            }
-                            break;
-                        }
 
+                        for (int i = 0; i < 50; i++)
+                        {
+                            await Task.Delay(10);
+                            cam.orthographicSize--;
+                            if (cam.orthographicSize == 6)
+                            {
+                                break;
+                            }
+                        }
+                        break;
                     }
                 }
             }
@@ -273,7 +264,7 @@ public class Player : MonoBehaviour
                     {
                         Collection[i].transform.position = Data.Pos_G[i];
                         Collection[i].GetComponent<Game_play>().Level = i;
-                        Collection[i].GetComponent<Game_play>().Time_mision = (float)System.Math.Round( Data.T_M[i],1);
+                        Collection[i].GetComponent<Game_play>().Time_mision = (float)System.Math.Round(Data.T_M[i], 1);
                         Collection[i].GetComponent<Game_play>().State_pass = Data.ST_P[i];
                         Collection[i].GetComponent<Game_play>().Reset = Data.R_M[i];
                         Collection[i].GetComponent<Game_play>().Star = Data.S[i];
