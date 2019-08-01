@@ -25,7 +25,21 @@ public class Player : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        foreach (var item in mission_Collection.Collection)//cheak mikone age faselehay mission ziad bashe active nemishe mission  
+        {
+            if (Vector3.Distance(item.transform.position, cam.transform.position) > 40)
+            {
+                item.SetActive(false);
+            }
+            else
+            {
+                item.SetActive(true);
+            }
 
+        }
+    }
 
     /// <summary>
     /// 1:camera move mishe to akharim mogheyat+10
@@ -157,7 +171,7 @@ public class Player : MonoBehaviour
 
     public class Mission_Collector : IList<GameObject>
     {
-        GameObject[] Collection;
+        public GameObject[] Collection;
         public Vector3 last_pos;
         public GameObject this[int index]
         {
@@ -377,7 +391,6 @@ public class Player : MonoBehaviour
         }
 
 
-
         /// <summary>
         /// collection 0 mishe
         /// </summary>
@@ -431,11 +444,12 @@ public class Player : MonoBehaviour
         /// <returns> collection member </returns>
         public IEnumerator<GameObject> GetEnumerator()
         {
-            foreach (var item in Collection)
+            for (int i = 0; i < Collection.Length; i++)
             {
-                yield return item;
 
+                yield return Collection[i];
             }
+
         }
 
 
@@ -463,6 +477,7 @@ public class Player : MonoBehaviour
         {
             throw new System.NotImplementedException();
         }
+
     }
 
 
