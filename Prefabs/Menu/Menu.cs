@@ -4,17 +4,23 @@ using UnityEngine;
 using TMPro;
 using System.IO;
 using System.Threading.Tasks;
-
+using Chilligames.SDK;
+using Chilligames.SDK.Model_Client;
 public class Menu : MonoBehaviour
 {
     public GameObject Panel_stars;
     public TextMeshPro[] Text_Stars_num;
+    public TextMeshProUGUI Text_Username;
     Status_Stars_model status_Stars;
-
+    User_Panels user_panels;
 
     void Start()
     {
+        user_panels = new User_Panels(Text_Username);
+
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
+
+        user_panels.Quick_Login();
     }
 
 
@@ -143,4 +149,56 @@ public class Menu : MonoBehaviour
         }
 
     }
+
+    class User_Panels
+    {
+        TextMeshProUGUI Text_username;
+
+        public string User_name;
+        public string Password;
+        public string _id;
+
+        public string Avatar;
+        public object[] Identities;
+        public object[] Ban;
+        public object[] Friends;
+        public object[] Log;
+        public object[] Files;
+        public object[] Data;
+        public object[] Inventory;
+        public object[] Notifactions;
+        public object[] Teams;
+        public object[] Wallet;
+        public object[] Servers;
+
+        public User_Panels(TextMeshProUGUI Text_user_name)
+        {
+            Text_username = Text_user_name;
+            _id = PlayerPrefs.GetString("Token_Player");
+        }
+
+        public void Quick_Login()
+        {
+            if (PlayerPrefs.GetString("Token_Player").Length >3)
+            {
+                print("Logined");
+                Chilligames_SDK.API_Client.Quick_login(new Req_Login { Name_app = "Venomic", Token_player = _id }, null, null);
+            }
+            else
+            {
+                print("register");
+                Chilligames_SDK.API_Client.Quick_register(result => {
+
+                    PlayerPrefs.SetString("Token_Player", result._id);
+                    print(PlayerPrefs.GetString("Token_Player"));
+                    Quick_Login();
+                }, err => { });
+            }
+
+        }
+
+
+
+    }
+
 }
