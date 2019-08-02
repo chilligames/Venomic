@@ -181,7 +181,7 @@ public class Menu : MonoBehaviour
         {
             if (PlayerPrefs.GetString("Token_Player").Length > 3)
             {
-                print("Logined");
+
                 Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("Token_Player") }, null, null);
 
             }

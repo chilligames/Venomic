@@ -164,6 +164,7 @@ public class Game_play : MonoBehaviour
                 Star = Result_mission(Time_local, TotallClick);
                 panel_Pass.Show_panel_pass(Star, Time_local);
 
+                panel_Zoom_In.Update_panle_zoom(Star, Time_local);//cheack
 
                 Time_mision = Time_local;
 
@@ -275,8 +276,10 @@ public class Game_play : MonoBehaviour
         Time_mision = 0;
         Time_local = 0;
         start_mision = 0;
+        TotallClick = 0;
         Panel_ui.SetActive(true);
         Reset = 1;
+        panel_Zoom_In.Update_panle_zoom(Star, Time_local);
         Player.mission_Collection.Reset_mision(Level);
         Start();
     }
@@ -291,12 +294,12 @@ public class Game_play : MonoBehaviour
         start_mision = 0;
         Time_local = 0;
         Time_mision = 0;
-        TotallClick = 0;//cheack
+        TotallClick = 0;
         Star = 0;
         Text_Time_number.text = "0";
+        panel_Zoom_In.Update_panle_zoom(Star, Time_local);
         Chek_setup();
     }
-
 
 
     /// <summary>
@@ -304,8 +307,10 @@ public class Game_play : MonoBehaviour
     /// </summary>
     public void Press_panel_in_zoom()
     {
-        panel_Zoom_In.Go_to_mission(transform.position, Start);
-
+        panel_Zoom_In.Go_to_mission(transform.position, () =>
+        {
+            Press_BTN_Reset_Mission_raw();
+        });
     }
 
 
@@ -378,27 +383,22 @@ public class Game_play : MonoBehaviour
 
         if (Final_time <= master)
         {
-            print("Star4:" + master);
             return 4;
         }
         else if (Final_time <= Star_3)
         {
-            print("star3:" + Star_3);
             return 3;
         }
         else if (Final_time <= Star_2)
         {
-            print("Star2:" + Star_2);
             return 2;
         }
         else if (Final_time >= star_1)
         {
-            print("Star1" + star_1);
             return 1;
         }
         else
         {
-            print("Star_1");
             return 1;
         }
 
@@ -466,12 +466,15 @@ public class Game_play : MonoBehaviour
         public GameObject panel_zoom;
         public TextMeshProUGUI[] text_panel_zoom;
         public RawImage[] Stars;
+        Color Color_no_pass = new Color(0, 0, 0, 0.2f);
         public Panel_Zoom_in(GameObject Game_object_Panel_zoom, TextMeshProUGUI[] Texts_panel_zoom, RawImage[] Stars)
         {
             panel_zoom = Game_object_Panel_zoom;
             this.Stars = Stars;
             text_panel_zoom = Texts_panel_zoom;
+
         }
+
 
         /// <summary>
         /// vaghti to zoom bashe jaygozari ha anjam mishe
@@ -487,7 +490,10 @@ public class Game_play : MonoBehaviour
             {
                 this.Stars[i].color = Color.black;
             }
-
+            for (int i = 0; i < Stars; i++)
+            {
+                this.Stars[i].color = Color.black;
+            }
             animation_show();
 
             async void animation_show()
@@ -529,6 +535,21 @@ public class Game_play : MonoBehaviour
             }
         }
 
+
+        /// <summary>
+        /// update mikone mission vaghti k mission pass mishe
+        /// </summary>
+        /// <param name="Star"> star count</param>
+        /// <param name="Time_local">time local</param>
+        public void Update_panle_zoom(int Star, float Time_local)
+        {
+            text_panel_zoom[0].text = System.Math.Round(Time_local, 1).ToString();
+            for (int i = 0; i < Stars.Length; i++)
+            {
+                print("Change_color");
+                Stars[i].color = Color_no_pass;
+            }
+        }
 
         /// <summary>
         /// camera mibare b mooghiati k behesh midan size cam cam mikone
@@ -592,7 +613,7 @@ public class Game_play : MonoBehaviour
     {
         Slider Slider;
         RawImage[] Stars;
-        Color Color_Off = new Color(255f, 254f, 245f, 255);
+        Color Color_Off = new Color(255, 255, 255, 0.2f);
         public Slider_model(Slider slider, float totallcount, RawImage[] Stars)
         {
             Slider = slider;
@@ -611,31 +632,22 @@ public class Game_play : MonoBehaviour
             float Master = Total_Click * 0.75f;
             float Star_3 = Total_Click * 1.5f;
             float Star_2 = Total_Click * 2.5f;
-            float Star_1 = Total_Click * 3;
 
 
-            if (time <= Master)
-            {
-                Stars[0].color = Color.black;
-            }
-            else if (time <= Star_3)
+            if (time >= Master)
             {
                 Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
-                Stars[1].color = Color.black;
+
             }
-            else if (time <= Star_2)
+            if (time >= Star_3)
             {
-                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
                 Stars[1].color = Color.Lerp(Stars[1].color, Color_Off, 0.001f);
-                Stars[2].color = Color.black;
             }
-            else if (time >= Star_1)
+            if (time >= Star_2)
             {
-                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
-                Stars[1].color = Color.Lerp(Stars[1].color, Color_Off, 0.001f);
                 Stars[2].color = Color.Lerp(Stars[2].color, Color_Off, 0.001f);
-                Stars[3].color = Color.black;
             }
+
 
         }
     }
