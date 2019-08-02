@@ -6409,7 +6409,7 @@ GameObject:
   - component: {fileID: 1897410074}
   - component: {fileID: 1897410073}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6454,7 +6454,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Recive. . .
+  m_text: Reciving. . .
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6523,7 +6523,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1897410073}
-    characterCount: 11
+    characterCount: 13
     spriteCount: 0
     spaceCount: 2
     wordCount: 1
@@ -6822,7 +6822,7 @@ MonoBehaviour:
   - {fileID: 1666669771}
   - {fileID: 694319260}
   - {fileID: 1639255633}
-  Text_Username: {fileID: 0}
+  Text_Username: {fileID: 1897410073}
 --- !u!1 &2087582718
 GameObject:
   m_ObjectHideFlags: 0

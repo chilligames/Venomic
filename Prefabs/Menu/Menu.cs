@@ -21,6 +21,24 @@ public class Menu : MonoBehaviour
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
 
         user_panels.Quick_Login();
+        Change_user_name();
+
+        async void Change_user_name()
+        {
+            while (true)
+            {
+                if (user_panels.Identities.Length < 1)
+                {
+                    await Task.Delay(1);
+                }
+                else
+                {
+                    Text_Username.text = user_panels.Identities[0].ToString();
+                    break;
+                }
+            }
+
+        }
     }
 
 
@@ -153,23 +171,19 @@ public class Menu : MonoBehaviour
     class User_Panels
     {
         TextMeshProUGUI Text_username;
-
-        public string User_name = "";
-        public string Password = "";
         public string _id = "";
-
         public string Avatar = "";
-        public object[] Identities = null;
-        public object[] Ban = null;
-        public object[] Friends = null;
-        public object[] Log = null;
-        public object[] Files = null;
-        public object[] Data = null;
-        public object[] Inventory = null;
-        public object[] Notifactions = null;
-        public object[] Teams = null;
-        public object[] Wallet = null;
-        public object[] Servers = null;
+        public object[] Identities = { };
+        public object[] Ban = { };
+        public object[] Friends = { };
+        public object[] Log = { };
+        public object[] Files = { };
+        public object[] Data = { };
+        public object[] Inventory = { };
+        public object[] Notifactions = { };
+        public object[] Teams = { };
+        public object[] Wallet = { };
+        public object[] Servers = { };
 
         public User_Panels(TextMeshProUGUI Text_user_name)
         {
@@ -177,13 +191,27 @@ public class Menu : MonoBehaviour
             _id = PlayerPrefs.GetString("Token_Player");
         }
 
+
         public void Quick_Login()
         {
             if (PlayerPrefs.GetString("Token_Player").Length > 3)
             {
-
-                Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("Token_Player") }, null, null);
-
+                Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("Token_Player") }, Result_login =>
+                {
+                    _id = Result_login._id;
+                    Avatar = Result_login.Avatar;
+                    Identities = Result_login.Identities;
+                    Ban = Result_login.Ban;
+                    Friends = Result_login.Friends;
+                    Log = Result_login.Log;
+                    Files = Result_login.Files;
+                    Data = Result_login.Data;
+                    Inventory = Result_login.Inventory;
+                    Notifactions = Result_login.Notifactions;
+                    Teams = Result_login.Teams;
+                    Wallet = Result_login.Wallet;
+                    Servers = Result_login.Servers;
+                }, null);
             }
             else
             {
