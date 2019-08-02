@@ -13,7 +13,7 @@ using System.IO;
 public class BTN_sample : MonoBehaviour
 {
     public int Tap_count;
-    public int Sampel_count;
+    public int Sampel_Click;
     public object Passed;
     public int Freez;
     public TextMeshProUGUI text;
@@ -59,6 +59,7 @@ public class BTN_sample : MonoBehaviour
         Show_hint();
     }
 
+
     /// <summary>
     /// 1:anim_press run mishe 
     /// 2:tap ++ mishe
@@ -71,13 +72,13 @@ public class BTN_sample : MonoBehaviour
 
         GetComponentInParent<Game_play>().start_mision = 1;
 
-        if (Tap_count == Sampel_count)
+        if (Tap_count == Sampel_Click)
         {
 
             Passed = 1;
             print("passed");
         }
-        else if (Tap_count > Sampel_count)
+        else if (Tap_count > Sampel_Click)
         {
             print("dead");
         }
@@ -132,7 +133,7 @@ public class BTN_sample : MonoBehaviour
 
         async void Animation_show()
         {
-            for (int i = 0; i < Sampel_count; i++) //chek mikone freez bodano 
+            for (int i = 0; i < Sampel_Click; i++) //chek mikone freez bodano 
             {
                 if (Freez == 1)
                 {
@@ -154,7 +155,7 @@ public class BTN_sample : MonoBehaviour
 
                 if (transform.localScale != Vector3.zero)
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
 
                     transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
                 }
@@ -162,7 +163,7 @@ public class BTN_sample : MonoBehaviour
                 {
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.1f);
                         if (transform.localScale == Vector3.one)
                         {
@@ -172,6 +173,31 @@ public class BTN_sample : MonoBehaviour
                     break;
                 }
             }
+        }
+
+    }
+
+    public void Delete_animation_btn()
+    {
+        delet();
+        async void delet()
+        {
+
+            while (true)
+            {
+                if (transform.localScale != Vector3.zero)
+                {
+                    await Task.Delay(1);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                    break;
+                }
+
+            }
+
         }
     }
 }

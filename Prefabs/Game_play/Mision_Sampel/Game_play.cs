@@ -60,6 +60,8 @@ public class Game_play : MonoBehaviour
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
         Text_Freez_number.text = PlayerPrefs.GetInt("Freez_Count").ToString();
         Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
+        Slider = new Slider_model(Game_object_Slider, TotallClick, Star_slider);
+
 
         Chek_setup();
 
@@ -162,9 +164,10 @@ public class Game_play : MonoBehaviour
                 Panel_ui.SetActive(false);
                 State_pass = 1;
                 Star = Result_mission(Time_local, TotallClick);
+
                 panel_Pass.Show_panel_pass(Star, Time_local);
 
-                panel_Zoom_In.Update_panle_zoom(Star, Time_local);//cheack
+                panel_Zoom_In.Update_panle_zoom(Star, Time_local);
 
                 Time_mision = Time_local;
 
@@ -183,6 +186,7 @@ public class Game_play : MonoBehaviour
             }
         }
     }
+
 
     /// <summary>
     /// mission misaze va tay reset shodan mission raw estefade mishe
@@ -215,7 +219,7 @@ public class Game_play : MonoBehaviour
                 for (int i = 0; i < Count; i++)
                 {
                     BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_Click = Random.Range(1, 11);
                 }
             }
             else if (Level < 300)
@@ -226,7 +230,7 @@ public class Game_play : MonoBehaviour
                 for (int i = 0; i < Count; i++)
                 {
                     BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_Click = Random.Range(1, 11);
                 }
             }
             else if (Level > 500)
@@ -236,7 +240,7 @@ public class Game_play : MonoBehaviour
                 for (int i = 0; i < Count; i++)
                 {
                     BTNS[i] = Instantiate(Game_object_BTN_sampel, Panel_BTNs.transform);
-                    BTNS[i].GetComponent<BTN_sample>().Sampel_count = Random.Range(1, 11);
+                    BTNS[i].GetComponent<BTN_sample>().Sampel_Click = Random.Range(1, 11);
                 }
             }
 
@@ -253,7 +257,7 @@ public class Game_play : MonoBehaviour
             //tedad Click hay mision dar miarde baray mohasebe
             for (int i = 0; i < BTNS.Length; i++)
             {
-                TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_count;
+                TotallClick += BTNS[i].GetComponent<BTN_sample>().Sampel_Click;
             }
 
             Slider = new Slider_model(Game_object_Slider, TotallClick, Star_slider);
@@ -279,8 +283,10 @@ public class Game_play : MonoBehaviour
         TotallClick = 0;
         Panel_ui.SetActive(true);
         Reset = 1;
+        Slider.Reset_slider();
         panel_Zoom_In.Update_panle_zoom(Star, Time_local);
         Player.mission_Collection.Reset_mision(Level);
+        panel_Pass.Reset_Panel_pass();
         Start();
     }
 
@@ -297,7 +303,9 @@ public class Game_play : MonoBehaviour
         TotallClick = 0;
         Star = 0;
         Text_Time_number.text = "0";
+        Slider.Reset_slider();
         panel_Zoom_In.Update_panle_zoom(Star, Time_local);
+        panel_Pass.Reset_Panel_pass();
         Chek_setup();
     }
 
@@ -307,10 +315,7 @@ public class Game_play : MonoBehaviour
     /// </summary>
     public void Press_panel_in_zoom()
     {
-        panel_Zoom_In.Go_to_mission(transform.position, () =>
-        {
-            Press_BTN_Reset_Mission_raw();
-        });
+        panel_Zoom_In.Go_to_mission(transform.position);
     }
 
 
@@ -338,6 +343,46 @@ public class Game_play : MonoBehaviour
 
 
     /// <summary>
+    /// vaghti press mishe yeki az gozineha hazf mishe 
+    /// </summary>
+    public void Press_BTN_Dellet_BTN()
+    {
+        if (BTNS.Length > 1)
+        {
+            for (int i = 0; i < BTNS.Length; i++)
+            {
+
+                if (i + 1 == BTNS.Length)
+                {
+                    BTNS[i].GetComponent<BTN_sample>().Delete_animation_btn();
+                    print(TotallClick);
+                    TotallClick -= BTNS[i].GetComponent<BTN_sample>().Sampel_Click;
+                    print(TotallClick);
+                    GameObject[] New_btns = new GameObject[BTNS.Length - 1];
+                    object[] new_pass_map = new object[BTNS.Length - 1];
+                    object[] new_Pass_sampel = new object[BTNS.Length - 1];
+                    for (int a = 0; a < New_btns.Length; a++)
+                    {
+                        New_btns[a] = BTNS[a];
+                        new_pass_map[a] = Pass_map[a];
+                        new_Pass_sampel[a] = pass_sampel[a];
+                    }
+
+                    BTNS = New_btns;
+                    Pass_map = new_pass_map;
+                    pass_sampel = new_Pass_sampel;
+
+                    Slider.Update_max_value_slider(TotallClick);
+                    Slider.Change_entity_slider(Time_local, TotallClick);
+                }
+
+            }
+        }
+
+    }
+
+
+    /// <summary>
     /// tedad sampel_count hay btn kam mikone ta 2
     /// </summary>
     public void Press_BTN_Minus_count()
@@ -349,9 +394,9 @@ public class Game_play : MonoBehaviour
 
             foreach (var item in BTNS)
             {
-                if (item.GetComponent<BTN_sample>().Sampel_count > 1)
+                if (item.GetComponent<BTN_sample>().Sampel_Click > 1)
                 {
-                    item.GetComponent<BTN_sample>().Sampel_count -= 1;
+                    item.GetComponent<BTN_sample>().Sampel_Click -= 1;
                     PlayerPrefs.SetInt("Minus_Count", PlayerPrefs.GetInt("Minus_Count") - 1);
                     Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
                     print("Code_minus_here");
@@ -405,13 +450,13 @@ public class Game_play : MonoBehaviour
     }
 
 
-
     class Panel_pass_model
     {
         public GameObject Panel_pass;
         public RawImage[] Stars;
         TextMeshProUGUI Text_Time;
         float Time_pass;
+        Color color_off = new Color(0, 0, 0, 0.2f);
         /// <summary>
         /// panel_pass misaze ba panle darkhasti k sazande darre
         /// </summary>
@@ -453,12 +498,23 @@ public class Game_play : MonoBehaviour
         {
 
             Panel_pass.SetActive(false);
+
+        }
+
+        /// <summary>
+        /// color panel_pass reset mikone 
+        /// </summary>
+        public void Reset_Panel_pass()
+        {
+            for (int i = 0; i < Stars.Length; i++)
+            {
+                Stars[i].color = color_off;
+            }
         }
 
 
 
     }
-
 
 
     class Panel_Zoom_in
@@ -555,7 +611,7 @@ public class Game_play : MonoBehaviour
         /// camera mibare b mooghiati k behesh midan size cam cam mikone
         /// </summary>
         /// <param name="Position_mission"></param>
-        public void Go_to_mission(Vector3 Position_mission, Player.Cam.Cam_in_position cam_In_Position)
+        public void Go_to_mission(Vector3 Position_mission)
         {
 
 
@@ -587,9 +643,6 @@ public class Game_play : MonoBehaviour
                             if (Player.cam.orthographicSize <= 6)
                             {
                                 Player.cam.orthographicSize = 6;
-
-                                cam_In_Position();
-
                                 break;
                             }
 
@@ -621,6 +674,7 @@ public class Game_play : MonoBehaviour
             this.Stars = Stars;
         }
 
+
         /// <summary>
         /// meghdar value slider taein mikone k bayad *3 beshe bekhater setareha
         /// </summary>
@@ -649,6 +703,32 @@ public class Game_play : MonoBehaviour
             }
 
 
+        }
+
+
+        /// <summary>
+        /// slider reset mikone 
+        /// </summary>
+        public void Reset_slider()
+        {
+            Slider.value = 0;
+            Slider.maxValue = 0;
+            for (int i = 0; i < Stars.Length; i++)
+            {
+                Stars[i].color = Color.black;
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// update mikone max slider toy destroy khoneha 
+        /// </summary>
+        /// <param name="Total_click">totall click </param>
+        public void Update_max_value_slider(int Total_click)
+        {
+            Slider.maxValue = Total_click * 3;
         }
     }
 

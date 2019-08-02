@@ -154,22 +154,22 @@ public class Menu : MonoBehaviour
     {
         TextMeshProUGUI Text_username;
 
-        public string User_name;
-        public string Password;
-        public string _id;
+        public string User_name = "";
+        public string Password = "";
+        public string _id = "";
 
-        public string Avatar;
-        public object[] Identities;
-        public object[] Ban;
-        public object[] Friends;
-        public object[] Log;
-        public object[] Files;
-        public object[] Data;
-        public object[] Inventory;
-        public object[] Notifactions;
-        public object[] Teams;
-        public object[] Wallet;
-        public object[] Servers;
+        public string Avatar = "";
+        public object[] Identities = null;
+        public object[] Ban = null;
+        public object[] Friends = null;
+        public object[] Log = null;
+        public object[] Files = null;
+        public object[] Data = null;
+        public object[] Inventory = null;
+        public object[] Notifactions = null;
+        public object[] Teams = null;
+        public object[] Wallet = null;
+        public object[] Servers = null;
 
         public User_Panels(TextMeshProUGUI Text_user_name)
         {

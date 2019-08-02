@@ -160,9 +160,6 @@ public class Player : MonoBehaviour
             }
         }
 
-
-        public delegate void Cam_in_position();
-
     }
 
 
