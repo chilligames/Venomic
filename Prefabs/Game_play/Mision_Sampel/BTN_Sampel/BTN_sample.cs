@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
-using System.IO;
+using UnityEngine.UI;
 /// <summary>
 /// playerpref
 /// 1: Freez
@@ -18,7 +18,8 @@ public class BTN_sample : MonoBehaviour
     public int Freez;
     public TextMeshProUGUI text;
     Vector3 pos_BTN;
-
+    Color Base_color = new Color(1, 1, 1, 0.5f);
+    Color Minus_color = new Color(1, 0, 0, 0.2f);
     public int Status_show;
 
     private void Start()
@@ -80,6 +81,7 @@ public class BTN_sample : MonoBehaviour
         }
         else if (Tap_count > Sampel_Click)
         {
+            GetComponentInParent<Game_play>().Minus_Chance();
             print("dead");
         }
 
@@ -177,6 +179,10 @@ public class BTN_sample : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// animation delet va gozine hazf mishe az mission
+    /// </summary>
     public void Delete_animation_btn()
     {
         delet();
@@ -193,6 +199,44 @@ public class BTN_sample : MonoBehaviour
                 else
                 {
                     Destroy(gameObject);
+                    break;
+                }
+
+            }
+
+        }
+    }
+
+
+    /// <summary>
+    /// vaghti ejra mishe minus mione tedad click haro va animation color ejra mishe 
+    /// </summary>
+    public void Animation_Minus()
+    {
+
+        Animation_minus();
+
+        async void Animation_minus()
+        {
+            while (true)
+            {
+                if (gameObject.GetComponent<Image>().color != Minus_color)
+                {
+                    await Task.Delay(1);
+                    gameObject.GetComponent<Image>().color = Color.Lerp(gameObject.GetComponent<Image>().color, Minus_color, 0.5f);
+                }
+                else
+                {
+                    while (true)
+                    {
+                        await Task.Delay(1);
+                        gameObject.GetComponent<Image>().color = Color.Lerp(gameObject.GetComponent<Image>().color, Base_color, 0.5f);
+                        if (gameObject.GetComponent<Image>().color == Base_color)
+                        {
+                            break;
+                        }
+
+                    }
                     break;
                 }
 

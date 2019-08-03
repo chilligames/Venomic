@@ -12,6 +12,7 @@ using UnityEngine.UI;
 /// playerPref
 /// 1: Freez_Count
 /// 2: Minus_Count
+/// 3: Chance
 /// </summary>
 
 public class Game_play : MonoBehaviour
@@ -21,6 +22,8 @@ public class Game_play : MonoBehaviour
     public TextMeshProUGUI Text_Freez_number;
     public TextMeshProUGUI Text_Minus_number;
     public TextMeshProUGUI Text_Time_Panel_Pass;
+    public TextMeshProUGUI text_chance_number;
+
     public GameObject Panel_ui;
     public GameObject Game_object_Panel_pass;
     public RawImage[] Game_objects_Stars_panel_pass;
@@ -55,6 +58,7 @@ public class Game_play : MonoBehaviour
 
     private void Start()
     {
+        PlayerPrefs.SetInt("Chance", 20);//cheack
 
         panel_Pass = new Panel_pass_model(Game_object_Panel_pass, Game_objects_Stars_panel_pass, Text_Time_Panel_Pass, Time_mision);
         panel_Zoom_In = new Panel_Zoom_in(Game_object_Panel_In_zoom, Texts_panel_in_zoom, Stars_in_zoom);
@@ -136,11 +140,16 @@ public class Game_play : MonoBehaviour
 
         }
 
+
+
     }
 
 
     private void Update()
     {
+
+        text_chance_number.text = PlayerPrefs.GetInt("Chance").ToString();
+
         //check zoom age zoom bashe panel zoom true mikone
         panel_Zoom_In.Show_panel_zoom(Star, Time_mision, Level);
 
@@ -343,6 +352,41 @@ public class Game_play : MonoBehaviour
 
 
     /// <summary>
+    /// tedad sampel_count hay btn kam mikone ta 2
+    /// </summary>
+    public void Press_BTN_Minus_count()
+    {
+        PlayerPrefs.SetInt("Minus_Count", 20);
+
+        if (PlayerPrefs.GetInt("Minus_Count") > 0)
+        {
+
+            foreach (var item in BTNS)
+            {
+                if (item.GetComponent<BTN_sample>().Sampel_Click > 1)
+                {
+                    item.GetComponent<BTN_sample>().Sampel_Click -= 1;
+                    PlayerPrefs.SetInt("Minus_Count", PlayerPrefs.GetInt("Minus_Count") - 1);
+                    Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
+
+                    item.GetComponent<BTN_sample>().Animation_Minus();
+                    TotallClick -= 1;
+                    print(TotallClick);
+                    Slider.Update_max_value_slider(TotallClick);
+                }
+                else
+                {
+                    print("we cant help_u");
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /// <summary>
     /// vaghti press mishe yeki az gozineha hazf mishe 
     /// </summary>
     public void Press_BTN_Dellet_BTN()
@@ -355,9 +399,9 @@ public class Game_play : MonoBehaviour
                 if (i + 1 == BTNS.Length)
                 {
                     BTNS[i].GetComponent<BTN_sample>().Delete_animation_btn();
-                    print(TotallClick);
+
                     TotallClick -= BTNS[i].GetComponent<BTN_sample>().Sampel_Click;
-                    print(TotallClick);
+
                     GameObject[] New_btns = new GameObject[BTNS.Length - 1];
                     object[] new_pass_map = new object[BTNS.Length - 1];
                     object[] new_Pass_sampel = new object[BTNS.Length - 1];
@@ -381,37 +425,56 @@ public class Game_play : MonoBehaviour
 
     }
 
-
     /// <summary>
-    /// tedad sampel_count hay btn kam mikone ta 2
+    /// chek mikone mission age chance dashte bashe kam mikone nadashte bashe reset mione mission 
     /// </summary>
-    public void Press_BTN_Minus_count()
+    public void Minus_Chance()
     {
-        PlayerPrefs.SetInt("Minus_Count", 20);
+        Animation_minus_text();
 
-        if (PlayerPrefs.GetInt("Minus_Count") > 0)
+        async void Animation_minus_text()
         {
-
-            foreach (var item in BTNS)
+            while (true)
             {
-                if (item.GetComponent<BTN_sample>().Sampel_Click > 1)
+                if (text_chance_number.transform.localScale != Vector3.zero)
                 {
-                    item.GetComponent<BTN_sample>().Sampel_Click -= 1;
-                    PlayerPrefs.SetInt("Minus_Count", PlayerPrefs.GetInt("Minus_Count") - 1);
-                    Text_Minus_number.text = PlayerPrefs.GetInt("Minus_Count").ToString();
-                    print("Code_minus_here");
+                    await Task.Delay(1);
+                    text_chance_number.transform.localScale = Vector3.MoveTowards(text_chance_number.transform.localScale, Vector3.zero, 0.1f);
                 }
                 else
                 {
-                    print("we cant help_u");
+                    while (true)
+                    {
+                        if (text_chance_number.transform.localScale != Vector3.one)
+                        {
+                            text_chance_number.transform.localScale = Vector3.MoveTowards(text_chance_number.transform.localScale, Vector3.one, 0.1f);
+                        }
+                        else
+                        {
+                            minuse_chance();
+                            break;
+                        }
+                    }
+                    break;
                 }
-
             }
 
         }
 
-    }
+        void minuse_chance()
+        {
+            if (PlayerPrefs.GetInt("Chance") > 0)
+            {
+                PlayerPrefs.SetInt("Chance", PlayerPrefs.GetInt("Chance") - 1);
+            }
+            else
+            {
+                Press_BTN_Reset_Mission_raw();
+            }
 
+
+        }
+    }
 
     /// <summary>
     /// formul star chek mikone va setare morede nazar bar migardone
@@ -659,7 +722,6 @@ public class Game_play : MonoBehaviour
 
 
     }
-
 
 
     class Slider_model

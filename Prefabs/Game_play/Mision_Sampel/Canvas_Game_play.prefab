@@ -617,7 +617,6 @@ GameObject:
   - component: {fileID: 1524368085902988955}
   - component: {fileID: 756418153505090507}
   - component: {fileID: 2736443542093300365}
-  - component: {fileID: 5359273329586884993}
   m_Layer: 5
   m_Name: Button_Chance
   m_TagString: Untagged
@@ -682,62 +681,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5359273329586884993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077457336464173022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2736443542093300365}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2483544818635534528}
-        m_MethodName: Press_BTN_Minus_count
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1357354099522422638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2122,6 +2065,7 @@ MonoBehaviour:
   Text_Freez_number: {fileID: 4136362651836297154}
   Text_Minus_number: {fileID: 438470978970339418}
   Text_Time_Panel_Pass: {fileID: 4477225085471683453}
+  text_chance_number: {fileID: 6705952880591767100}
   Panel_ui: {fileID: 2483544818985930837}
   Game_object_Panel_pass: {fileID: 8611498642028068917}
   Game_objects_Stars_panel_pass:
@@ -2559,7 +2503,7 @@ GameObject:
   - component: {fileID: 3560938985965834523}
   - component: {fileID: 6705952880591767100}
   m_Layer: 5
-  m_Name: Text_Minus_number (2)
+  m_Name: Text_Chance_number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3414,7 +3358,7 @@ GameObject:
   - component: {fileID: 8665970214385948133}
   - component: {fileID: 543003688626260518}
   m_Layer: 5
-  m_Name: Text_Minus_number (3)
+  m_Name: Text_reset_number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3809,8 +3753,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000000014901161, y: 0}
-  m_SizeDelta: {x: 0.000000029802322, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!198 &6653545920984986669
 ParticleSystem:
@@ -4386,7 +4330,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.19
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4447,7 +4391,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 1, y: 1, z: 0}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -6402,11 +6346,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: -3.47
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6563,16 +6507,16 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 0.6
     damping: 1
     octaves: 1
-    octaveMultiplier: 0.5
-    octaveScale: 2
-    quality: 2
+    octaveMultiplier: 0
+    octaveScale: 4
+    quality: 1
     scrollSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 4.51
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6785,7 +6729,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6838,7 +6782,7 @@ ParticleSystem:
     rotationAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 12.3
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -7658,7 +7602,7 @@ ParticleSystem:
     maxLights: 20
   TrailModule:
     enabled: 1
-    mode: 1
+    mode: 0
     ratio: 1
     lifetime:
       serializedVersion: 2
@@ -8509,7 +8453,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -8774,9 +8718,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8877146095684494884}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 2.5
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9040,8 +8984,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.009199977, y: 0.00003182888}
-  m_SizeDelta: {x: 0.2525, y: -0.377}
+  m_AnchoredPosition: {x: 0.021350026, y: 0.00003182888}
+  m_SizeDelta: {x: 0.22827, y: -0.377}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &643803846056917943
 CanvasRenderer:
@@ -10797,7 +10741,7 @@ GameObject:
   - component: {fileID: 8005292521462591538}
   - component: {fileID: 1024609210093288931}
   m_Layer: 5
-  m_Name: Text_Minus_number (1)
+  m_Name: Text_Delete_btn_number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

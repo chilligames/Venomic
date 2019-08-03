@@ -388,6 +388,19 @@ public class Player : MonoBehaviour
         }
 
 
+
+        public void RemoveAt(int Level)
+        {
+            ArrayList arrayList = new ArrayList();
+            foreach (var item in Collection)
+            {
+                arrayList.Add(item);
+                print(arrayList.Count);
+            }
+            
+        }
+
+
         /// <summary>
         /// collection 0 mishe
         /// </summary>
@@ -465,10 +478,6 @@ public class Player : MonoBehaviour
             throw new System.NotImplementedException();
         }
 
-        public void RemoveAt(int index)
-        {
-            throw new System.NotImplementedException();
-        }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
