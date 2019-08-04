@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
+using Chilligames.Json;
 public class Menu : MonoBehaviour
 {
     public GameObject Panel_stars;
@@ -30,16 +31,20 @@ public class Menu : MonoBehaviour
 
         async void Change_user_name()
         {
+
             while (true)
             {
-                if (user_panels.Identities.Length < 1)
+                try
+                {
+                    Text_Username.text = user_panels.Identites_split(User_Panels.Identites_selection.Nickname);
+                    if (user_panels.Identites_split(User_Panels.Identites_selection.Nickname).Length > 1)
+                    {
+                        break;
+                    }
+                }
+                catch (System.NullReferenceException)
                 {
                     await Task.Delay(1);
-                }
-                else
-                {
-                    Text_Username.text = user_panels.Identities[0].ToString();
-                    break;
                 }
             }
 
@@ -178,7 +183,7 @@ public class Menu : MonoBehaviour
         TextMeshProUGUI Text_username;
         public string _id = "";
         public string Avatar = "";
-        public object[] Identities = { };
+        public object Identities;
         public object[] Ban = { };
         public object[] Friends = { };
         public object[] Log = { };
@@ -186,7 +191,7 @@ public class Menu : MonoBehaviour
         public object[] Data = { };
         public object[] Inventory = { };
         public object[] Notifactions = { };
-        public object[] Teams = { };
+        public object Teams;
         public object[] Wallet = { };
         public object[] Servers = { };
 
@@ -197,6 +202,9 @@ public class Menu : MonoBehaviour
         }
 
 
+        /// <summary>
+        /// quick login mikone va meghdar hay player por mikone 
+        /// </summary>
         public void Quick_Login()
         {
             if (PlayerPrefs.GetString("Token_Player").Length > 3)
@@ -216,6 +224,7 @@ public class Menu : MonoBehaviour
                     Teams = Result_login.Teams;
                     Wallet = Result_login.Wallet;
                     Servers = Result_login.Servers;
+
                 }, null);
             }
             else
@@ -234,6 +243,68 @@ public class Menu : MonoBehaviour
         }
 
 
+
+        /// <summary>
+        /// seay mikone recive kone info player
+        /// </summary>
+        /// <param name="Select_identite"></param>
+        /// <returns></returns>
+        public string Identites_split(Identites_selection Select_identite)
+        {
+            string result = null;
+            recive();
+
+            async void recive()
+            {
+                while (true)
+                {
+                    try
+                    {
+                        switch (Select_identite)
+                        {
+                            case Identites_selection.Username:
+                                {
+                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Username.ToString();
+                                }
+                                break;
+
+                            case Identites_selection.Password:
+                                {
+                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Password.ToString();
+                                }
+                                break;
+                            case Identites_selection.Email:
+                                {
+                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Email.ToString();
+                                }
+                                break;
+                            case Identites_selection.Nickname:
+                                {
+                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Nickname.ToString();
+                                }
+                                break;
+                        }
+
+                        if (result != null)
+                        {
+                            break;
+                        }
+
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        await Task.Delay(1);
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        public enum Identites_selection
+        {
+            Username, Password, Email, Nickname
+        }
 
     }
 
@@ -261,4 +332,5 @@ public class Menu : MonoBehaviour
 
         }
     }//last_change
+
 }
