@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         public static int Zoom;
 
         /// <summary>
-        /// animation move camera
+        /// animation move camera mire pos k behesh dade shode 
         /// </summary>
         /// <param name="Pos_new"> pos jadid migire ke bayad -10 bash</param>
         public static void Move_camera(Vector3 Pos_new)
@@ -67,17 +67,15 @@ public class Player : MonoBehaviour
             move();
             async void move()
             {
-
                 while (true)
                 {
                     if (Vector3.Distance(cam.transform.position, Pos_new) > 0)
                     {
-                        await Task.Delay(10);
-                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, Pos_new, 0.1f);
+                        await Task.Delay(1);
+                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, Pos_new, 0.5f);
                     }
                     else
                     {
-
                         break;
                     }
                 }
@@ -85,9 +83,8 @@ public class Player : MonoBehaviour
         }
 
 
-
         /// <summary>
-        /// camera move mishe 
+        /// camera move mishe mire b akharin possion mission  k behesh midan 
         /// </summary>
         public static void Move_camera()
         {
@@ -98,8 +95,8 @@ public class Player : MonoBehaviour
                 {
                     if (cam.transform.position != mission_Collection.last_pos)
                     {
-                        await Task.Delay(10);
-                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, mission_Collection.last_pos, 0.1f);
+                        await Task.Delay(1);
+                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, mission_Collection.last_pos, 0.4f);
                     }
                     else
                     {
@@ -129,7 +126,7 @@ public class Player : MonoBehaviour
 
                         for (int i = 0; i < 50; i++)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
 
                             cam.orthographicSize++;
                             if (cam.orthographicSize == 50)
@@ -147,7 +144,7 @@ public class Player : MonoBehaviour
 
                         for (int i = 0; i < 50; i++)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             cam.orthographicSize--;
                             if (cam.orthographicSize == 6)
                             {
@@ -159,11 +156,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-
     }
-
-
-
 
 
     public class Mission_Collector : IList<GameObject>
@@ -397,7 +390,7 @@ public class Player : MonoBehaviour
                 arrayList.Add(item);
                 print(arrayList.Count);
             }
-            
+
         }
 
 
@@ -496,8 +489,6 @@ public class Player : MonoBehaviour
         public int[] S = { };
         public int[] R_M = { };
     }
-
-
 
 
 }

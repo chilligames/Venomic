@@ -31,14 +31,14 @@ public class BTN_sample : MonoBehaviour
             {
                 if (transform.localScale != Vector3.zero)
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.2f);
                 }
                 else
                 {
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         if (transform.localScale != Vector3.one)
                         {
                             transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.2f);
@@ -92,8 +92,8 @@ public class BTN_sample : MonoBehaviour
             {
                 if (text.transform.localScale != Vector3.zero)
                 {
-                    await Task.Delay(10);
-                    text.transform.localScale = Vector3.MoveTowards(text.transform.localScale, Vector3.zero, 0.4f);
+                    await Task.Delay(1);
+                    text.transform.localScale = Vector3.MoveTowards(text.transform.localScale, Vector3.zero, 0.5f);
                 }
                 else if (Vector3.Distance(text.transform.localScale, Vector3.zero) == 0)
                 {
@@ -101,11 +101,11 @@ public class BTN_sample : MonoBehaviour
                     {
                         if (text.transform.localScale != Vector3.one)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
 
                             text.text = Tap_count.ToString();
 
-                            text.transform.localScale = Vector3.MoveTowards(text.transform.localScale, Vector3.one, 0.4f);
+                            text.transform.localScale = Vector3.MoveTowards(text.transform.localScale, Vector3.one, 0.5f);
                         }
                         else
                         {
@@ -194,7 +194,7 @@ public class BTN_sample : MonoBehaviour
                 if (transform.localScale != Vector3.zero)
                 {
                     await Task.Delay(1);
-                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.3f);
                 }
                 else
                 {
@@ -223,7 +223,7 @@ public class BTN_sample : MonoBehaviour
                 if (gameObject.GetComponent<Image>().color != Minus_color)
                 {
                     await Task.Delay(1);
-                    gameObject.GetComponent<Image>().color = Color.Lerp(gameObject.GetComponent<Image>().color, Minus_color, 0.5f);
+                    gameObject.GetComponent<Image>().color = Color.LerpUnclamped(gameObject.GetComponent<Image>().color, Minus_color, 0.5f);
                 }
                 else
                 {

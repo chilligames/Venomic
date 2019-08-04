@@ -11,14 +11,19 @@ public class Menu : MonoBehaviour
     public GameObject Panel_stars;
     public TextMeshPro[] Text_Stars_num;
     public TextMeshProUGUI Text_Username;
+    public Transform Place_panel_Chart;
+    public GameObject Raw_player_chart;
     Status_Stars_model status_Stars;
     User_Panels user_panels;
+    Chart Chart_player;
+
 
     void Start()
     {
         user_panels = new User_Panels(Text_Username);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
+        Chart_player = new Chart(Raw_player_chart, Place_panel_Chart);
 
         user_panels.Quick_Login();
         Change_user_name();
@@ -121,7 +126,7 @@ public class Menu : MonoBehaviour
                     {
                         if (panel_stars.transform.localScale != Vector3.one)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             panel_stars.transform.localScale = Vector3.MoveTowards(panel_stars.transform.localScale, Vector3.one, 0.1f);
                         }
                         else
@@ -150,7 +155,7 @@ public class Menu : MonoBehaviour
                     {
                         if (panel_stars.transform.localScale != Vector3.zero)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             panel_stars.transform.localScale = Vector3.MoveTowards(panel_stars.transform.localScale, Vector3.zero, 0.01f);
                         }
                         else
@@ -232,4 +237,28 @@ public class Menu : MonoBehaviour
 
     }
 
+    class Chart
+    {
+        public GameObject[] Chart_player = new GameObject[10];
+        public Transform Place_chart;
+
+        public Chart(GameObject Raw_model_chart_player, Transform place_Chart)
+        {
+            Place_chart = place_Chart;
+
+            for (int i = 0; i < Chart_player.Length; i++)
+            {
+                Chart_player[i] = Instantiate(Raw_model_chart_player, place_Chart);
+                Chart_player[i].GetComponentInChildren<LineRenderer>().SetPosition(0, new Vector3(10, 0, 0));
+                Chart_player[i].GetComponentInChildren<LineRenderer>().SetPosition(1, new Vector3(Player.mission_Collection.last_pos.x, Player.mission_Collection.last_pos.y - 10, 0));
+            }
+        }
+
+
+        public void Draw_chart()
+        {
+
+
+        }
+    }//last_change
 }

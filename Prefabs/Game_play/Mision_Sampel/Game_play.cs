@@ -83,7 +83,7 @@ public class Game_play : MonoBehaviour
             {
                 if (transform.localScale != Vector3.zero)
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
                 }
                 else
@@ -92,7 +92,7 @@ public class Game_play : MonoBehaviour
                     {
                         if (transform.localScale != Vector3.one)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.1f);
                         }
                         else
@@ -118,7 +118,8 @@ public class Game_play : MonoBehaviour
 
                     if (start_mision == 1)
                     {
-                        await Task.Delay(100);
+                        await Task.Delay(100);//sabet bayad 100 bashe
+
                         Text_Time_number.text = System.Math.Round(Time_local, 1).ToString();
                         Time_local += 0.1f;
                         Slider.Change_entity_slider(Time_local, TotallClick);
@@ -127,7 +128,7 @@ public class Game_play : MonoBehaviour
                     {
                         Time_local = 0;
 
-                        await Task.Delay(50);
+                        await Task.Delay(1);
 
                     }
                 }
@@ -179,7 +180,7 @@ public class Game_play : MonoBehaviour
                 panel_Zoom_In.Update_panle_zoom(Star, Time_local);
 
                 Time_mision = Time_local;
-
+               
                 if (Reset == 1)
                 {
                     Player.Cam.Move_camera();
@@ -354,7 +355,7 @@ public class Game_play : MonoBehaviour
     /// <summary>
     /// tedad sampel_count hay btn kam mikone ta 2
     /// </summary>
-    public void Press_BTN_Minus_count()
+    public void Press_BTN_Rebeat()
     {
         PlayerPrefs.SetInt("Minus_Count", 20);
 
@@ -389,7 +390,7 @@ public class Game_play : MonoBehaviour
     /// <summary>
     /// vaghti press mishe yeki az gozineha hazf mishe 
     /// </summary>
-    public void Press_BTN_Dellet_BTN()
+    public void Press_BTN_Dellima()
     {
         if (BTNS.Length > 1)
         {
@@ -425,6 +426,7 @@ public class Game_play : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// chek mikone mission age chance dashte bashe kam mikone nadashte bashe reset mione mission 
     /// </summary>
@@ -452,6 +454,7 @@ public class Game_play : MonoBehaviour
                         else
                         {
                             minuse_chance();
+
                             break;
                         }
                     }
@@ -465,16 +468,20 @@ public class Game_play : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Chance") > 0)
             {
+                Handheld.Vibrate();
                 PlayerPrefs.SetInt("Chance", PlayerPrefs.GetInt("Chance") - 1);
             }
             else
             {
+                Handheld.Vibrate();
+                Handheld.Vibrate();
                 Press_BTN_Reset_Mission_raw();
             }
 
 
         }
     }
+
 
     /// <summary>
     /// formul star chek mikone va setare morede nazar bar migardone
@@ -625,7 +632,7 @@ public class Game_play : MonoBehaviour
 
                         if (panel_zoom.transform.localScale != Vector3.one)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.one, 0.1f);
                         }
                         else
@@ -641,7 +648,7 @@ public class Game_play : MonoBehaviour
                     {
                         if (panel_zoom.transform.localScale != Vector3.zero)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.zero, 0.1f);
                         }
                         else
@@ -670,6 +677,7 @@ public class Game_play : MonoBehaviour
             }
         }
 
+
         /// <summary>
         /// camera mibare b mooghiati k behesh midan size cam cam mikone
         /// </summary>
@@ -688,7 +696,7 @@ public class Game_play : MonoBehaviour
                 {
                     if (Player.cam.transform.position != Position_mission)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Position_mission, 0.1f);
                         panel_zoom.transform.localScale = Vector3.MoveTowards(panel_zoom.transform.localScale, Vector3.zero, 0.2f);
 
@@ -701,7 +709,7 @@ public class Game_play : MonoBehaviour
                     {
                         if (Player.cam.orthographicSize >= 6)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             Player.cam.orthographicSize -= 1;
                             if (Player.cam.orthographicSize <= 6)
                             {

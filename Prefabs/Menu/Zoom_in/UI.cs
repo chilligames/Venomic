@@ -18,22 +18,53 @@ public class UI : MonoBehaviour
         Control_Zoom = new Control_zoom(Images_zoom, BTN_zoom, BTN_up_down);
 
     }
+    private void Update()
+    {
+        if (Player.Cam.Zoom == 0)
+        {
+            Force_close_up_down();
+        }
 
-  
+    }
+
+
+    /// <summary>
+    /// zoom mikone camera
+    /// </summary>
     public void Prees_btn_zoom()
     {
         Control_Zoom.Zoom();
     }
 
+
+    /// <summary>
+    /// balaro control mikone va nemizare bish az had cam bere bala
+    /// </summary>
     public void Press_BTN_Up()
     {
         Control_Zoom.Press_BTN_Up();
     }
+
+
+    /// <summary>
+    /// btndown_control mikone va nemizare cam bishaz had bere bala
+    /// </summary>
     public void Press_BTN_down()
     {
         Control_Zoom.Press_BTN_Down();
     }
 
+
+
+    /// <summary>
+    /// age cam zoom shodanesh payan dashte bashe bt jam mishe 
+    /// </summary>
+    void Force_close_up_down()
+    {
+        BTN_up_down[0].transform.localScale = Vector3.MoveTowards(BTN_up_down[0].transform.localScale, Vector3.zero, 0.1f);
+        BTN_up_down[1].transform.localScale = Vector3.MoveTowards(BTN_up_down[1].transform.localScale, Vector3.zero, 0.1f);
+
+    }
 
     class Control_zoom
     {
@@ -67,9 +98,6 @@ public class UI : MonoBehaviour
                 animation_zoom_back();
             }
 
-
-
-
             async void Animation_zoom_in()
             {
 
@@ -79,7 +107,7 @@ public class UI : MonoBehaviour
                     Show_btn_zoom();
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.zero, 0.1f);
 
                         if (BTN_zoom.transform.localScale == Vector3.zero)
@@ -95,7 +123,7 @@ public class UI : MonoBehaviour
                     Show_btn_zoom();
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.one, 0.1f);
                         if (BTN_zoom.transform.localScale == Vector3.one)
                         {
@@ -105,7 +133,6 @@ public class UI : MonoBehaviour
                 }
             }
 
-
             async void animation_zoom_back()
             {
                 if (BTN_zoom.transform.localScale != Vector3.zero)
@@ -113,7 +140,7 @@ public class UI : MonoBehaviour
                     Show_btn_zoom();
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.zero, 0.1f);
                         if (BTN_zoom.transform.localScale == Vector3.zero)
                         {
@@ -128,7 +155,7 @@ public class UI : MonoBehaviour
                 {
                     while (true)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         BTN_zoom.transform.localScale = Vector3.MoveTowards(BTN_zoom.transform.localScale, Vector3.one, 0.1f);
                         if (BTN_zoom.transform.localScale == Vector3.one)
                         {
@@ -139,7 +166,6 @@ public class UI : MonoBehaviour
                 }
             }
 
-
             async void Show_btn_zoom()
             {
                 foreach (var item in BTN_up_down)
@@ -149,7 +175,7 @@ public class UI : MonoBehaviour
                         item.SetActive(true);
                         while (true)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             item.transform.localScale = Vector3.MoveTowards(item.transform.localScale, Vector3.one, 0.1f);
                             if (item.transform.localScale == Vector3.one)
                             {
@@ -162,7 +188,7 @@ public class UI : MonoBehaviour
 
                         while (true)
                         {
-                            await Task.Delay(10);
+                            await Task.Delay(1);
                             item.transform.localScale = Vector3.MoveTowards(item.transform.localScale, Vector3.zero, 0.1f);
                             if (item.transform.localScale == Vector3.zero)
                             {
@@ -198,7 +224,7 @@ public class UI : MonoBehaviour
                 {
                     if (Player.cam.transform.position != next_pos_move)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, next_pos_move, 1f);
                     }
                     else
@@ -208,7 +234,6 @@ public class UI : MonoBehaviour
                 }
             }
         }
-
 
 
         /// <summary>
@@ -228,7 +253,7 @@ public class UI : MonoBehaviour
                 {
                     if (Player.cam.transform.position != Pos_previsue)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(1);
                         Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Pos_previsue, 1f);
                     }
                     else
@@ -240,7 +265,7 @@ public class UI : MonoBehaviour
         }
 
 
-
     }
 }
+
 
