@@ -31,13 +31,12 @@ public class Menu : MonoBehaviour
 
         async void Change_user_name()
         {
-
             while (true)
             {
                 try
                 {
-                    Text_Username.text = user_panels.Identites_split(User_Panels.Identites_selection.Nickname);
-                    if (user_panels.Identites_split(User_Panels.Identites_selection.Nickname).Length > 1)
+                    Text_Username.text = user_panels.Identites_split(User_Panels.Info_selection.Nickname);
+                    if (user_panels.Identites_split(User_Panels.Info_selection.Nickname).Length > 1)
                     {
                         break;
                     }
@@ -47,8 +46,8 @@ public class Menu : MonoBehaviour
                     await Task.Delay(1);
                 }
             }
-
         }
+
     }
 
 
@@ -178,12 +177,13 @@ public class Menu : MonoBehaviour
 
     }
 
+
     class User_Panels
     {
         TextMeshProUGUI Text_username;
         public string _id = "";
         public string Avatar = "";
-        public object Identities;
+        public object Info;
         public object[] Ban = { };
         public object[] Friends = { };
         public object[] Log = { };
@@ -213,7 +213,7 @@ public class Menu : MonoBehaviour
                 {
                     _id = Result_login._id;
                     Avatar = Result_login.Avatar;
-                    Identities = Result_login.Identities;
+                    Info = Result_login.Info;
                     Ban = Result_login.Ban;
                     Friends = Result_login.Friends;
                     Log = Result_login.Log;
@@ -243,13 +243,12 @@ public class Menu : MonoBehaviour
         }
 
 
-
         /// <summary>
         /// seay mikone recive kone info player
         /// </summary>
         /// <param name="Select_identite"></param>
         /// <returns></returns>
-        public string Identites_split(Identites_selection Select_identite)
+        public string Identites_split(Info_selection Select_identite)
         {
             string result = null;
             recive();
@@ -262,25 +261,25 @@ public class Menu : MonoBehaviour
                     {
                         switch (Select_identite)
                         {
-                            case Identites_selection.Username:
+                            case Info_selection.Username:
                                 {
-                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Username.ToString();
+                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Username.ToString();
                                 }
                                 break;
 
-                            case Identites_selection.Password:
+                            case Info_selection.Password:
                                 {
-                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Password.ToString();
+                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Password.ToString();
                                 }
                                 break;
-                            case Identites_selection.Email:
+                            case Info_selection.Email:
                                 {
-                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Email.ToString();
+                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Email.ToString();
                                 }
                                 break;
-                            case Identites_selection.Nickname:
+                            case Info_selection.Nickname:
                                 {
-                                    result = ChilligamesJson.DeserializeObject<Identites_model>(Identities.ToString()).Nickname.ToString();
+                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Nickname.ToString();
                                 }
                                 break;
                         }
@@ -301,12 +300,13 @@ public class Menu : MonoBehaviour
         }
 
 
-        public enum Identites_selection
+        public enum Info_selection
         {
             Username, Password, Email, Nickname
         }
 
     }
+
 
     class Chart
     {
