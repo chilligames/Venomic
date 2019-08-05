@@ -13,7 +13,7 @@ public class Menu : MonoBehaviour
     public TextMeshPro[] Text_Stars_num;
     public TextMeshProUGUI Text_Username;
     public Transform Place_panel_Chart;
-    public GameObject Raw_player_chart;
+    public GameObject Raw_stars_panel;
     Status_Stars_model status_Stars;
     User_Panels user_panels;
     Chart Chart_player;
@@ -24,11 +24,10 @@ public class Menu : MonoBehaviour
         user_panels = new User_Panels(Text_Username);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
-        Chart_player = new Chart(Raw_player_chart, Place_panel_Chart);
+        Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
 
         user_panels.Quick_Login(Change_user_name);
 
-        Change_user_name();
 
         void Change_user_name()
         {
@@ -281,27 +280,23 @@ public class Menu : MonoBehaviour
 
     class Chart
     {
-        public GameObject[] Chart_player = new GameObject[5];
+        public GameObject[] Panel_star;
         public Transform Place_chart;
 
-        public Chart(GameObject Raw_model_chart_player, Transform place_Chart)
+
+        public Chart(GameObject Raw_model_panel_stars, Transform place_Chart)
         {
             Place_chart = place_Chart;
-
-            for (int i = 0; i < Chart_player.Length; i++)
+            Panel_star = new GameObject[Player.mission_Collection.Collection.Length];
+            for (int i = 0; i < Panel_star.Length; i++)
             {
-                Chart_player[i] = Instantiate(Raw_model_chart_player, place_Chart);
-                Chart_player[i].GetComponentInChildren<LineRenderer>().SetPosition(0, new Vector3(10, 0, 0));
-                Chart_player[i].GetComponentInChildren<LineRenderer>().SetPosition(1, new Vector3(Player.mission_Collection.last_pos.x, Player.mission_Collection.last_pos.y - 10, 0));
+                Vector3 pos_panel_star = new Vector3(Player.mission_Collection.Collection[i].transform.position.x, Player.mission_Collection.Collection[i].transform.position.y - 30, 0);
+                Panel_star[i] = Instantiate(Raw_model_panel_stars, pos_panel_star, Quaternion.identity, place_Chart);
             }
         }
 
 
-        public void Draw_chart()
-        {
 
-
-        }
     }
 
 }
