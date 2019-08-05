@@ -26,26 +26,13 @@ public class Menu : MonoBehaviour
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
         Chart_player = new Chart(Raw_player_chart, Place_panel_Chart);
 
-        user_panels.Quick_Login();
+        user_panels.Quick_Login(Change_user_name);
+
         Change_user_name();
 
-        async void Change_user_name()
+        void Change_user_name()
         {
-            while (true)
-            {
-                try
-                {
-                    Text_Username.text = user_panels.Identites_split(User_Panels.Info_selection.Nickname);
-                    if (user_panels.Identites_split(User_Panels.Info_selection.Nickname).Length > 1)
-                    {
-                        break;
-                    }
-                }
-                catch (System.NullReferenceException)
-                {
-                    await Task.Delay(1);
-                }
-            }
+            Text_Username.text = user_panels.Identites_split(User_Panels.Info_selection.Nickname);
         }
 
     }
@@ -205,7 +192,7 @@ public class Menu : MonoBehaviour
         /// <summary>
         /// quick login mikone va meghdar hay player por mikone 
         /// </summary>
-        public void Quick_Login()
+        public void Quick_Login(System.Action acti)
         {
             if (PlayerPrefs.GetString("Token_Player").Length > 3)
             {
@@ -225,6 +212,8 @@ public class Menu : MonoBehaviour
                     Wallet = Result_login.Wallet;
                     Servers = Result_login.Servers;
 
+                    acti();
+
                 }, null);
             }
             else
@@ -235,7 +224,7 @@ public class Menu : MonoBehaviour
 
                     PlayerPrefs.SetString("Token_Player", result._id);
                     print(PlayerPrefs.GetString("Token_Player"));
-                    Quick_Login();
+                    Quick_Login(null);
 
                 }, err => { });
             }
@@ -251,51 +240,33 @@ public class Menu : MonoBehaviour
         public string Identites_split(Info_selection Select_identite)
         {
             string result = null;
-            recive();
 
-            async void recive()
+            switch (Select_identite)
             {
-                while (true)
-                {
-                    try
+                case Info_selection.Username:
                     {
-                        switch (Select_identite)
-                        {
-                            case Info_selection.Username:
-                                {
-                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Username.ToString();
-                                }
-                                break;
-
-                            case Info_selection.Password:
-                                {
-                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Password.ToString();
-                                }
-                                break;
-                            case Info_selection.Email:
-                                {
-                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Email.ToString();
-                                }
-                                break;
-                            case Info_selection.Nickname:
-                                {
-                                    result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Nickname.ToString();
-                                }
-                                break;
-                        }
-
-                        if (result != null)
-                        {
-                            break;
-                        }
-
+                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Username.ToString();
                     }
-                    catch (System.NullReferenceException)
+                    break;
+
+                case Info_selection.Password:
                     {
-                        await Task.Delay(1);
+                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Password.ToString();
                     }
-                }
+                    break;
+                case Info_selection.Email:
+                    {
+                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Email.ToString();
+                    }
+                    break;
+                case Info_selection.Nickname:
+                    {
+                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Nickname.ToString();
+                    }
+                    break;
             }
+
+
             return result;
         }
 
@@ -310,7 +281,7 @@ public class Menu : MonoBehaviour
 
     class Chart
     {
-        public GameObject[] Chart_player = new GameObject[10];
+        public GameObject[] Chart_player = new GameObject[5];
         public Transform Place_chart;
 
         public Chart(GameObject Raw_model_chart_player, Transform place_Chart)
@@ -331,6 +302,6 @@ public class Menu : MonoBehaviour
 
 
         }
-    }//last_change
+    }
 
 }
