@@ -18,10 +18,15 @@ public class Menu : MonoBehaviour
 
     public GameObject Raw_stars_panel;
     public GameObject Raw_other_player;
+    public GameObject[] Panels;
+    public GameObject[] BTN_tabs;
+    public GameObject Holder_background;
+    GameObject Curent_panel;
 
     Status_Stars_model status_Stars;
     User_Panels user_panels;
     Chart Chart_player;
+
 
 
     void Start()
@@ -32,12 +37,12 @@ public class Menu : MonoBehaviour
         Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
         Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
 
+        Curent_panel = Panels[1];
+
         user_panels.Quick_Login(() =>
         {
             Text_Username.text = user_panels.Identites_split(Info_model.Selector_model.Nickname);
         });
-
-
 
     }
 
@@ -45,8 +50,70 @@ public class Menu : MonoBehaviour
     private void Update()
     {
         status_Stars.Change_entity_number();
+
     }
 
+
+    public void Press_BTN_tab(int Tab_number)
+    {
+        animation_curent_panel();
+
+        async void animation_curent_panel()
+        {
+            while (true)
+            {
+                if (Curent_panel.transform.localScale != Vector3.zero)
+                {
+                    await Task.Delay(1);
+                    Curent_panel.transform.localScale = Vector3.MoveTowards(Curent_panel.transform.localScale, Vector3.zero, 0.2f);
+                }
+                else
+                {
+                    Curent_panel.SetActive(false);
+                    show_animation_panel();
+                    break;
+                }
+
+            }
+        }
+
+
+        async void show_animation_panel()
+        {
+            Panels[Tab_number].SetActive(true);
+            while (true)
+            {
+                if (Holder_background.transform.position != BTN_tabs[Tab_number].transform.position)
+                {
+                    await Task.Delay(1);
+                    Holder_background.transform.position = Vector3.MoveTowards(Holder_background.transform.position, BTN_tabs[Tab_number].transform.position, 0.3f);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                if (Panels[Tab_number].transform.localScale != Vector3.one)
+                {
+                    await Task.Delay(1);
+                    Panels[Tab_number].transform.localScale = Vector3.MoveTowards(Panels[Tab_number].transform.localScale, Vector3.one, 0.2f);
+
+                }
+                else
+                {
+                    Curent_panel = Panels[Tab_number];
+
+                    break;
+                }
+
+            }
+
+        }
+
+    }
 
 
     class Status_Stars_model
@@ -279,7 +346,7 @@ public class Menu : MonoBehaviour
 
 
 
-        
+
     }
 
 
@@ -316,5 +383,6 @@ public class Menu : MonoBehaviour
         }
 
     }
+
 
 }
