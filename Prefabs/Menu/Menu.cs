@@ -12,8 +12,13 @@ public class Menu : MonoBehaviour
     public GameObject Panel_stars;
     public TextMeshPro[] Text_Stars_num;
     public TextMeshProUGUI Text_Username;
+
     public Transform Place_panel_Chart;
+    public Transform Place_other_player;
+
     public GameObject Raw_stars_panel;
+    public GameObject Raw_other_player;
+
     Status_Stars_model status_Stars;
     User_Panels user_panels;
     Chart Chart_player;
@@ -25,14 +30,14 @@ public class Menu : MonoBehaviour
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
         Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
+        Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
 
-        user_panels.Quick_Login(Change_user_name);
-
-
-        void Change_user_name()
+        user_panels.Quick_Login(() =>
         {
-            Text_Username.text = user_panels.Identites_split(User_Panels.Info_selection.Nickname);
-        }
+            Text_Username.text = user_panels.Identites_split(Info_model.Selector_model.Nickname);
+        });
+
+
 
     }
 
@@ -155,7 +160,6 @@ public class Menu : MonoBehaviour
                         }
                     }
 
-
                 }
 
             }
@@ -174,17 +178,17 @@ public class Menu : MonoBehaviour
         public object[] Friends = { };
         public object[] Log = { };
         public object[] Files = { };
-        public object[] Data = { };
+        public object Data;
         public object[] Inventory = { };
         public object[] Notifactions = { };
         public object Teams;
-        public object[] Wallet = { };
+        public object Wallet;
         public object[] Servers = { };
 
         public User_Panels(TextMeshProUGUI Text_user_name)
         {
             Text_username = Text_user_name;
-            _id = PlayerPrefs.GetString("Token_Player");
+            _id = PlayerPrefs.GetString("_id");
         }
 
 
@@ -193,9 +197,9 @@ public class Menu : MonoBehaviour
         /// </summary>
         public void Quick_Login(System.Action acti)
         {
-            if (PlayerPrefs.GetString("Token_Player").Length > 3)
+            if (PlayerPrefs.GetString("_id").Length > 3)
             {
-                Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("Token_Player") }, Result_login =>
+                Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("_id") }, Result_login =>
                 {
                     _id = Result_login._id;
                     Avatar = Result_login.Avatar;
@@ -210,7 +214,7 @@ public class Menu : MonoBehaviour
                     Teams = Result_login.Teams;
                     Wallet = Result_login.Wallet;
                     Servers = Result_login.Servers;
-
+                    print("user_login");
                     acti();
 
                 }, null);
@@ -221,8 +225,8 @@ public class Menu : MonoBehaviour
                 Chilligames_SDK.API_Client.Quick_register(result =>
                 {
 
-                    PlayerPrefs.SetString("Token_Player", result._id);
-                    print(PlayerPrefs.GetString("Token_Player"));
+                    PlayerPrefs.SetString("_id", result._id);
+                    print(PlayerPrefs.GetString("_id"));
                     Quick_Login(null);
 
                 }, err => { });
@@ -236,29 +240,29 @@ public class Menu : MonoBehaviour
         /// </summary>
         /// <param name="Select_identite"></param>
         /// <returns></returns>
-        public string Identites_split(Info_selection Select_identite)
+        public string Identites_split(Info_model.Selector_model Select_identite)
         {
             string result = null;
 
             switch (Select_identite)
             {
-                case Info_selection.Username:
+                case Info_model.Selector_model.Username:
                     {
                         result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Username.ToString();
                     }
                     break;
 
-                case Info_selection.Password:
+                case Info_model.Selector_model.Password:
                     {
                         result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Password.ToString();
                     }
                     break;
-                case Info_selection.Email:
+                case Info_model.Selector_model.Email:
                     {
                         result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Email.ToString();
                     }
                     break;
-                case Info_selection.Nickname:
+                case Info_model.Selector_model.Nickname:
                     {
                         result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Nickname.ToString();
                     }
@@ -267,14 +271,15 @@ public class Menu : MonoBehaviour
 
 
             return result;
+
+
+
+
         }
 
 
-        public enum Info_selection
-        {
-            Username, Password, Email, Nickname
-        }
 
+        
     }
 
 
@@ -282,7 +287,7 @@ public class Menu : MonoBehaviour
     {
         public GameObject[] Panel_star;
         public Transform Place_chart;
-
+        public GameObject[] other_player = new GameObject[5];
 
         public Chart(GameObject Raw_model_panel_stars, Transform place_Chart)
         {
@@ -296,6 +301,19 @@ public class Menu : MonoBehaviour
         }
 
 
+        public void Instant_other_player(GameObject raw_model_other_player, Transform place_other_player)
+        {
+            for (int i = 0; i < other_player.Length; i++)
+            {
+                other_player[i] = Instantiate(raw_model_other_player, place_other_player);
+            }
+
+            foreach (var item in other_player)
+            {
+                print(item.GetComponentsInChildren<TextMeshProUGUI>()[0].text);
+            }
+
+        }
 
     }
 
