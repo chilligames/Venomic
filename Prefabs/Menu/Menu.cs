@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Threading.Tasks;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 using Chilligames.Json;
+using UnityEngine.Networking;
+
 public class Menu : MonoBehaviour
 {
     public GameObject Panel_stars;
@@ -21,20 +24,26 @@ public class Menu : MonoBehaviour
     public GameObject[] Panels;
     public GameObject[] BTN_tabs;
     public GameObject Holder_background;
+
     GameObject Curent_panel;
+
 
     Status_Stars_model status_Stars;
     User_Panels user_panels;
     Chart Chart_player;
-
-
+    Panel_Signal Signal;
 
     void Start()
     {
+
         user_panels = new User_Panels(Text_Username);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
         Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
+
+        Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>());
+
+
         Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
 
         Curent_panel = Panels[1];
@@ -53,7 +62,10 @@ public class Menu : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// animation close va animation open ejra mikone
+    /// </summary>
+    /// <param name="Tab_number"></param>
     public void Press_BTN_tab(int Tab_number)
     {
         animation_curent_panel();
@@ -111,6 +123,71 @@ public class Menu : MonoBehaviour
 
             }
 
+        }
+
+    }
+
+
+    class Panel_Signal
+    {
+        Button Button_cheack_net;
+
+        Button.ButtonClickedEvent ButtonClickedEvent = new Button.ButtonClickedEvent();
+
+        public Panel_Signal(Button button_cheack_network)
+        {
+            ButtonClickedEvent.AddListener(Cheack_net);
+            button_cheack_network.onClick = ButtonClickedEvent;
+            Button_cheack_net = button_cheack_network;
+        }
+
+
+        /// <summary>
+        /// net cheack mikone
+        /// </summary>
+        void Cheack_net()
+        {
+            Animation_cheack();
+            Cheack();
+            async void Animation_cheack()
+            {
+
+                TextMeshProUGUI Text_cheack = Button_cheack_net.GetComponentInChildren<TextMeshProUGUI>();
+
+                while (true)
+                {
+                    if (Text_cheack.transform.localScale != Vector3.zero)
+                    {
+                        await Task.Delay(1);
+                        Text_cheack.transform.localScale = Vector3.MoveTowards(Text_cheack.transform.localScale, Vector3.zero, 0.1f);
+                    }
+                    else
+                    {
+                        Text_cheack.text = ". . .";
+                        while (true)
+                        {
+                            if (Text_cheack.transform.localScale != Vector3.one)
+                            {
+                                await Task.Delay(1);
+                                Text_cheack.transform.localScale = Vector3.MoveTowards(Text_cheack.transform.localScale, Vector3.one, 0.1f);
+                            }
+                            else
+                            {
+
+                                break;
+                            }
+                        }
+                        break;
+                    }
+
+                }
+
+            }
+
+            async void Cheack()
+            {
+
+            }
         }
 
     }
@@ -375,10 +452,7 @@ public class Menu : MonoBehaviour
                 other_player[i] = Instantiate(raw_model_other_player, place_other_player);
             }
 
-            foreach (var item in other_player)
-            {
-                print(item.GetComponentsInChildren<TextMeshProUGUI>()[0].text);
-            }
+
 
         }
 
