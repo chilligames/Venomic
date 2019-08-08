@@ -50,7 +50,7 @@ public class Menu : MonoBehaviour
 
         user_panels.Quick_Login(() =>
         {
-            Text_Username.text = user_panels.Identites_split(Info_model.Selector_model.Nickname);
+            Text_Username.text = user_panels.Info_desrialize().Nickname.ToString();
         });
 
     }
@@ -187,6 +187,21 @@ public class Menu : MonoBehaviour
             async void Cheack()
             {
 
+                UnityWebRequest www = UnityWebRequest.Get("https://google.com");
+                www.SendWebRequest();
+                while (true)
+                {
+                    if (www.isDone)
+                    {
+
+                        break;
+                    }
+                    else
+                    {
+                        await Task.Delay(1);
+                    }
+
+                }
             }
         }
 
@@ -384,45 +399,12 @@ public class Menu : MonoBehaviour
         /// </summary>
         /// <param name="Select_identite"></param>
         /// <returns></returns>
-        public string Identites_split(Info_model.Selector_model Select_identite)
+        public Info_model Info_desrialize()
         {
-            string result = null;
+            Info_model Info_desrialise = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString());
 
-            switch (Select_identite)
-            {
-                case Info_model.Selector_model.Username:
-                    {
-                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Username.ToString();
-                    }
-                    break;
-
-                case Info_model.Selector_model.Password:
-                    {
-                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Password.ToString();
-                    }
-                    break;
-                case Info_model.Selector_model.Email:
-                    {
-                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Email.ToString();
-                    }
-                    break;
-                case Info_model.Selector_model.Nickname:
-                    {
-                        result = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString()).Nickname.ToString();
-                    }
-                    break;
-            }
-
-
-            return result;
-
-
-
-
+            return Info_desrialise;
         }
-
-
-
 
     }
 
