@@ -29,19 +29,19 @@ public class Menu : MonoBehaviour
 
 
     Status_Stars_model status_Stars;
-    User_Panels user_panels;
+    User_areas user_panels;
     Chart Chart_player;
     Panel_Signal Signal;
 
     void Start()
     {
 
-        user_panels = new User_Panels(Text_Username);
+        user_panels = new User_areas(Text_Username);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
         Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
 
-        Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>());
+        Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>(), BTN_tabs[0].GetComponent<Button>());
 
 
         Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
@@ -131,14 +131,18 @@ public class Menu : MonoBehaviour
     class Panel_Signal
     {
         Button Button_cheack_net;
-
+        TextMeshProUGUI Text_button;
+        Button Button_tab_signal;
         Button.ButtonClickedEvent ButtonClickedEvent = new Button.ButtonClickedEvent();
 
-        public Panel_Signal(Button button_cheack_network)
+        public Panel_Signal(Button button_cheack_network, Button Tab_signal)
         {
             ButtonClickedEvent.AddListener(Cheack_net);
             button_cheack_network.onClick = ButtonClickedEvent;
             Button_cheack_net = button_cheack_network;
+            Text_button = button_cheack_network.GetComponentInChildren<TextMeshProUGUI>();
+            Button_tab_signal = Tab_signal;
+            Cheack_net();
         }
 
 
@@ -152,24 +156,23 @@ public class Menu : MonoBehaviour
             async void Animation_cheack()
             {
 
-                TextMeshProUGUI Text_cheack = Button_cheack_net.GetComponentInChildren<TextMeshProUGUI>();
 
                 while (true)
                 {
-                    if (Text_cheack.transform.localScale != Vector3.zero)
+                    if (Text_button.transform.localScale != Vector3.zero)
                     {
                         await Task.Delay(1);
-                        Text_cheack.transform.localScale = Vector3.MoveTowards(Text_cheack.transform.localScale, Vector3.zero, 0.1f);
+                        Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.zero, 0.1f);
                     }
                     else
                     {
-                        Text_cheack.text = ". . .";
+                        Text_button.text = ". . .";
                         while (true)
                         {
-                            if (Text_cheack.transform.localScale != Vector3.one)
+                            if (Text_button.transform.localScale != Vector3.one)
                             {
                                 await Task.Delay(1);
-                                Text_cheack.transform.localScale = Vector3.MoveTowards(Text_cheack.transform.localScale, Vector3.one, 0.1f);
+                                Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.one, 0.1f);
                             }
                             else
                             {
@@ -186,21 +189,40 @@ public class Menu : MonoBehaviour
 
             async void Cheack()
             {
-
-                UnityWebRequest www = UnityWebRequest.Get("https://google.com");
+                UnityWebRequest www = UnityWebRequest.Get("http://google.com");
                 www.SendWebRequest();
                 while (true)
                 {
                     if (www.isDone)
                     {
-
+                        Button_cheack_net.GetComponent<Image>().fillAmount = 1;
+                        Button_cheack_net.GetComponent<Image>().color = Color.green;
+                        Text_button.text = "Good Connection";
+                        while (true) //animation color_signal
+                        {
+                            if (Button_tab_signal.GetComponentInChildren<RawImage>().color != Color.green)
+                            {
+                                await Task.Delay(1);
+                                Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.Lerp(Button_tab_signal.GetComponentInChildren<RawImage>().color, Color.green, 0.1f);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                         break;
                     }
                     else
                     {
+                        Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.red;
+                        Button_cheack_net.GetComponent<Image>().fillAmount = www.downloadProgress;
                         await Task.Delay(1);
+                        if (www.isNetworkError || www.isHttpError || www.timeout == 1)
+                        {
+                            print("error_signal");
+                            break;
+                        }
                     }
-
                 }
             }
         }
@@ -327,7 +349,7 @@ public class Menu : MonoBehaviour
     }
 
 
-    class User_Panels
+    class User_areas
     {
         TextMeshProUGUI Text_username;
         public string _id = "";
@@ -344,7 +366,7 @@ public class Menu : MonoBehaviour
         public object Wallet;
         public object[] Servers = { };
 
-        public User_Panels(TextMeshProUGUI Text_user_name)
+        public User_areas(TextMeshProUGUI Text_user_name)
         {
             Text_username = Text_user_name;
             _id = PlayerPrefs.GetString("_id");
