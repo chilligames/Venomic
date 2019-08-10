@@ -15,6 +15,8 @@ public class Menu : MonoBehaviour
     public GameObject Panel_stars;
     public TextMeshPro[] Text_Stars_num;
     public TextMeshProUGUI Text_Username;
+    public Color Color_select_tab;
+    public Color Color_deselect_tab;
 
     public Transform Place_panel_Chart;
     public Transform Place_other_player;
@@ -26,12 +28,13 @@ public class Menu : MonoBehaviour
     public GameObject Holder_background;
 
     GameObject Curent_panel;
-
+    GameObject Curent_Tab;
 
     Status_Stars_model status_Stars;
     User_areas user_panels;
     Chart Chart_player;
     Panel_Signal Signal;
+
 
     void Start()
     {
@@ -47,7 +50,7 @@ public class Menu : MonoBehaviour
         Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
 
         Curent_panel = Panels[1];
-
+        Curent_Tab = BTN_tabs[1];
         user_panels.Quick_Login(() =>
         {
             Text_Username.text = user_panels.Info_desrialize().Nickname.ToString();
@@ -62,12 +65,15 @@ public class Menu : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// animation close va animation open ejra mikone
     /// </summary>
     /// <param name="Tab_number"></param>
     public void Press_BTN_tab(int Tab_number)
     {
+        Change_color_tab_BTN();
+
         animation_curent_panel();
 
         async void animation_curent_panel()
@@ -89,6 +95,38 @@ public class Menu : MonoBehaviour
             }
         }
 
+
+
+        async void Change_color_tab_BTN()
+        {
+            while (true)
+            {
+                if (BTN_tabs[Tab_number].GetComponentInChildren<RawImage>().color != Color_select_tab)
+                {
+                    await Task.Delay(1);
+                    BTN_tabs[Tab_number].GetComponentInChildren<RawImage>().color = Color.Lerp(BTN_tabs[Tab_number].GetComponentInChildren<RawImage>().color, Color_select_tab, 0.5f);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+
+                if (Curent_Tab.GetComponentInChildren<RawImage>().color != Color_deselect_tab)
+                {
+                    await Task.Delay(1);
+                    Curent_Tab.GetComponentInChildren<RawImage>().color = Color.Lerp(Curent_Tab.GetComponentInChildren<RawImage>().color, Color_deselect_tab, 0.5f);
+                }
+                else
+                {
+                    Curent_Tab = BTN_tabs[Tab_number];
+                    break;
+                }
+            }
+        }
 
         async void show_animation_panel()
         {
@@ -122,6 +160,10 @@ public class Menu : MonoBehaviour
                 }
 
             }
+
+
+
+
 
         }
 

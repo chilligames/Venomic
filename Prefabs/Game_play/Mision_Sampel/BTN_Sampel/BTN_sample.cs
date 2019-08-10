@@ -32,7 +32,7 @@ public class BTN_sample : MonoBehaviour
                 if (transform.localScale != Vector3.zero)
                 {
                     await Task.Delay(1);
-                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.2f);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.5f);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ public class BTN_sample : MonoBehaviour
                         await Task.Delay(1);
                         if (transform.localScale != Vector3.one)
                         {
-                            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.2f);
+                            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.5f);
                         }
                         else
                         {
@@ -135,38 +135,39 @@ public class BTN_sample : MonoBehaviour
 
         async void Animation_show()
         {
+
+
             for (int i = 0; i < Sampel_Click; i++) //chek mikone freez bodano 
             {
                 if (Freez == 1)
                 {
                     await Task.Delay(2000);
+                    await animation_hint();
                 }
                 else
                 {
-                    await Task.Delay(700);
+                    await Task.Delay(1000);
+                    await animation_hint();
                 }
-                animation_hint();
             }
             Freez = 0;
         }
 
-        async void animation_hint()
+        async Task animation_hint()
         {
             while (true)
             {
-
                 if (transform.localScale != Vector3.zero)
                 {
                     await Task.Delay(1);
-
-                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.1f);
+                    transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, 0.4f);
                 }
                 else
                 {
                     while (true)
                     {
                         await Task.Delay(1);
-                        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.1f);
+                        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, 0.4f);
                         if (transform.localScale == Vector3.one)
                         {
                             break;
