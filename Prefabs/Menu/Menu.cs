@@ -18,11 +18,7 @@ public class Menu : MonoBehaviour
     public Color Color_select_tab;
     public Color Color_deselect_tab;
 
-    public Transform Place_panel_Chart;
-    public Transform Place_other_player;
 
-    public GameObject Raw_stars_panel;
-    public GameObject Raw_other_player;
     public GameObject[] Panels;
     public GameObject[] BTN_tabs;
     public GameObject Holder_background;
@@ -32,7 +28,6 @@ public class Menu : MonoBehaviour
 
     Status_Stars_model status_Stars;
     User_areas user_panels;
-    Chart Chart_player;
     Panel_Signal Signal;
 
 
@@ -42,12 +37,8 @@ public class Menu : MonoBehaviour
         user_panels = new User_areas(Text_Username);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
-        Chart_player = new Chart(Raw_stars_panel, Place_panel_Chart);
 
         Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>(), BTN_tabs[0].GetComponent<Button>());
-
-
-        Chart_player.Instant_other_player(Raw_other_player, Place_other_player);
 
         Curent_panel = Panels[1];
         Curent_Tab = BTN_tabs[1];
@@ -468,38 +459,6 @@ public class Menu : MonoBehaviour
             Info_model Info_desrialise = ChilligamesJson.DeserializeObject<Info_model>(Info.ToString());
 
             return Info_desrialise;
-        }
-
-    }
-
-
-    class Chart
-    {
-        public GameObject[] Panel_star;
-        public Transform Place_chart;
-        public GameObject[] other_player = new GameObject[5];
-
-        public Chart(GameObject Raw_model_panel_stars, Transform place_Chart)
-        {
-            Place_chart = place_Chart;
-            Panel_star = new GameObject[Player.mission_Collection.Collection.Length];
-            for (int i = 0; i < Panel_star.Length; i++)
-            {
-                Vector3 pos_panel_star = new Vector3(Player.mission_Collection.Collection[i].transform.position.x, Player.mission_Collection.Collection[i].transform.position.y - 30, 0);
-                Panel_star[i] = Instantiate(Raw_model_panel_stars, pos_panel_star, Quaternion.identity, place_Chart);
-            }
-        }
-
-
-        public void Instant_other_player(GameObject raw_model_other_player, Transform place_other_player)
-        {
-            for (int i = 0; i < other_player.Length; i++)
-            {
-                other_player[i] = Instantiate(raw_model_other_player, place_other_player);
-            }
-
-
-
         }
 
     }

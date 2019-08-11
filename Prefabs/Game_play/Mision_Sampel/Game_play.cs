@@ -180,7 +180,7 @@ public class Game_play : MonoBehaviour
                 panel_Zoom_In.Update_panle_zoom(Star, Time_local);
 
                 Time_mision = Time_local;
-               
+
                 if (Reset == 1)
                 {
                     Player.Cam.Move_camera();
@@ -526,7 +526,8 @@ public class Game_play : MonoBehaviour
         public RawImage[] Stars;
         TextMeshProUGUI Text_Time;
         float Time_pass;
-        Color color_off = new Color(0, 0, 0, 0.2f);
+        Color color_no_pass= new Color(0.63f, 0.87f, 0.8f, 0.2f);
+        Color Color_pass = new Color(0.63f, 0.87f, 0.8f, 1f);
         /// <summary>
         /// panel_pass misaze ba panle darkhasti k sazande darre
         /// </summary>
@@ -553,7 +554,7 @@ public class Game_play : MonoBehaviour
 
             for (int i = 0; i < star_count; i++)
             {
-                Stars[i].color = Color.black;
+                Stars[i].color =Color_pass;
             }
 
             Panel_pass.SetActive(true);
@@ -578,7 +579,7 @@ public class Game_play : MonoBehaviour
         {
             for (int i = 0; i < Stars.Length; i++)
             {
-                Stars[i].color = color_off;
+                Stars[i].color = color_no_pass;
             }
         }
 
@@ -592,7 +593,9 @@ public class Game_play : MonoBehaviour
         public GameObject panel_zoom;
         public TextMeshProUGUI[] text_panel_zoom;
         public RawImage[] Stars;
-        Color Color_no_pass = new Color(0, 0, 0, 0.2f);
+        Color Color_no_pass = new Color(0.63f, 0.87f, 0.8f, 0.2f);
+        Color Color_pass = new Color(0.63f, 0.87f, 0.8f, 1f);
+
         public Panel_Zoom_in(GameObject Game_object_Panel_zoom, TextMeshProUGUI[] Texts_panel_zoom, RawImage[] Stars)
         {
             panel_zoom = Game_object_Panel_zoom;
@@ -614,12 +617,9 @@ public class Game_play : MonoBehaviour
             text_panel_zoom[1].text = level.ToString();
             for (int i = 0; i < Stars; i++)
             {
-                this.Stars[i].color = Color.black;
+                this.Stars[i].color = Color_pass;
             }
-            for (int i = 0; i < Stars; i++)
-            {
-                this.Stars[i].color = Color.black;
-            }
+
             animation_show();
 
             async void animation_show()
@@ -659,6 +659,7 @@ public class Game_play : MonoBehaviour
                     }
                 }
             }
+
         }
 
 
@@ -672,7 +673,6 @@ public class Game_play : MonoBehaviour
             text_panel_zoom[0].text = System.Math.Round(Time_local, 1).ToString();
             for (int i = 0; i < Stars.Length; i++)
             {
-                print("Change_color");
                 Stars[i].color = Color_no_pass;
             }
         }
@@ -736,7 +736,7 @@ public class Game_play : MonoBehaviour
     {
         Slider Slider;
         RawImage[] Stars;
-        Color Color_Off = new Color(255, 255, 255, 0.2f);
+        Color Color_Off = new Color(0.63f,0.87f,0.8f, 0.2f);
         public Slider_model(Slider slider, float totallcount, RawImage[] Stars)
         {
             Slider = slider;
@@ -760,19 +760,17 @@ public class Game_play : MonoBehaviour
 
             if (time >= Master)
             {
-                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off, 0.001f);
-
+                Stars[0].color = Color.Lerp(Stars[0].color, Color_Off,0.5f);
             }
             if (time >= Star_3)
             {
-                Stars[1].color = Color.Lerp(Stars[1].color, Color_Off, 0.001f);
+                Stars[1].color = Color.Lerp(Stars[1].color, Color_Off,0.5f);
             }
             if (time >= Star_2)
             {
-                Stars[2].color = Color.Lerp(Stars[2].color, Color_Off, 0.001f);
+                Stars[2].color = Color.Lerp(Stars[2].color, Color_Off, 0.5f);
             }
-
-
+           
         }
 
 
