@@ -46,7 +46,8 @@ public class Menu : MonoBehaviour
         user_panels.Quick_Login(() =>
         {
             Text_Username.text = user_panels.Info_desrialize().Nickname.ToString();
-            user_panels.Update_user();
+            user_panels.Update_user_data();
+            user_panels.Send_Score_to_leader_board();
 
         });
     }
@@ -452,23 +453,52 @@ public class Menu : MonoBehaviour
         }
 
 
-        public void Update_user()
+        /// <summary>
+        /// data player update  az file dakheli  
+        ///
+        /// </summary>
+        public void Update_user_data()
         {
 
             StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
 
             string data_for_send = ChilligamesJson.EscapeToJavascriptString(reader.ReadToEnd());
-            print(data_for_send);
+
             Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data { _id = _id, Name_app = "Venomic", Data_user = data_for_send }, () =>
             {
-                print("send_data");
- 
 
             }, null);
 
-
         }
 
+        /// <summary>
+        /// score mohasebe mikone baed send mikone to leader board 
+        /// </summary>
+        public void Send_Score_to_leader_board()
+        {
+            send_score();
+
+            async void send_score()
+            {
+                int Score = 0;
+
+                StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
+                string data_user = await reader.ReadToEndAsync();
+                var data = JsonUtility.FromJson<Player.Entity_player_model>(data_user);
+
+                foreach (var item in data.S)
+                {
+                    Score += item;
+                }
+
+                Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { _id = _id, Leader_board = "Venomic", Score = Score }, () =>
+                 {
+                     print("score send");
+
+                 }); ;
+
+            }
+        }
 
         /// <summary>
         /// seay mikone recive kone info player
