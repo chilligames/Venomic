@@ -42,11 +42,13 @@ public class Menu : MonoBehaviour
 
         Curent_panel = Panels[1];
         Curent_Tab = BTN_tabs[1];
+
         user_panels.Quick_Login(() =>
         {
             Text_Username.text = user_panels.Info_desrialize().Nickname.ToString();
-        });
+            user_panels.Update_user();
 
+        });
     }
 
 
@@ -380,7 +382,7 @@ public class Menu : MonoBehaviour
         }
 
     }
-     
+
 
     class User_areas
     {
@@ -428,7 +430,9 @@ public class Menu : MonoBehaviour
                     Teams = Result_login.Teams;
                     Wallet = Result_login.Wallet;
                     Servers = Result_login.Servers;
+
                     print("user_login");
+
                     acti();
 
                 }, null);
@@ -438,13 +442,30 @@ public class Menu : MonoBehaviour
                 print("register");
                 Chilligames_SDK.API_Client.Quick_register(result =>
                 {
-
                     PlayerPrefs.SetString("_id", result._id);
                     print(PlayerPrefs.GetString("_id"));
                     Quick_Login(null);
 
                 }, err => { });
             }
+
+        }
+
+
+        public void Update_user()
+        {
+
+            StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
+
+            string data_for_send = ChilligamesJson.EscapeToJavascriptString(reader.ReadToEnd());
+            print(data_for_send);
+            Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data { _id = _id, Name_app = "Venomic", Data_user = data_for_send }, () =>
+            {
+                print("send_data");
+ 
+
+            }, null);
+
 
         }
 
