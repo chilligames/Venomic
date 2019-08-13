@@ -9,7 +9,7 @@ using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 using Chilligames.Json;
 using UnityEngine.Networking;
-
+using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public GameObject Panel_stars;
@@ -30,6 +30,7 @@ public class Menu : MonoBehaviour
 
     Status_Stars_model status_Stars;
     Panel_Signal Signal;
+    Panel_Ranking Ranking;
     User_areas user_panels;
 
 
@@ -41,6 +42,8 @@ public class Menu : MonoBehaviour
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
 
         Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>(), BTN_tabs[0].GetComponent<Button>());
+
+        Ranking = new Panel_Ranking(Panels[2]);
 
         Curent_panel = Panels[1];
         Curent_Tab = BTN_tabs[1];
@@ -68,6 +71,8 @@ public class Menu : MonoBehaviour
     /// <param name="Tab_number"></param>
     public void Press_BTN_tab(int Tab_number)
     {
+        Destroy(user_panels.Sub_panels);
+
         Change_color_tab_BTN();
 
         animation_curent_panel();
@@ -164,109 +169,6 @@ public class Menu : MonoBehaviour
         }
 
     }
-
-
-    class Panel_Signal
-    {
-        Button Button_cheack_net;
-        TextMeshProUGUI Text_button;
-        Button Button_tab_signal;
-        Button.ButtonClickedEvent ButtonClickedEvent = new Button.ButtonClickedEvent();
-
-        public Panel_Signal(Button button_cheack_network, Button Tab_signal)
-        {
-            ButtonClickedEvent.AddListener(Cheack_net);
-            button_cheack_network.onClick = ButtonClickedEvent;
-            Button_cheack_net = button_cheack_network;
-            Text_button = button_cheack_network.GetComponentInChildren<TextMeshProUGUI>();
-            Button_tab_signal = Tab_signal;
-            Cheack_net();
-        }
-
-
-        /// <summary>
-        /// net cheack mikone
-        /// </summary>
-        void Cheack_net()
-        {
-            Animation_cheack();
-            Cheack();
-            async void Animation_cheack()
-            {
-
-
-                while (true)
-                {
-                    if (Text_button.transform.localScale != Vector3.zero)
-                    {
-                        await Task.Delay(1);
-                        Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.zero, 0.1f);
-                    }
-                    else
-                    {
-                        Text_button.text = ". . .";
-                        while (true)
-                        {
-                            if (Text_button.transform.localScale != Vector3.one)
-                            {
-                                await Task.Delay(1);
-                                Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.one, 0.1f);
-                            }
-                            else
-                            {
-
-                                break;
-                            }
-                        }
-                        break;
-                    }
-
-                }
-
-            }
-
-            async void Cheack()
-            {
-                UnityWebRequest www = UnityWebRequest.Get("http://google.com");
-                www.SendWebRequest();
-                while (true)
-                {
-                    if (www.isDone)
-                    {
-                        Button_cheack_net.GetComponent<Image>().fillAmount = 1;
-                        Button_cheack_net.GetComponent<Image>().color = Color.green;
-                        Text_button.text = "Good Connection";
-                        while (true) //animation color_signal
-                        {
-                            if (Button_tab_signal.GetComponentInChildren<RawImage>().color != Color.green)
-                            {
-                                await Task.Delay(1);
-                                Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.Lerp(Button_tab_signal.GetComponentInChildren<RawImage>().color, Color.green, 0.1f);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.red;
-                        Button_cheack_net.GetComponent<Image>().fillAmount = www.downloadProgress;
-                        await Task.Delay(1);
-                        if (www.isNetworkError || www.isHttpError || www.timeout == 1)
-                        {
-                            print("error_signal");
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
 
     class Status_Stars_model
     {
@@ -386,7 +288,6 @@ public class Menu : MonoBehaviour
 
     }
 
-
     class User_areas
     {
         TextMeshProUGUI Text_username;
@@ -395,7 +296,7 @@ public class Menu : MonoBehaviour
         TextMeshProUGUI Text_level_number;
         Button BTN_edit_profile;
         GameObject Curent_panel;
-        GameObject Sub_panels;
+        public GameObject Sub_panels;
         public string _id = "";
         public string Avatar = "";
         public object Info;
@@ -409,6 +310,7 @@ public class Menu : MonoBehaviour
         public object Teams;
         public object Wallet;
         public object[] Servers = { };
+
 
         public User_areas(TextMeshProUGUI Text_user_name, GameObject Panel_home, Transform Place_instant_sub_panel, GameObject[] Sub_panel)
         {
@@ -448,11 +350,11 @@ public class Menu : MonoBehaviour
                         {
                             Button.ButtonClickedEvent Event_BTN = new Button.ButtonClickedEvent();
 
-                            TMP_InputField inputFild_nickname=null;
-                            TMP_InputField inputFild_username=null;
-                            TMP_InputField inputFild_email=null;
-                            TMP_InputField inputField_password=null;
-                            TMP_InputField inputField_status=null;
+                            TMP_InputField inputFild_nickname = null;
+                            TMP_InputField inputFild_username = null;
+                            TMP_InputField inputFild_email = null;
+                            TMP_InputField inputField_password = null;
+                            TMP_InputField inputField_status = null;
 
                             Event_BTN.AddListener(Press_btn__Edit);
 
@@ -476,7 +378,7 @@ public class Menu : MonoBehaviour
                                         case "IFUEP":
                                             {
                                                 inputFild_username = Inputfilds;
-                                                print(inputFild_username.text);
+
                                             }
                                             break;
                                         case "IFEEP":
@@ -521,8 +423,14 @@ public class Menu : MonoBehaviour
                                                 Button.ButtonClickedEvent Submit_change = new Button.ButtonClickedEvent();
                                                 Submit_change.AddListener(() =>
                                                 {
-                                                    print("reqsend");
-                                                    Chilligames_SDK.API_Client.Update_User_Info(new Req_Update_User_Info {Email=inputFild_email.text,Nickname=inputFild_nickname.text,Password=inputField_password.text,status=inputField_status.text,Username=inputFild_username.text,_id=_id }, null, null);
+
+
+                                                    Chilligames_SDK.API_Client.Update_User_Info(new Req_Update_User_Info { Email = inputFild_email.text, Nickname = inputFild_nickname.text, Password = inputField_password.text, status = inputField_status.text, Username = inputFild_username.text, _id = _id }, () =>
+                                                    {
+                                                        SceneManager.LoadScene(0);
+
+
+                                                    }, null);
 
                                                 });
 
@@ -662,5 +570,128 @@ public class Menu : MonoBehaviour
 
     }
 
+
+    class Panel_Signal
+    {
+        Button Button_cheack_net;
+        TextMeshProUGUI Text_button;
+        Button Button_tab_signal;
+        Button.ButtonClickedEvent ButtonClickedEvent = new Button.ButtonClickedEvent();
+
+        public Panel_Signal(Button button_cheack_network, Button Tab_signal)
+        {
+            ButtonClickedEvent.AddListener(Cheack_net);
+            button_cheack_network.onClick = ButtonClickedEvent;
+            Button_cheack_net = button_cheack_network;
+            Text_button = button_cheack_network.GetComponentInChildren<TextMeshProUGUI>();
+            Button_tab_signal = Tab_signal;
+            Cheack_net();
+        }
+
+
+        /// <summary>
+        /// net cheack mikone
+        /// </summary>
+        void Cheack_net()
+        {
+            Animation_cheack();
+            Cheack();
+            async void Animation_cheack()
+            {
+
+
+                while (true)
+                {
+                    if (Text_button.transform.localScale != Vector3.zero)
+                    {
+                        await Task.Delay(1);
+                        Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.zero, 0.1f);
+                    }
+                    else
+                    {
+                        Text_button.text = ". . .";
+                        while (true)
+                        {
+                            if (Text_button.transform.localScale != Vector3.one)
+                            {
+                                await Task.Delay(1);
+                                Text_button.transform.localScale = Vector3.MoveTowards(Text_button.transform.localScale, Vector3.one, 0.1f);
+                            }
+                            else
+                            {
+
+                                break;
+                            }
+                        }
+                        break;
+                    }
+
+                }
+
+            }
+
+            async void Cheack()
+            {
+                UnityWebRequest www = UnityWebRequest.Get("http://google.com");
+                www.SendWebRequest();
+                while (true)
+                {
+                    if (www.isDone)
+                    {
+                        Button_cheack_net.GetComponent<Image>().fillAmount = 1;
+                        Button_cheack_net.GetComponent<Image>().color = Color.green;
+                        Text_button.text = "Good Connection";
+                        while (true) //animation color_signal
+                        {
+                            if (Button_tab_signal.GetComponentInChildren<RawImage>().color != Color.green)
+                            {
+                                await Task.Delay(1);
+                                Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.Lerp(Button_tab_signal.GetComponentInChildren<RawImage>().color, Color.green, 0.1f);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.red;
+                        Button_cheack_net.GetComponent<Image>().fillAmount = www.downloadProgress;
+                        await Task.Delay(1);
+                        if (www.isNetworkError || www.isHttpError || www.timeout == 1)
+                        {
+                            print("error_signal");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+
+    class Panel_Ranking
+    {
+
+        Button BTN_Right;
+        Button BTN_left;
+        Button BTN_MMR;
+        Button BTN_Top_player;
+        Button BTN_servers;
+        Button BTN_nearby;
+
+
+        public Panel_Ranking(GameObject Panel_ranking)
+        {
+         
+        }
+
+
+    }
 
 }
