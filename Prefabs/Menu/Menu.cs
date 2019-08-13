@@ -23,18 +23,20 @@ public class Menu : MonoBehaviour
     public GameObject[] BTN_tabs;
     public GameObject Holder_background;
 
+    public GameObject[] Sub_panel_home;
+
     GameObject Curent_panel;
     GameObject Curent_Tab;
 
     Status_Stars_model status_Stars;
-    User_areas user_panels;
     Panel_Signal Signal;
+    User_areas user_panels;
 
 
     void Start()
     {
 
-        user_panels = new User_areas(Text_Username);
+        user_panels = new User_areas(Text_Username, Panels[1], transform, Sub_panel_home);
 
         status_Stars = new Status_Stars_model(Text_Stars_num, Panel_stars);
 
@@ -388,6 +390,12 @@ public class Menu : MonoBehaviour
     class User_areas
     {
         TextMeshProUGUI Text_username;
+        TextMeshProUGUI Text_Rank_number;
+        TextMeshProUGUI Text_Stars_number;
+        TextMeshProUGUI Text_level_number;
+        Button BTN_edit_profile;
+        GameObject Curent_panel;
+        GameObject Sub_panel;
         public string _id = "";
         public string Avatar = "";
         public object Info;
@@ -402,10 +410,94 @@ public class Menu : MonoBehaviour
         public object Wallet;
         public object[] Servers = { };
 
-        public User_areas(TextMeshProUGUI Text_user_name)
+        public User_areas(TextMeshProUGUI Text_user_name, GameObject Panel_home, Transform Place_instant_sub_panel, GameObject[] Sub_panel)
         {
             Text_username = Text_user_name;
             _id = PlayerPrefs.GetString("_id");
+            Curent_panel = Panel_home;
+
+            foreach (var item in Panel_home.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                switch (item.name)
+                {
+                    case "Text_Stars_number":
+                        {
+                            Text_Stars_number = item;
+                        }
+                        break;
+                    case "Text_Rank_number":
+                        {
+                            Text_Rank_number = item;
+                        }
+                        break;
+                    case "Text_level_number":
+                        {
+                            Text_level_number = item;
+                        }
+                        break;
+                }
+
+            }
+
+
+            foreach (var item in Panel_home.GetComponentsInChildren<Button>())
+            {
+                switch (item.name)
+                {
+                    case "BEP":
+                        {
+                            Button.ButtonClickedEvent Event_BTN = new Button.ButtonClickedEvent();
+                            Event_BTN.AddListener(Press_btn__Edit);
+
+                            BTN_edit_profile = item;
+                            BTN_edit_profile.onClick = Event_BTN;
+
+                            void Press_btn__Edit()
+                            {
+                                this.Sub_panel = Instantiate(Sub_panel[0], Place_instant_sub_panel);
+                                Curent_panel.SetActive(false);
+
+                                foreach (var BTNS in this.Sub_panel.GetComponentsInChildren<Button>())
+                                {
+                                    switch (BTNS.name)
+                                    {
+                                        case "BCEP":
+                                            {
+                                                Button.ButtonClickedEvent Event_Close = new Button.ButtonClickedEvent();
+                                                Event_Close.AddListener(() =>
+                                                {
+                                                    Curent_panel.SetActive(true);
+                                                    Destroy(this.Sub_panel);
+
+
+                                                });
+
+                                                BTNS.onClick = Event_Close;
+                                            }
+                                            break;
+                                        case "BSEP":
+                                            {
+                                                Button.ButtonClickedEvent Submit_change= new Button.ButtonClickedEvent();
+                                                Submit_change.AddListener(() => {
+
+
+
+                                                });
+
+                                                BTNS.onClick = Submit_change ;
+
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+
+
+                        }
+                        break;
+                }
+            }
+
         }
 
 
@@ -455,7 +547,6 @@ public class Menu : MonoBehaviour
 
         /// <summary>
         /// data player update  az file dakheli  
-        ///
         /// </summary>
         public void Update_user_data()
         {
@@ -471,8 +562,10 @@ public class Menu : MonoBehaviour
 
         }
 
+
         /// <summary>
         /// score mohasebe mikone baed send mikone to leader board 
+        /// meghdar hay rank star mision update mishe 
         /// </summary>
         public void Send_Score_to_leader_board()
         {
@@ -491,7 +584,18 @@ public class Menu : MonoBehaviour
                     Score += item;
                 }
 
-                Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { _id = _id, Leader_board = "Venomic", Score = Score }, () =>
+                Text_Stars_number.text = Score.ToString();
+                Text_level_number.text = (data.Pos_G.Length - 1).ToString();
+
+
+                Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic", _id = _id }, result =>
+                {
+
+                    Text_Rank_number.text = result;
+
+                }, err => { });
+
+                Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { _id = _id, Leader_board_name = "Venomic", Score = Score }, () =>
                  {
                      print("score send");
 
@@ -499,6 +603,7 @@ public class Menu : MonoBehaviour
 
             }
         }
+
 
         /// <summary>
         /// seay mikone recive kone info player
