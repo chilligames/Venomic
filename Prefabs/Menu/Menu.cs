@@ -395,7 +395,7 @@ public class Menu : MonoBehaviour
         TextMeshProUGUI Text_level_number;
         Button BTN_edit_profile;
         GameObject Curent_panel;
-        GameObject Sub_panel;
+        GameObject Sub_panels;
         public string _id = "";
         public string Avatar = "";
         public object Info;
@@ -440,24 +440,66 @@ public class Menu : MonoBehaviour
             }
 
 
-            foreach (var item in Panel_home.GetComponentsInChildren<Button>())
+            foreach (var BTN_panel_home in Panel_home.GetComponentsInChildren<Button>())
             {
-                switch (item.name)
+                switch (BTN_panel_home.name)
                 {
                     case "BEP":
                         {
                             Button.ButtonClickedEvent Event_BTN = new Button.ButtonClickedEvent();
+
+                            TMP_InputField inputFild_nickname=null;
+                            TMP_InputField inputFild_username=null;
+                            TMP_InputField inputFild_email=null;
+                            TMP_InputField inputField_password=null;
+                            TMP_InputField inputField_status=null;
+
                             Event_BTN.AddListener(Press_btn__Edit);
 
-                            BTN_edit_profile = item;
+                            BTN_edit_profile = BTN_panel_home;
                             BTN_edit_profile.onClick = Event_BTN;
 
                             void Press_btn__Edit()
                             {
-                                this.Sub_panel = Instantiate(Sub_panel[0], Place_instant_sub_panel);
+                                Sub_panels = Instantiate(Sub_panel[0], Place_instant_sub_panel);
                                 Curent_panel.SetActive(false);
 
-                                foreach (var BTNS in this.Sub_panel.GetComponentsInChildren<Button>())
+                                foreach (var Inputfilds in Sub_panels.GetComponentsInChildren<TMP_InputField>())
+                                {
+                                    switch (Inputfilds.name)
+                                    {
+                                        case "IFNEP":
+                                            {
+                                                inputFild_nickname = Inputfilds;
+                                            }
+                                            break;
+                                        case "IFUEP":
+                                            {
+                                                inputFild_username = Inputfilds;
+                                                print(inputFild_username.text);
+                                            }
+                                            break;
+                                        case "IFEEP":
+                                            {
+                                                inputFild_email = Inputfilds;
+                                            }
+                                            break;
+                                        case "IFPEP":
+                                            {
+                                                inputField_password = Inputfilds;
+
+                                            }
+                                            break;
+                                        case "IFSEP":
+                                            {
+                                                inputField_status = Inputfilds;
+                                            }
+                                            break;
+                                    }
+
+                                }
+
+                                foreach (var BTNS in Sub_panels.GetComponentsInChildren<Button>())
                                 {
                                     switch (BTNS.name)
                                     {
@@ -467,8 +509,7 @@ public class Menu : MonoBehaviour
                                                 Event_Close.AddListener(() =>
                                                 {
                                                     Curent_panel.SetActive(true);
-                                                    Destroy(this.Sub_panel);
-
+                                                    Destroy(Sub_panels);
 
                                                 });
 
@@ -477,19 +518,21 @@ public class Menu : MonoBehaviour
                                             break;
                                         case "BSEP":
                                             {
-                                                Button.ButtonClickedEvent Submit_change= new Button.ButtonClickedEvent();
-                                                Submit_change.AddListener(() => {
-
-
+                                                Button.ButtonClickedEvent Submit_change = new Button.ButtonClickedEvent();
+                                                Submit_change.AddListener(() =>
+                                                {
+                                                    print("reqsend");
+                                                    Chilligames_SDK.API_Client.Update_User_Info(new Req_Update_User_Info {Email=inputFild_email.text,Nickname=inputFild_nickname.text,Password=inputField_password.text,status=inputField_status.text,Username=inputFild_username.text,_id=_id }, null, null);
 
                                                 });
 
-                                                BTNS.onClick = Submit_change ;
+                                                BTNS.onClick = Submit_change;
 
                                             }
                                             break;
                                     }
                                 }
+
                             }
 
 

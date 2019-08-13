@@ -375,7 +375,7 @@ GameObject:
   m_Component:
   - component: {fileID: 771176544}
   m_Layer: 5
-  m_Name: BSEP
+  m_Name: BTN_submit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 783181733}
   - component: {fileID: 783181732}
   m_Layer: 5
-  m_Name: InputField_Email
+  m_Name: IFEEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,14 +524,14 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 4
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 4
+  m_CharacterValidation: 7
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 983026718}
   - component: {fileID: 983026717}
   m_Layer: 5
-  m_Name: InputFieldL_User_name
+  m_Name: IFUEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1106,7 +1106,7 @@ GameObject:
   - component: {fileID: 1075916836}
   - component: {fileID: 1075916835}
   m_Layer: 5
-  m_Name: InputFieldL_nickname
+  m_Name: IFNEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1452,7 +1452,7 @@ GameObject:
   - component: {fileID: 1116357805}
   - component: {fileID: 1116357804}
   m_Layer: 5
-  m_Name: InputField_status
+  m_Name: IFSEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2129,7 +2129,7 @@ GameObject:
   - component: {fileID: 1463529903}
   - component: {fileID: 1463529902}
   m_Layer: 5
-  m_Name: InputField_Password
+  m_Name: IFPEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2239,14 +2239,14 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 4
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 4
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -2526,7 +2526,7 @@ GameObject:
   - component: {fileID: 1550137400}
   - component: {fileID: 1550137399}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BSEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3276,7 +3276,7 @@ GameObject:
   - component: {fileID: 1714803095}
   - component: {fileID: 1714803096}
   m_Layer: 5
-  m_Name: Close
+  m_Name: BTN_Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
