@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
     public TextMeshProUGUI Text_Username;
     public Color Color_select_tab;
     public Color Color_deselect_tab;
+    public GameObject Raw_model_ranking;
 
 
     public GameObject[] Panels;
@@ -24,8 +25,10 @@ public class Menu : MonoBehaviour
     public GameObject Holder_background;
 
     public GameObject[] Sub_panel_home;
+    public GameObject[] Sub_panel_Ranking;
 
     GameObject Curent_panel;
+    GameObject Curent_sub_panel;
     GameObject Curent_Tab;
 
     Status_Stars_model status_Stars;
@@ -43,7 +46,8 @@ public class Menu : MonoBehaviour
 
         Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>(), BTN_tabs[0].GetComponent<Button>());
 
-        Ranking = new Panel_Ranking(Panels[2]);
+        Ranking = new Panel_Ranking(Panels[2], Raw_model_ranking, Sub_panel_Ranking, transform);
+
 
         Curent_panel = Panels[1];
         Curent_Tab = BTN_tabs[1];
@@ -71,11 +75,24 @@ public class Menu : MonoBehaviour
     /// <param name="Tab_number"></param>
     public void Press_BTN_tab(int Tab_number)
     {
-        Destroy(user_panels.Sub_panels);
+
+
+        Close_sub_panels();
 
         Change_color_tab_BTN();
 
         animation_curent_panel();
+
+        if (Tab_number == 2)
+        {
+            Ranking.Recive_ranking(user_panels._id);
+        }
+
+        void Close_sub_panels()
+        {
+            Destroy(Ranking.Curent_sub_panel);
+            Destroy(user_panels.Sub_panels);
+        }
 
         async void animation_curent_panel()
         {
@@ -95,8 +112,6 @@ public class Menu : MonoBehaviour
 
             }
         }
-
-
 
         async void Change_color_tab_BTN()
         {
@@ -169,6 +184,7 @@ public class Menu : MonoBehaviour
         }
 
     }
+
 
     class Status_Stars_model
     {
@@ -288,6 +304,19 @@ public class Menu : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// keys: 
+    /// IFNEP: inputfild_Nickname_edit_panel
+    /// IFUEP: inputfild_username_edit_panel
+    /// IFEEP: inputfild_Email_edit_panel
+    /// IFPEP: inputfild_password_edit_panel
+    /// IFSEP: inputfild_status_edit_panel
+    /// 
+    /// 
+    /// BCEP: button_Close_edit_panel
+    /// BSEP: button_submit_edit_panel
+    /// </summary>
     class User_areas
     {
         TextMeshProUGUI Text_username;
@@ -348,7 +377,6 @@ public class Menu : MonoBehaviour
                 {
                     case "BEP":
                         {
-                            Button.ButtonClickedEvent Event_BTN = new Button.ButtonClickedEvent();
 
                             TMP_InputField inputFild_nickname = null;
                             TMP_InputField inputFild_username = null;
@@ -356,10 +384,9 @@ public class Menu : MonoBehaviour
                             TMP_InputField inputField_password = null;
                             TMP_InputField inputField_status = null;
 
-                            Event_BTN.AddListener(Press_btn__Edit);
 
                             BTN_edit_profile = BTN_panel_home;
-                            BTN_edit_profile.onClick = Event_BTN;
+                            BTN_edit_profile.onClick.AddListener(Press_btn__Edit);
 
                             void Press_btn__Edit()
                             {
@@ -407,34 +434,22 @@ public class Menu : MonoBehaviour
                                     {
                                         case "BCEP":
                                             {
-                                                Button.ButtonClickedEvent Event_Close = new Button.ButtonClickedEvent();
-                                                Event_Close.AddListener(() =>
+                                                BTNS.onClick.AddListener(() =>
                                                 {
                                                     Curent_panel.SetActive(true);
                                                     Destroy(Sub_panels);
-
                                                 });
-
-                                                BTNS.onClick = Event_Close;
                                             }
                                             break;
                                         case "BSEP":
                                             {
-                                                Button.ButtonClickedEvent Submit_change = new Button.ButtonClickedEvent();
-                                                Submit_change.AddListener(() =>
+                                                BTNS.onClick.AddListener(() =>
                                                 {
-
-
                                                     Chilligames_SDK.API_Client.Update_User_Info(new Req_Update_User_Info { Email = inputFild_email.text, Nickname = inputFild_nickname.text, Password = inputField_password.text, status = inputField_status.text, Username = inputFild_username.text, _id = _id }, () =>
                                                     {
                                                         SceneManager.LoadScene(0);
-
-
                                                     }, null);
-
                                                 });
-
-                                                BTNS.onClick = Submit_change;
 
                                             }
                                             break;
@@ -576,12 +591,10 @@ public class Menu : MonoBehaviour
         Button Button_cheack_net;
         TextMeshProUGUI Text_button;
         Button Button_tab_signal;
-        Button.ButtonClickedEvent ButtonClickedEvent = new Button.ButtonClickedEvent();
 
         public Panel_Signal(Button button_cheack_network, Button Tab_signal)
         {
-            ButtonClickedEvent.AddListener(Cheack_net);
-            button_cheack_network.onClick = ButtonClickedEvent;
+            button_cheack_network.onClick.AddListener(Cheack_net);
             Button_cheack_net = button_cheack_network;
             Text_button = button_cheack_network.GetComponentInChildren<TextMeshProUGUI>();
             Button_tab_signal = Tab_signal;
@@ -674,21 +687,222 @@ public class Menu : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// keys
+    /// TMR: Text_MMR_number_rank
+    /// TTR: Text_Rank_number_rank
+    /// TSR: Text_Server_number_rank
+    /// TNUR: Text_near_your_rank
+    /// 
+    /// 
+    /// BEMR: Button_enter_mmr_ranking
+    /// BETPR: Button_enter_top_player
+    /// BETASR: button_top_player ranking
+    /// BENR: button_enter_near_ranking
+    /// 
+    /// 
+    /// CFR: contetn_fild_ranking
+    /// BCSR: button_close_sub_panel_ranking
+    /// BDR: button_down_panel_ranking
+    /// BUR: button_up_panel-ranking
+    /// </summary>
     class Panel_Ranking
     {
+        TextMeshProUGUI Text_MMR;
+        TextMeshProUGUI Text_Rank;
+        TextMeshProUGUI Text_Servers;
+        TextMeshProUGUI Text_near_you;
 
-        Button BTN_Right;
-        Button BTN_left;
-        Button BTN_MMR;
-        Button BTN_Top_player;
-        Button BTN_servers;
-        Button BTN_nearby;
+        Button BTN_enter_mmr_ranking;
+        Button BTN_enter_top_player;
+        Button BTN_enter_top_active_servers;
+        Button BTN_enter_near_by;
 
+        public GameObject Curent_sub_panel;
 
-        public Panel_Ranking(GameObject Panel_ranking)
+        public Panel_Ranking(GameObject Panel_ranking, GameObject Raw_fild_ranking, GameObject[] sub_panel_ranking, Transform Place_sub_panel)
         {
-         
+            foreach (var Text_number in Panel_ranking.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                switch (Text_number.name)
+                {
+                    case "TMR":
+                        {
+                            Text_MMR = Text_number;
+                        }
+                        break;
+                    case "TRR":
+                        {
+                            Text_Rank = Text_number;
+                        }
+                        break;
+                    case "TSR":
+                        {
+                            Text_Servers = Text_number;
+                        }
+                        break;
+                    case "TNUR":
+                        {
+                            Text_near_you = Text_number;
+                        }
+                        break;
+                }
+            }
+
+            foreach (var BTN_Ranking in Panel_ranking.GetComponentsInChildren<Button>())
+            {
+
+                switch (BTN_Ranking.name)
+                {
+                    case "BEMR":
+                        {
+                            BTN_enter_mmr_ranking = BTN_Ranking;
+
+                            BTN_enter_mmr_ranking.onClick.AddListener(() =>
+                            {
+                                Button BTN_Back_to_rank = null;
+                                Button BTN_Down_content = null;
+                                Button BTN_UP_content = null;
+                                RectTransform content_rank = null;
+
+                                Curent_sub_panel = Instantiate(sub_panel_ranking[0], Place_sub_panel);
+                                Panel_ranking.SetActive(false);
+
+                                foreach (var Content in Curent_sub_panel.GetComponentsInChildren<RectTransform>())
+                                {
+                                    if (Content.name == "CFR")
+                                    {
+                                        content_rank = Content;
+                                    }
+                                }
+
+                                Chilligames_SDK.API_Client.Recive_leader_board(new Req_recive_leader_board { Count_leader_board = 10, Name_leader_board = "Venomic" }, result =>
+                                {
+
+
+                                    for (int i = 0; i < result.Length; i++)
+                                    {
+                                        GameObject raw_leader_board = Instantiate(Raw_fild_ranking, content_rank);
+                                            string _id_player = result[i].ID;
+                                        
+                                        raw_leader_board.GetComponent<Button>().onClick.AddListener(()=> {
+                                            print(_id_player);
+
+                                        });
+
+                                        foreach (var Text_entity in raw_leader_board.GetComponentsInChildren<TextMeshProUGUI>())
+                                        {
+                                            switch (Text_entity.name)
+                                            {
+                                                case "Postion":
+                                                    {
+                                                        Text_entity.text = i.ToString();
+                                                    }
+                                                    break;
+                                                case "Name_player":
+                                                    {
+                                                        Text_entity.text = result[i].Nick_name;
+                                                    }
+                                                    break;
+                                                case "Score":
+                                                    {
+                                                        Text_entity.text = result[i].Score.ToString();
+                                                    }
+                                                    break;
+                                            }
+
+                                        }
+                                    }
+
+
+                                }, null);
+
+                                foreach (var BTN_MMR in Curent_sub_panel.GetComponentsInChildren<Button>())
+                                {
+                                    switch (BTN_MMR.name)
+                                    {
+                                        case "BCSR":
+                                            {
+                                                BTN_Back_to_rank = BTN_MMR;
+                                                BTN_Back_to_rank.onClick.AddListener(() =>
+                                                {
+                                                    Destroy(Curent_sub_panel);
+                                                    Panel_ranking.SetActive(true);
+                                                });
+                                            }
+                                            break;
+                                        case "BDR":
+                                            {
+                                                BTN_Down_content = BTN_MMR;
+                                                BTN_Down_content.onClick.AddListener(() =>
+                                                {
+                                                    content_rank.transform.position = new Vector3(content_rank.transform.position.x, content_rank.transform.position.y + 1, 0);
+                                                });
+                                            }
+                                            break;
+                                        case "BUR":
+                                            {
+                                                BTN_UP_content = BTN_MMR;
+                                                BTN_UP_content.onClick.AddListener(() =>
+                                                {
+                                                    content_rank.transform.position = new Vector3(content_rank.transform.position.x, content_rank.transform.position.y - 1, 0);
+                                                });
+                                            }
+                                            break;
+                                    }
+                                }
+
+                            });
+                        }
+                        break;
+                    case "BETPR":
+                        {
+                            BTN_enter_top_player = BTN_Ranking;
+                        }
+                        break;
+                    case "BETASR":
+                        {
+                            BTN_enter_top_active_servers = BTN_Ranking;
+                        }
+                        break;
+                    case "BENR":
+                        {
+                            BTN_enter_near_by = BTN_Ranking;
+                        }
+                        break;
+
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// recive mikone rank 
+        /// </summary>
+        /// <param name="_id"> before use need  intiles </param>
+        public void Recive_ranking(string _id)
+        {
+            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic", _id = _id }, Result =>
+            {
+                Text_Rank.text = Result;
+
+            }, null);
+
+            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_MMR", _id = _id }, Result =>
+            {
+                Text_MMR.text = Result;
+
+            }, null);
+
+            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Servers", _id = _id }, Result =>
+            {
+
+                Text_Servers.text = Result;
+
+            }, null);
+
+
+
         }
 
 
