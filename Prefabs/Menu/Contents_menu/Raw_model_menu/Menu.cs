@@ -10,6 +10,8 @@ using Chilligames.SDK.Model_Client;
 using Chilligames.Json;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+
+
 public class Menu : MonoBehaviour
 {
     public GameObject Panel_stars;
@@ -17,7 +19,6 @@ public class Menu : MonoBehaviour
     public TextMeshProUGUI Text_Username;
     public Color Color_select_tab;
     public Color Color_deselect_tab;
-    public GameObject Raw_model_ranking;
 
 
     public GameObject[] Panels;
@@ -25,7 +26,7 @@ public class Menu : MonoBehaviour
     public GameObject Holder_background;
 
     public GameObject[] Sub_panel_home;
-    public GameObject[] Sub_panel_Ranking;
+    public GameObject Sub_panel_Ranking;
 
     GameObject Curent_panel;
     GameObject Curent_sub_panel;
@@ -46,7 +47,7 @@ public class Menu : MonoBehaviour
 
         Signal = new Panel_Signal(Panels[0].GetComponentInChildren<Button>(), BTN_tabs[0].GetComponent<Button>());
 
-        Ranking = new Panel_Ranking(Panels[2], Raw_model_ranking, Sub_panel_Ranking, transform);
+        Ranking = new Panel_Ranking(Panels[2], Sub_panel_Ranking);
 
 
         Curent_panel = Panels[1];
@@ -75,8 +76,6 @@ public class Menu : MonoBehaviour
     /// <param name="Tab_number"></param>
     public void Press_BTN_tab(int Tab_number)
     {
-
-
         Close_sub_panels();
 
         Change_color_tab_BTN();
@@ -690,7 +689,6 @@ public class Menu : MonoBehaviour
     /// <summary>
     /// keys
     /// TMR: Text_MMR_number_rank
-    /// TTR: Text_Rank_number_rank
     /// TSR: Text_Server_number_rank
     /// TNUR: Text_near_your_rank
     /// 
@@ -700,11 +698,6 @@ public class Menu : MonoBehaviour
     /// BETASR: button_top_player ranking
     /// BENR: button_enter_near_ranking
     /// 
-    /// 
-    /// CFR: contetn_fild_ranking
-    /// BCSR: button_close_sub_panel_ranking
-    /// BDR: button_down_panel_ranking
-    /// BUR: button_up_panel-ranking
     /// </summary>
     class Panel_Ranking
     {
@@ -720,7 +713,7 @@ public class Menu : MonoBehaviour
 
         public GameObject Curent_sub_panel;
 
-        public Panel_Ranking(GameObject Panel_ranking, GameObject Raw_fild_ranking, GameObject[] sub_panel_ranking, Transform Place_sub_panel)
+        public Panel_Ranking(GameObject Panel_ranking, GameObject Sub_panel_ranking)
         {
             foreach (var Text_number in Panel_ranking.GetComponentsInChildren<TextMeshProUGUI>())
             {
@@ -757,101 +750,11 @@ public class Menu : MonoBehaviour
                     case "BEMR":
                         {
                             BTN_enter_mmr_ranking = BTN_Ranking;
-
                             BTN_enter_mmr_ranking.onClick.AddListener(() =>
                             {
-                                Button BTN_Back_to_rank = null;
-                                Button BTN_Down_content = null;
-                                Button BTN_UP_content = null;
-                                RectTransform content_rank = null;
-
-                                Curent_sub_panel = Instantiate(sub_panel_ranking[0], Place_sub_panel);
-                                Panel_ranking.SetActive(false);
-
-                                foreach (var Content in Curent_sub_panel.GetComponentsInChildren<RectTransform>())
-                                {
-                                    if (Content.name == "CFR")
-                                    {
-                                        content_rank = Content;
-                                    }
-                                }
-
-                                Chilligames_SDK.API_Client.Recive_leader_board(new Req_recive_leader_board { Count_leader_board = 10, Name_leader_board = "Venomic" }, result =>
-                                {
-
-
-                                    for (int i = 0; i < result.Length; i++)
-                                    {
-                                        GameObject raw_leader_board = Instantiate(Raw_fild_ranking, content_rank);
-                                            string _id_player = result[i].ID;
-                                        
-                                        raw_leader_board.GetComponent<Button>().onClick.AddListener(()=> {
-                                            print(_id_player);
-
-                                        });
-
-                                        foreach (var Text_entity in raw_leader_board.GetComponentsInChildren<TextMeshProUGUI>())
-                                        {
-                                            switch (Text_entity.name)
-                                            {
-                                                case "Postion":
-                                                    {
-                                                        Text_entity.text = i.ToString();
-                                                    }
-                                                    break;
-                                                case "Name_player":
-                                                    {
-                                                        Text_entity.text = result[i].Nick_name;
-                                                    }
-                                                    break;
-                                                case "Score":
-                                                    {
-                                                        Text_entity.text = result[i].Score.ToString();
-                                                    }
-                                                    break;
-                                            }
-
-                                        }
-                                    }
-
-
-                                }, null);
-
-                                foreach (var BTN_MMR in Curent_sub_panel.GetComponentsInChildren<Button>())
-                                {
-                                    switch (BTN_MMR.name)
-                                    {
-                                        case "BCSR":
-                                            {
-                                                BTN_Back_to_rank = BTN_MMR;
-                                                BTN_Back_to_rank.onClick.AddListener(() =>
-                                                {
-                                                    Destroy(Curent_sub_panel);
-                                                    Panel_ranking.SetActive(true);
-                                                });
-                                            }
-                                            break;
-                                        case "BDR":
-                                            {
-                                                BTN_Down_content = BTN_MMR;
-                                                BTN_Down_content.onClick.AddListener(() =>
-                                                {
-                                                    content_rank.transform.position = new Vector3(content_rank.transform.position.x, content_rank.transform.position.y + 1, 0);
-                                                });
-                                            }
-                                            break;
-                                        case "BUR":
-                                            {
-                                                BTN_UP_content = BTN_MMR;
-                                                BTN_UP_content.onClick.AddListener(() =>
-                                                {
-                                                    content_rank.transform.position = new Vector3(content_rank.transform.position.x, content_rank.transform.position.y - 1, 0);
-                                                });
-                                            }
-                                            break;
-                                    }
-                                }
-
+                                GameObject MMR_Panel = Instantiate(Sub_panel_ranking);
+                                MMR_Panel.GetComponent<Raw_Content_ranking>().Name_leader_board = "Venomic";
+                                MMR_Panel.GetComponent<Raw_Content_ranking>().Text_header.text = "MMR";
                             });
                         }
                         break;
@@ -906,6 +809,21 @@ public class Menu : MonoBehaviour
         }
 
 
+        public class Schema_other_player
+        {
+            public object _id;
+            public object Info;
+            public object Inventory;
+
+            public class DeserilseInfoPlayer
+            {
+                public string Status;
+                public string Nickname;
+
+            }
+        }
+
     }
+
 
 }

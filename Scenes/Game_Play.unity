@@ -13259,8 +13259,6 @@ MonoBehaviour:
   Text_Username: {fileID: 1897410073}
   Color_select_tab: {r: 0.9529412, g: 0.69803923, b: 0.36862746, a: 1}
   Color_deselect_tab: {r: 0.6313726, g: 0.8745098, b: 0.8, a: 1}
-  Raw_model_ranking: {fileID: 7669098498395272161, guid: b75b15892c282dd40a9c6b962464a641,
-    type: 3}
   Panels:
   - {fileID: 2087897381}
   - {fileID: 1113592414}
@@ -13280,8 +13278,8 @@ MonoBehaviour:
   Holder_background: {fileID: 693926667}
   Sub_panel_home:
   - {fileID: 3836541963517780920, guid: 64d54ebc1dce37042a9baae0e8702a55, type: 3}
-  Sub_panel_Ranking:
-  - {fileID: 8753296867698813710, guid: 432d161e734e56647b86ec6186752b77, type: 3}
+  Sub_panel_Ranking: {fileID: 4652165332388217719, guid: 514e05f83047c5a4985323ebdbc29822,
+    type: 3}
 --- !u!1 &2074194731
 GameObject:
   m_ObjectHideFlags: 0
