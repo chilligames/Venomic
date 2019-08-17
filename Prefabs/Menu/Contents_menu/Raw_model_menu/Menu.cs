@@ -719,7 +719,7 @@ public class Menu : MonoBehaviour
         Button BTN_enter_top_active_servers;
         Button BTN_enter_near_by;
 
-        public GameObject Curent_sub_panel;
+        public GameObject Curent_sub_panel=null;
 
         public Panel_Ranking(GameObject Panel_ranking, GameObject Sub_panel_ranking)
         {
@@ -819,14 +819,14 @@ public class Menu : MonoBehaviour
 
         public class Schema_other_player
         {
-            public object _id;
-            public object Info;
-            public object Inventory;
+            public object _id=null;
+            public object Info=null;
+            public object Inventory=null;
 
             public class DeserilseInfoPlayer
             {
-                public string Status;
-                public string Nickname;
+                public string Status=null;
+                public string Nickname=null;
 
             }
         }
