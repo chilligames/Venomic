@@ -73,9 +73,11 @@ public class Raw_model_user_profile : MonoBehaviour
 
         BTNs_Connection[2].onClick.AddListener(() =>
         {
-
-            Chilligames_SDK.API_Client.Cancel_friend_requst(new a { }, null, null);
-
+            BTNs_Connection[0].gameObject.SetActive(false);
+            BTNs_Connection[1].gameObject.SetActive(false);
+            BTNs_Connection[2].gameObject.SetActive(false);
+            BTNs_Connection[3].gameObject.SetActive(true);
+            Chilligames_SDK.API_Client.Cancel_friend_requst(new req_cancel_and_dellet_send_freiend { _id = _id, _id_other_player = _id_other_player }, null, null);
         });
 
 
