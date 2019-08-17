@@ -37,6 +37,13 @@ public class Menu : MonoBehaviour
     Panel_Ranking Ranking;
     User_areas user_panels;
 
+    public  string ID_player
+    {
+        get
+        {
+            return user_panels._id;
+        }
+    }
 
     void Start()
     {
@@ -185,6 +192,7 @@ public class Menu : MonoBehaviour
     }
 
 
+
     class Status_Stars_model
     {
         GameObject panel_stars;
@@ -329,7 +337,7 @@ public class Menu : MonoBehaviour
         public string Avatar = "";
         public object Info;
         public object[] Ban = { };
-        public object[] Friends = { };
+        public object Friends;
         public object[] Log = { };
         public object[] Files = { };
         public object Data;

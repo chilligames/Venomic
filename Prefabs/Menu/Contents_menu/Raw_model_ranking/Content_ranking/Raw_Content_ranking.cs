@@ -33,7 +33,10 @@ public class Raw_Content_ranking : MonoBehaviour
                 player_fild.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     GameObject profile_user = Instantiate(Raw_model_profile);
-                    profile_user.GetComponent<Raw_model_user_profile>()._id = ID_player;
+                    profile_user.GetComponent<Raw_model_user_profile>()._id_other_player = ID_player;
+                    profile_user.GetComponent<Raw_model_user_profile>()._id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+                    
+
                 });
 
                 foreach (var Text_fild in player_fild.GetComponentsInChildren<TextMeshProUGUI>())

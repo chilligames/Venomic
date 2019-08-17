@@ -10,10 +10,10 @@ using Chilligames.SDK;
 public class Raw_model_user_profile : MonoBehaviour
 {
     public string _id;
-
+    public string _id_other_player;
     public TextMeshProUGUI Nickname;
     public TextMeshProUGUI Status;
-    public Button[] BTN_Connection;
+    public Button[] BTNs_Connection;
     public Button BTN_Send_massege;
     public Button BTN_close_profile;
 
@@ -26,11 +26,58 @@ public class Raw_model_user_profile : MonoBehaviour
 
         });
 
-        Chilligames_SDK.API_Client.Recive_Info_other_User<Schema_other_player>(new Req_recive_Info_player { _id = _id }, resul =>
+        Chilligames_SDK.API_Client.Cheack_status_friend(new Req_status_friend { _id = _id, _id_other_player = _id_other_player }, Result =>
         {
-            Nickname.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Nickname;
-            Status.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Status;
-        }, err => { });
+
+            if (Result == 0)
+            {
+                BTNs_Connection[0].gameObject.SetActive(false);
+                BTNs_Connection[1].gameObject.SetActive(true);
+                BTNs_Connection[2].gameObject.SetActive(false);
+                BTNs_Connection[3].gameObject.SetActive(false);
+            }
+            else if (Result == 1)
+            {
+                BTNs_Connection[0].gameObject.SetActive(false);
+                BTNs_Connection[1].gameObject.SetActive(false);
+                BTNs_Connection[2].gameObject.SetActive(true);
+                BTNs_Connection[3].gameObject.SetActive(false);
+            }
+            else if (Result == 2)
+            {
+                BTNs_Connection[0].gameObject.SetActive(false);
+                BTNs_Connection[1].gameObject.SetActive(false);
+                BTNs_Connection[2].gameObject.SetActive(false);
+                BTNs_Connection[3].gameObject.SetActive(true);
+            }
+
+            Chilligames_SDK.API_Client.Recive_Info_other_User<Schema_other_player>(new Req_recive_Info_player { _id = _id_other_player }, resul =>
+            {
+                Nickname.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Nickname;
+                Status.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Status;
+            }, err => { });
+
+
+
+        }, ERR => { });
+
+
+        BTNs_Connection[1].onClick.AddListener(() =>
+        {
+            BTNs_Connection[0].gameObject.SetActive(false);
+            BTNs_Connection[1].gameObject.SetActive(false);
+            BTNs_Connection[2].gameObject.SetActive(true);
+            Chilligames_SDK.API_Client.Send_friend_requst(new Req_send_friend_requst { _id = _id, _id_other_player = _id_other_player }, () => { }, err => { });
+
+        });
+
+        BTNs_Connection[2].onClick.AddListener(() =>
+        {
+
+            Chilligames_SDK.API_Client.Cancel_friend_requst(new a { }, null, null);
+
+        });
+
 
     }
 
