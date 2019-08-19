@@ -1673,7 +1673,7 @@ GameObject:
   - component: {fileID: 5075580705123875153}
   - component: {fileID: 6711933694924808615}
   m_Layer: 5
-  m_Name: Canvas_Send_massege
+  m_Name: Canvas_Send_message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1771,6 +1771,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766c075f37168944f8e4432735a32ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: 
+  _id_other_player: 
+  Nickname_player: 
   Text_Nick_name: {fileID: 5075580704432463255}
   BTN_send_massege: {fileID: 5075580703020701912}
   BTN_Close: {fileID: 5075580705003873396}
+  Input_fild_body: {fileID: 5075580703455844857}

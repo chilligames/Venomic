@@ -775,8 +775,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b72d0c9de236b64eb423a8e58e287a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 5d49b813ccdef34254562e92
+  _id: 
   _id_other_player: 
+  Panel_send_message: {fileID: 5075580705123875158, guid: 718ac0f490ce12841b90fbc7a0308a04,
+    type: 3}
   Nickname: {fileID: 1603836239834657583}
   Status: {fileID: 1603836240408204277}
   BTNs_Connection:

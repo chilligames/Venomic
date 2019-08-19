@@ -37,7 +37,7 @@ public class Menu : MonoBehaviour
     Panel_Ranking Ranking;
     User_areas user_panels;
 
-    public  string ID_player
+    public string ID_player
     {
         get
         {
@@ -337,12 +337,12 @@ public class Menu : MonoBehaviour
         public string Avatar = "";
         public object Info;
         public object[] Ban = { };
-        public object Friends;
+        public object[] Friends;
         public object[] Log = { };
         public object[] Files = { };
         public object Data;
         public object[] Inventory = { };
-        public object[] Notifactions = { };
+        public object Notifactions;
         public object Teams;
         public object Wallet;
         public object[] Servers = { };
@@ -719,7 +719,7 @@ public class Menu : MonoBehaviour
         Button BTN_enter_top_active_servers;
         Button BTN_enter_near_by;
 
-        public GameObject Curent_sub_panel=null;
+        public GameObject Curent_sub_panel = null;
 
         public Panel_Ranking(GameObject Panel_ranking, GameObject Sub_panel_ranking)
         {
@@ -769,11 +769,24 @@ public class Menu : MonoBehaviour
                     case "BETPR":
                         {
                             BTN_enter_top_player = BTN_Ranking;
+
+                            BTN_Ranking.onClick.AddListener(() =>
+                            {
+                                GameObject Top_player = Instantiate(Sub_panel_ranking);
+                                Top_player.GetComponent<Raw_Content_ranking>().Name_leader_board = "Venomic_Top_player";
+                                Top_player.GetComponent<Raw_Content_ranking>().Text_header.text = "Top Player";
+                            });
                         }
                         break;
                     case "BETASR":
                         {
                             BTN_enter_top_active_servers = BTN_Ranking;
+                            BTN_Ranking.onClick.AddListener(() =>
+                            {
+                                GameObject Best_top_active_server = Instantiate(Sub_panel_ranking);
+                                Best_top_active_server.GetComponent<Raw_Content_ranking>().Name_leader_board = "Venomic_Servers";
+                                Best_top_active_server.GetComponent<Raw_Content_ranking>().Text_header.text = "Top Active Servers";
+                            });
                         }
                         break;
                     case "BENR":
@@ -795,38 +808,36 @@ public class Menu : MonoBehaviour
         {
             Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic", _id = _id }, Result =>
             {
-                Text_Rank.text = Result;
-
-            }, null);
-
-            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_MMR", _id = _id }, Result =>
-            {
                 Text_MMR.text = Result;
 
             }, null);
 
-            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Servers", _id = _id }, Result =>
+            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_player", _id = _id }, Result =>
             {
-
-                Text_Servers.text = Result;
+                Text_Rank.text = Result;
 
             }, null);
 
 
+            Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Servers", _id = _id }, Result =>
+            {
+                Text_Servers.text = Result;
+
+            }, null);
 
         }
 
 
         public class Schema_other_player
         {
-            public object _id=null;
-            public object Info=null;
-            public object Inventory=null;
+            public object _id = null;
+            public object Info = null;
+            public object Inventory = null;
 
             public class DeserilseInfoPlayer
             {
-                public string Status=null;
-                public string Nickname=null;
+                public string Status = null;
+                public string Nickname = null;
 
             }
         }

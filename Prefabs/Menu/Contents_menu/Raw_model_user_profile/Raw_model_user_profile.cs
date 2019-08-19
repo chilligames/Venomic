@@ -11,6 +11,7 @@ public class Raw_model_user_profile : MonoBehaviour
 {
     public string _id;
     public string _id_other_player;
+    public GameObject Panel_send_message;
     public TextMeshProUGUI Nickname;
     public TextMeshProUGUI Status;
     public Button[] BTNs_Connection;
@@ -25,6 +26,15 @@ public class Raw_model_user_profile : MonoBehaviour
             Destroy(gameObject);
 
         });
+
+        BTN_Send_massege.onClick.AddListener(() => {
+
+            Panel_send_message.GetComponent<Panel_send_massege>()._id = _id;
+            Panel_send_message.GetComponent<Panel_send_massege>()._id_other_player = _id_other_player;
+            Instantiate(Panel_send_message);
+
+        });
+
 
         Chilligames_SDK.API_Client.Cheack_status_friend(new Req_status_friend { _id = _id, _id_other_player = _id_other_player }, Result =>
         {
@@ -54,6 +64,9 @@ public class Raw_model_user_profile : MonoBehaviour
             Chilligames_SDK.API_Client.Recive_Info_other_User<Schema_other_player>(new Req_recive_Info_player { _id = _id_other_player }, resul =>
             {
                 Nickname.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Nickname;
+
+                Panel_send_message.GetComponent<Panel_send_massege>().Nickname_player = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Nickname;
+
                 Status.text = ChilligamesJson.DeserializeObject<Schema_other_player.DeserilseInfoPlayer>(resul.Info.ToString()).Status;
             }, err => { });
 
@@ -91,15 +104,13 @@ public class Raw_model_user_profile : MonoBehaviour
 
         });
 
-
-
     }
 
     class Schema_other_player
     {
         public object _id = null;
         public object Info = null;
-        public object Inventory = null;
+        public object[] Inventory = null;
 
         public class DeserilseInfoPlayer
         {
