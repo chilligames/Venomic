@@ -693,7 +693,6 @@ public class Menu : MonoBehaviour
     }
 
 
-
     /// <summary>
     /// keys
     /// TMR: Text_MMR_number_rank
@@ -720,6 +719,7 @@ public class Menu : MonoBehaviour
         Button BTN_enter_near_by;
 
         public GameObject Curent_sub_panel = null;
+
 
         public Panel_Ranking(GameObject Panel_ranking, GameObject Sub_panel_ranking)
         {
