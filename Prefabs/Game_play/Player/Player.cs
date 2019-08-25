@@ -286,7 +286,6 @@ public class Player : MonoBehaviour
                     New_model.R_M = new int[] { 0 };
                     New_model.S = new int[] { 0 };
 
-
                     string string_data = JsonUtility.ToJson(New_model);
 
                     StreamWriter Creat_file = new StreamWriter(Application.persistentDataPath + "/Info.Chi");
@@ -449,7 +448,6 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < Collection.Length; i++)
             {
-
                 yield return Collection[i];
             }
 
