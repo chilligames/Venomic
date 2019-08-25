@@ -83,7 +83,7 @@ public class Panel_Servers : MonoBehaviour
             Curent_content.SetActive(false);
             Curent_content = Content_My_servers;
             Curent_content.SetActive(true);
-            Chilligames_SDK.API_Client.Recive_Servers_user<Desrilise_servers>(new Chilligames.SDK.Model_Client.Req_recive_servers_User { Name_server = "Venomic", _id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player }, Result =>
+            Chilligames_SDK.API_Client.Recive_List_server_user(new Chilligames.SDK.Model_Client.Req_recive_list_servers_User { Name_server = "Venomic", _id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player }, Result =>
             {
                 entity_my_servers = new GameObject[Result.Length];
                 for (int i = 0; i < Result.Length; i++)
@@ -191,7 +191,7 @@ public class Panel_Servers : MonoBehaviour
                                             Level_number: level,
                                             Leader_board_server: Leader_board_server,
                                             _id: _id_server
-                                            ); ;
+                                            );
                                     });
                                 }
                                 break;
