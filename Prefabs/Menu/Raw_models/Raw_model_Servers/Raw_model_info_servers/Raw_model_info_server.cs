@@ -81,6 +81,7 @@ public class Raw_model_info_server : MonoBehaviour
         BTN_close_panel.onClick.AddListener(() =>
         {
             Destroy(gameObject);
+
         });
     }
 

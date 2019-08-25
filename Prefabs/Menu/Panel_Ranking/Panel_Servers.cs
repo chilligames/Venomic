@@ -54,6 +54,16 @@ public class Panel_Servers : MonoBehaviour
     public TextMeshProUGUI Text_Min_Active_days;
 
     GameObject[] entity_my_servers;
+
+
+    public string _id_player
+    {
+        get
+        {
+            return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+        }
+    }
+
     void Start()
     {
         Curent_content = Content_Servers;
@@ -80,6 +90,7 @@ public class Panel_Servers : MonoBehaviour
                 {
 
                     entity_my_servers[i] = Instantiate(Raw_model_fild_server, Place_content_my_servers);
+
                     foreach (var Text_entity in entity_my_servers[i].GetComponentsInChildren<TextMeshProUGUI>())
                     {
                         switch (Text_entity.name)
@@ -146,7 +157,7 @@ public class Panel_Servers : MonoBehaviour
 
                     foreach (var BTNS in entity_my_servers[i].GetComponentsInChildren<Button>())
                     {
-                        string _id = Result[i]._id;
+                        string _id_server = Result[i]._id;
                         string Name_server = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Name_server;
                         string Freeze = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Freeze.ToString();
                         string Mines = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Mines.ToString();
@@ -159,6 +170,7 @@ public class Panel_Servers : MonoBehaviour
                         string coine = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Coine.ToString();
                         int? level = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Level;
                         object[] Leader_board_server = ChilligamesJson.DeserializeObject<Desrilise_servers.Desrilise_setting>(Result[i].Setting.ToString()).Leader_board;
+
                         switch (BTNS.name)
                         {
                             case "BIS":
@@ -178,8 +190,18 @@ public class Panel_Servers : MonoBehaviour
                                             Coin_number: coine,
                                             Level_number: level,
                                             Leader_board_server: Leader_board_server,
-                                            _id: _id
+                                            _id: _id_server
                                             ); ;
+                                    });
+                                }
+                                break;
+                            case "BES":
+                                {
+                                    GameObject fild_close = entity_my_servers[i];
+                                    BTNS.onClick.AddListener(() =>
+                                    {
+                                        Destroy(fild_close);
+                                        Chilligames_SDK.API_Client.Exit_server(new Chilligames.SDK.Model_Client.Req_Exit_server { _id_server = _id_server, _id = _id_player }, null, ERRS => { });
                                     });
                                 }
                                 break;
@@ -213,7 +235,7 @@ public class Panel_Servers : MonoBehaviour
                 Mines = (int)Value_Mines.value,
                 Reset = (int)Value_Reset.value,
                 Active_Days = (int)Value_Active_Days.value,
-                Level =(int) Value_Level.value,
+                Level = (int)Value_Level.value,
                 Coine = Coin,
                 Player = 0,
                 like = 0,
