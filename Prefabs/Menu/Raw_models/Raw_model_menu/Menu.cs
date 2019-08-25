@@ -345,7 +345,7 @@ public class Menu : MonoBehaviour
         public object Notifactions;
         public object Teams;
         public object Wallet;
-        public object[] Servers = { };
+        public object Servers =null;
 
 
         public User_areas(TextMeshProUGUI Text_user_name, GameObject Panel_home, Transform Place_instant_sub_panel, GameObject[] Sub_panel)

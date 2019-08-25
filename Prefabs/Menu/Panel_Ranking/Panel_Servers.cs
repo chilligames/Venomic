@@ -85,8 +85,13 @@ public class Panel_Servers : MonoBehaviour
             Curent_content.SetActive(true);
             Chilligames_SDK.API_Client.Recive_List_server_user(new Chilligames.SDK.Model_Client.Req_recive_list_servers_User { Name_app = "Venomic", _id = _id_player }, result =>
             {
-                print(result[0]);
+                entity_my_servers = new GameObject[result.Length];
 
+                for (int i = 0; i < result.Length; i++)
+                {
+                    entity_my_servers[i]= Instantiate(Raw_model_fild_server, Place_content_my_servers);
+                    entity_my_servers[i].GetComponent<Raw_fild_servers>().Change_value(result[i].ToString());
+                }
             }, ERR => { });
         });
 
@@ -118,7 +123,7 @@ public class Panel_Servers : MonoBehaviour
                 Leader_board = { },
             };
 
-            Chilligames_SDK.API_Client.Creat_server(new Chilligames.SDK.Model_Client.Req_creat_server { _id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player, Setting = setting, Name_server = "Venomic" }, () =>
+            Chilligames_SDK.API_Client.Creat_server(new Chilligames.SDK.Model_Client.Req_creat_server { _id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player, Setting = setting, Name_App = "Venomic" }, () =>
             {
                 print("code agfter creat");
             }, err => { });
@@ -214,27 +219,6 @@ public class Panel_Servers : MonoBehaviour
 
     }
 
-    class Desrilise_servers
-    {
-        public string _id = null;
-        public object Setting = null;
-        public string ID = null;
 
-        public class Desrilise_setting
-        {
-            public string Name_server = null;
-            public object[] Leader_board = null;
-            public int? Active_Days = null;
-            public int? Freeze = null;
-            public int? Mines = null;
-            public int? Delete = null;
-            public int? Chance = null;
-            public int? Reset = null;
-            public int? Level = null;
-            public int? Player = null;
-            public int? like = null;
-            public int? Coine = null;
-        }
-
-    }
+ 
 }

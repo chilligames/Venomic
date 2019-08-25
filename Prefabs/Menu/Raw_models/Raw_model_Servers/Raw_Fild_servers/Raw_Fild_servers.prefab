@@ -2313,6 +2313,7 @@ GameObject:
   - component: {fileID: 4506307202115325517}
   - component: {fileID: 4506307202115325522}
   - component: {fileID: 4506307202115325516}
+  - component: {fileID: 7756207240465067163}
   m_Layer: 5
   m_Name: Raw_Fild_servers
   m_TagString: Untagged
@@ -2399,6 +2400,33 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &7756207240465067163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307202115325520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbf1582ec93d594abdf83ea112876c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Raw_model_info_server: {fileID: 4465170586201203768, guid: be71bba91d2402b478b7f0fa23cffc7d,
+    type: 3}
+  Text_Name_server: {fileID: 4506307201235375346}
+  Text_Freeze: {fileID: 4506307202628291752}
+  Text_Mines: {fileID: 4506307202416623254}
+  Text_Delete: {fileID: 4506307200986204236}
+  Text_Chance: {fileID: 4506307200623987816}
+  Text_Reset: {fileID: 4506307202419243576}
+  Text_Active_day: {fileID: 4506307200838470408}
+  Text_player: {fileID: 4506307201126070317}
+  Text_Like: {fileID: 7862691786015441963}
+  Text_Levels: {fileID: 6419777844161458694}
+  Text_Coines: {fileID: 4506307201754043487}
+  BTN_info: {fileID: 4506307201949031806}
+  BTN_Exit_server: {fileID: 4506307201916091447}
 --- !u!1 &4506307202115695931
 GameObject:
   m_ObjectHideFlags: 0
