@@ -25,6 +25,7 @@ public class Raw_fild_servers : MonoBehaviour
 
     public Button BTN_info;
     public Button BTN_Exit_server;
+    public Button BTN_Enter_server;
 
     string _id_player
     {
@@ -36,7 +37,6 @@ public class Raw_fild_servers : MonoBehaviour
     }
     public void Change_value(string _id_server)
     {
-
         Chilligames_SDK.API_Client.Recive_data_server<Deserilse_data_server>(new Req_data_server { Name_app = "Venomic", _id_server = _id_server }, (result) =>
         {
             string Name_server = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Name_server;
@@ -64,6 +64,21 @@ public class Raw_fild_servers : MonoBehaviour
             Text_Levels.text = Level;
             Text_Coines.text = Coines;
 
+            Chilligames_SDK.API_Client.Cheack_Server_In_Profile(new Req_cheack_server_in_profile { Name_App = "Venomic", _id = _id_player, _id_server = _id_server }, Status =>
+            {
+
+                if (Status == "1")
+                {
+                    BTN_Exit_server.gameObject.SetActive(true);
+                }
+                if (Status == "0")
+                {
+                    BTN_Enter_server.gameObject.SetActive(true);
+                }
+
+            }, ERR => { });
+
+
             BTN_info.onClick.AddListener(() =>
             {
                 GameObject Info_server = Instantiate(Raw_model_info_server);
@@ -71,17 +86,29 @@ public class Raw_fild_servers : MonoBehaviour
 
             });
 
+
             BTN_Exit_server.onClick.AddListener(() =>
             {
-
                 Destroy(gameObject);
-                Chilligames_SDK.API_Client.Exit_server(new Req_Exit_server { _id = _id_player, _id_server = _id_server }, () =>
-                {
+
+                Chilligames_SDK.API_Client.Exit_server(new Req_Exit_server { _id = _id_player, _id_server = _id_server, Name_App = "Venomic" }, () =>
+                   {
 
 
-                }, Error => { });
+                   }, Error => { });
+
 
             });
+
+
+            BTN_Enter_server.onClick.AddListener(() =>
+            {
+                Chilligames_SDK.API_Client.Enter_to_server(new Req_enter_to_server { Name_App = "Venomic", _id = _id_player, _id_server = _id_server }, () => { }, ERR => { });
+                BTN_Enter_server.gameObject.SetActive(false);
+                BTN_Exit_server.gameObject.SetActive(true);
+            });
+
+
         }, ERROR => { });
 
 

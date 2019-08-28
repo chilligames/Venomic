@@ -87,9 +87,12 @@ public class Panel_Servers : MonoBehaviour
             Curent_content.SetActive(false);
             Curent_content = Content_Servers;
             Curent_content.SetActive(true);
+
             Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count_server = 50, Name_App = "Venomic" }, result =>
             {
-                for (int i = 0; i < result.Length; i++)
+                Entity_servers = new GameObject[result.Length];
+
+                for (int i = 0; i < result.Length; i++) 
                 {
                     Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
                     Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
@@ -105,7 +108,7 @@ public class Panel_Servers : MonoBehaviour
             Curent_content.SetActive(false);
             Curent_content = Content_My_servers;
             Curent_content.SetActive(true);
-            Chilligames_SDK.API_Client.Recive_List_server_user(new Chilligames.SDK.Model_Client.Req_recive_list_servers_User { Name_app = "Venomic", _id = _id_player }, result =>
+            Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id_player }, result =>
             {
                 Entity_my_servers = new GameObject[result.Length];
 
@@ -145,9 +148,10 @@ public class Panel_Servers : MonoBehaviour
                 Leader_board = { },
             };
 
-            Chilligames_SDK.API_Client.Creat_server(new Chilligames.SDK.Model_Client.Req_creat_server { _id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player, Setting = setting, Name_App = "Venomic" }, () =>
+            Chilligames_SDK.API_Client.Creat_server(new Req_creat_server { _id = _id_player, Setting = setting, Name_App = "Venomic" }, () =>
             {
                 print("code agfter creat");
+
             }, err => { });
         });
 
@@ -168,6 +172,7 @@ public class Panel_Servers : MonoBehaviour
         if (Content_Servers.activeInHierarchy)
         {
             BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_select_tab;
+
         }
         else
         {
@@ -177,6 +182,8 @@ public class Panel_Servers : MonoBehaviour
                 {
                     Destroy(Entity_servers[i]);
                 }
+                Entity_servers = null;
+
             }
 
             BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
@@ -191,11 +198,11 @@ public class Panel_Servers : MonoBehaviour
         {
             if (Entity_my_servers != null)
             {
-
                 for (int i = 0; i < Entity_my_servers.Length; i++)
                 {
                     Destroy(Entity_my_servers[i]);
                 }
+                    Entity_my_servers =null;
             }
 
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;

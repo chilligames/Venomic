@@ -1675,7 +1675,7 @@ GameObject:
   - component: {fileID: 4506307201568813590}
   - component: {fileID: 4506307201568813591}
   m_Layer: 5
-  m_Name: Button_Enter
+  m_Name: BTN_enter_to_server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,12 +2026,12 @@ GameObject:
   - component: {fileID: 4506307201916091446}
   - component: {fileID: 4506307201916091447}
   m_Layer: 5
-  m_Name: BES
+  m_Name: BTNS_Exit_to_server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4506307201916091444
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2046,10 +2046,10 @@ RectTransform:
   m_Father: {fileID: 4506307202648016190}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 163, y: -17}
+  m_SizeDelta: {x: 36, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4506307201916091441
 CanvasRenderer:
@@ -2427,6 +2427,7 @@ MonoBehaviour:
   Text_Coines: {fileID: 4506307201754043487}
   BTN_info: {fileID: 4506307201949031806}
   BTN_Exit_server: {fileID: 4506307201916091447}
+  BTN_Enter_server: {fileID: 4506307201568813591}
 --- !u!1 &4506307202115695931
 GameObject:
   m_ObjectHideFlags: 0
