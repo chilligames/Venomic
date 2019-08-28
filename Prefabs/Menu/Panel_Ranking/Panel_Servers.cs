@@ -6,7 +6,7 @@ using System;
 using UnityEngine.UI;
 using Chilligames.Json;
 using Chilligames.SDK;
-using Chilligames;
+using Chilligames.SDK.Model_Client;
 
 public class Panel_Servers : MonoBehaviour
 {
@@ -32,6 +32,7 @@ public class Panel_Servers : MonoBehaviour
     public GameObject Content_creat_servers;
 
     public GameObject Curent_content;
+    public Transform Place_instant_servers;
 
     [Header("Entity creat server")]
     public TMP_InputField Text_name_server;
@@ -53,8 +54,8 @@ public class Panel_Servers : MonoBehaviour
     public TextMeshProUGUI Text_Min_coin;
     public TextMeshProUGUI Text_Min_Active_days;
 
-    GameObject[] entity_my_servers;
-
+    GameObject[] Entity_my_servers;
+    GameObject[] Entity_servers;
 
     public string _id_player
     {
@@ -68,12 +69,33 @@ public class Panel_Servers : MonoBehaviour
     {
         Curent_content = Content_Servers;
 
+        Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count_server = 50, Name_App = "Venomic" }, result =>
+        {
+            Entity_servers = new GameObject[result.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
+                Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
+            }
+
+        }, ERR => { });
+
+
         BTN_Servers.onClick.AddListener(() =>
         {
             Content_Servers.SetActive(true);
             Curent_content.SetActive(false);
             Curent_content = Content_Servers;
             Curent_content.SetActive(true);
+            Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count_server = 50, Name_App = "Venomic" }, result =>
+            {
+                for (int i = 0; i < result.Length; i++)
+                {
+                    Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
+                    Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
+                }
+            }, ERR => { });
+
         });
 
 
@@ -85,12 +107,12 @@ public class Panel_Servers : MonoBehaviour
             Curent_content.SetActive(true);
             Chilligames_SDK.API_Client.Recive_List_server_user(new Chilligames.SDK.Model_Client.Req_recive_list_servers_User { Name_app = "Venomic", _id = _id_player }, result =>
             {
-                entity_my_servers = new GameObject[result.Length];
+                Entity_my_servers = new GameObject[result.Length];
 
                 for (int i = 0; i < result.Length; i++)
                 {
-                    entity_my_servers[i]= Instantiate(Raw_model_fild_server, Place_content_my_servers);
-                    entity_my_servers[i].GetComponent<Raw_fild_servers>().Change_value(result[i].ToString());
+                    Entity_my_servers[i] = Instantiate(Raw_model_fild_server, Place_content_my_servers);
+                    Entity_my_servers[i].GetComponent<Raw_fild_servers>().Change_value(result[i].ToString());
                 }
             }, ERR => { });
         });
@@ -107,7 +129,7 @@ public class Panel_Servers : MonoBehaviour
 
         BTN_submit_creat_server.onClick.AddListener(() =>
         {
-            Setting_servers setting = new Setting_servers
+            Model_server.Setting_servers setting = new Model_server.Setting_servers
             {
                 Name_server = Text_name_server.text,
                 Chance = (int)Value_Chance.value,
@@ -149,27 +171,36 @@ public class Panel_Servers : MonoBehaviour
         }
         else
         {
+            if (Entity_servers != null)
+            {
+                for (int i = 0; i < Entity_servers.Length; i++)
+                {
+                    Destroy(Entity_servers[i]);
+                }
+            }
+
             BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
         }
 
+
         if (Content_My_servers.activeInHierarchy)
         {
-
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_select_tab;
         }
         else
         {
-            if (entity_my_servers != null)
+            if (Entity_my_servers != null)
             {
 
-                for (int i = 0; i < entity_my_servers.Length; i++)
+                for (int i = 0; i < Entity_my_servers.Length; i++)
                 {
-                    Destroy(entity_my_servers[i]);
+                    Destroy(Entity_my_servers[i]);
                 }
             }
 
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
         }
+
 
         if (Text_name_server.text.Length < 4)
         {
@@ -202,23 +233,30 @@ public class Panel_Servers : MonoBehaviour
     }
 
 
-    class Setting_servers
+
+    class Model_server
     {
-        public string Name_server = null;
-        public object[] Leader_board = null;
-        public int? Active_Days = null;
-        public int? Freeze = null;
-        public int? Mines = null;
-        public int? Delete = null;
-        public int? Chance = null;
-        public int? Reset = null;
-        public int? Level = null;
-        public int? Player = null;
-        public int? like = null;
-        public int? Coine = null;
+        public string _id = null;
+        public object Setting = null;
+        public string ID = null;
+        public class Setting_servers
+        {
+            public string Name_server = null;
+            public object[] Leader_board = null;
+            public int? Active_Days = null;
+            public int? Freeze = null;
+            public int? Mines = null;
+            public int? Delete = null;
+            public int? Chance = null;
+            public int? Reset = null;
+            public int? Level = null;
+            public int? Player = null;
+            public int? like = null;
+            public int? Coine = null;
+
+        }
 
     }
 
 
- 
 }

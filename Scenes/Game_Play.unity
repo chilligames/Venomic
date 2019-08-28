@@ -18748,7 +18748,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 178.75, y: 40}
+  m_CellSize: {x: 200, y: 124}
   m_Spacing: {x: 0, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 1
@@ -24055,6 +24055,7 @@ MonoBehaviour:
   Content_My_servers: {fileID: 1927246944}
   Content_creat_servers: {fileID: 670663126}
   Curent_content: {fileID: 0}
+  Place_instant_servers: {fileID: 1545724740}
   Text_name_server: {fileID: 1749169721}
   Value_Chance: {fileID: 1824103147}
   Value_delete: {fileID: 1383800896}
