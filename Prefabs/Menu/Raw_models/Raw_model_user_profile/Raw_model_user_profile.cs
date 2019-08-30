@@ -18,7 +18,7 @@ public class Raw_model_user_profile : MonoBehaviour
     public Button BTN_Send_massege;
     public Button BTN_close_profile;
 
-
+    
     void Start()
     {
         BTN_close_profile.onClick.AddListener(() =>
