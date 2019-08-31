@@ -106,7 +106,7 @@ public class Raw_model_user_profile : MonoBehaviour
 
     }
 
-    class Schema_other_player
+   public  class Schema_other_player
     {
         public object _id = null;
         public object Info = null;
