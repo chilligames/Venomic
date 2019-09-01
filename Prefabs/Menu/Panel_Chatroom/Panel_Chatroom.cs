@@ -13,6 +13,7 @@ public class Panel_Chatroom : MonoBehaviour
     public GameObject Raw_model_profile;
     public GameObject Raw_model_message_Chatroom;
     public GameObject Raw_model_Category_message;
+    public GameObject Raw_model_each_message;
     public GameObject Raw_model_Chat;
 
     public Transform Place_messages;
@@ -37,6 +38,7 @@ public class Panel_Chatroom : MonoBehaviour
 
     GameObject[] Messages_Chatroom = null;
     GameObject[] Messages = null;
+
     public string _id_player
     {
         get
@@ -87,7 +89,7 @@ public class Panel_Chatroom : MonoBehaviour
                 for (int i = 0; i < result.Length; i++)
                 {
                     Messages[i] = Instantiate(Raw_model_Category_message, Place_messages);
-                    Messages[i].AddComponent<Raw_model_Category>().Change_value(result[i].Message, result[i].ID, result[i].Last_Date, result[i].Status, Raw_model_Chat);
+                    Messages[i].AddComponent<Raw_model_Category>().Change_value(result[i].Message, result[i].ID, result[i].Last_Date, result[i].Status, Raw_model_Chat, Raw_model_each_message);
                 }
 
             }, ERRORS => { });
@@ -137,6 +139,14 @@ public class Panel_Chatroom : MonoBehaviour
             StopCoroutine(Recive_messages_in_chatroom());
         }
 
+        if (Content_Messages.activeInHierarchy != true&&Messages!=null)
+        {
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                Destroy(Messages[i]);
+            }
+        }
+
     }
 
 
@@ -148,14 +158,11 @@ public class Panel_Chatroom : MonoBehaviour
             yield return new WaitForSeconds(1);
             Chilligames_SDK.API_Client.Recive_Chatroom_messages(new Req_recive_chatroom_messages { Name_App = "Venomic" }, Result =>
             {
-
-
                 if (Messages_Chatroom != null)
                 {
                     for (int i = 0; i < Messages_Chatroom.Length; i++)
                     {
                         Destroy(Messages_Chatroom[i]);
-
                     }
                 }
                 Messages_Chatroom = new GameObject[Result.Length];
@@ -393,12 +400,13 @@ public class Panel_Chatroom : MonoBehaviour
 
         GameObject Curent_panel_chat = null;
 
-        public void Change_value(object[] messages, string ID, string Last_date, int? status, GameObject Raw_model_chat)
+        GameObject Raw_model_each_messege = null;
+
+        public void Change_value(object[] messages, string ID, string Last_date, int? status, GameObject Raw_model_chat, GameObject Raw_model_each_message)
         {
 
             Chilligames_SDK.API_Client.Recive_Info_other_User<schema_other_player>(new Req_recive_Info_player { _id = ID }, result =>
             {
-
                 Text_sender.text = ChilligamesJson.DeserializeObject<schema_other_player.deserilise_info>(result.Info.ToString()).Nickname;
 
             }, err => { });
@@ -408,12 +416,13 @@ public class Panel_Chatroom : MonoBehaviour
 
             Text_Last_date.text = Last_date;
 
+            Raw_model_each_messege = Raw_model_each_message;
 
             BTN_Enter_chatroom.onClick.AddListener(() =>
             {
 
                 Curent_panel_chat = Instantiate(Raw_model_chat);
-                Curent_panel_chat.AddComponent<Raw_model_chat>().Change_values();
+                Curent_panel_chat.AddComponent<Raw_model_chat>().Change_values(ID, Raw_model_each_messege, Text_sender.text);
 
             });
 
@@ -436,6 +445,8 @@ public class Panel_Chatroom : MonoBehaviour
 
         class Raw_model_chat : MonoBehaviour
         {
+            GameObject Raw_model_each_message;
+
             Button BTN_Close
             {
 
@@ -478,38 +489,208 @@ public class Panel_Chatroom : MonoBehaviour
                     TextMeshProUGUI Text_nick = null;
                     foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
                     {
-                        if (Texts.name=="TTN")
+                        if (Texts.name == "TTN")
                         {
-                           Text_nick = Texts;
+                            Text_nick = Texts;
                         }
                     }
                     return Text_nick;
                 }
             }
 
-            
-            
-
-            public void Change_values()
+            Transform Place_each_message
             {
+                get
+                {
+                    Transform Place_messeges = null;
+                    foreach (var Places in GetComponentsInChildren<Transform>())
+                    {
+                        if (Places.name == "PM")
+                        {
+                            Place_messeges = Places;
+                        }
+                    }
+                    return Place_messeges;
+                }
+
+            }
+
+            TMP_InputField InputField_messages
+            {
+                get
+                {
+                    TMP_InputField input_messeges = null;
+
+                    foreach (var Inputs in GetComponentsInChildren<TMP_InputField>())
+                    {
+                        if (Inputs.name == "IFM")
+                        {
+                            input_messeges = Inputs;
+                        }
+                    }
+                    return input_messeges;
+                }
+            }
+
+            GameObject[] Content_Raw_model_each_message;
+
+            string id_player
+            {
+
+                get
+                {
+                    return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+                }
+            }
+            string _id_other_player = null;
+
+
+
+            public void Change_values(string _id_other_player, GameObject raw_model_each_message, string Nickname)
+            {
+                this._id_other_player = _id_other_player;
+
+                Raw_model_each_message = raw_model_each_message;
+
+                Text_Nickname.text = Nickname;
+
                 BTN_Close.onClick.AddListener(() =>
                 {
                     Destroy(gameObject);
                 });
 
+                BTN_Send_message.onClick.AddListener(() =>
+                {
+                    Chilligames_SDK.API_Client.Send_messege_to_player(new Req_send_message { Message_body = InputField_messages.text, _id = id_player, _id_other_users = _id_other_player }, () => { }, err => { });
+                    InputField_messages.text = "";
+                });
 
+                StartCoroutine(Recive_messages_each_user());
             }
 
-            private void Update()
+
+            IEnumerator Recive_messages_each_user()
             {
+                while (true)
+                {
+                    yield return new WaitForSeconds(1f);
+                    Chilligames_SDK.API_Client.Recive_messege_each_user(new Req_recive_message_each_user { _id = id_player, _id_other_player = _id_other_player }, result =>
+                          {
 
 
+                              if (Content_Raw_model_each_message != null)
+                              {
+                                  if (result.Length != Content_Raw_model_each_message.Length)
+                                  {
+                                      Place_each_message.position = new Vector3(Place_each_message.position.x, Place_each_message.position.y + 3000, 0);
+                                  }
+
+                                  for (int i = 0; i < Content_Raw_model_each_message.Length; i++)
+                                  {
+                                      Destroy(Content_Raw_model_each_message[i]);
+                                  }
+                              }
+                              else
+                              {
+                                  Vector3 frist_location = new Vector3(Place_each_message.position.x, Place_each_message.position.y + result.Length * 2000, 0);
+                                  Place_each_message.position = frist_location;
+                              }
+
+
+
+                              Content_Raw_model_each_message = new GameObject[result.Length];
+
+                              for (int i = 0; i < result.Length; i++)
+                              {
+                                  Content_Raw_model_each_message[i] = Instantiate(Raw_model_each_message, Place_each_message);
+                                  Content_Raw_model_each_message[i].AddComponent<Each_message>().Change_value(result[i].PM, result[i].ID, result[i].Time);
+                              }
+
+
+
+                          }, err => { });
+                }
             }
 
 
+            class Each_message : MonoBehaviour
+            {
+                TextMeshProUGUI Text_PM
+                {
+                    get
+                    {
+                        TextMeshProUGUI Text_PM = null;
+                        foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                        {
+                            if (Texts.name == "TPM")
+                            {
+                                Text_PM = Texts;
+                            }
+                        }
+                        return Text_PM;
+                    }
+                }
 
+                TextMeshProUGUI Text_Sender
+                {
+                    get
+                    {
+                        TextMeshProUGUI Text_sender = null;
+                        foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                        {
+                            if (Texts.name == "TNN")
+                            {
+                                Text_sender = Texts;
+                            }
+
+                        }
+                        return Text_sender;
+                    }
+                }
+
+                TextMeshProUGUI Text_Time
+                {
+
+                    get
+                    {
+                        TextMeshProUGUI Text_Time = null;
+                        foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                        {
+                            if (Texts.name == "TTNS")
+                            {
+                                Text_Time = Texts;
+                            }
+
+                        }
+                        return Text_Time;
+                    }
+                }
+
+                string _id
+                {
+                    get
+                    {
+                        return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+                    }
+                }
+
+                public void Change_value(string PM, string sender, string Time)
+                {
+                    Text_PM.text = PM;
+                    Text_Sender.text = sender;
+                    Text_Time.text = Time;
+
+                    if (sender == _id)
+                    {
+                        Text_Sender.text = "You";
+                    }
+                    else
+                    {
+                        Text_Sender.text = "Other";
+                    }
+
+                }
+            }
         }
-
     }
-
 }

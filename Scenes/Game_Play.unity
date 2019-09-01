@@ -20299,6 +20299,8 @@ MonoBehaviour:
     type: 3}
   Raw_model_Category_message: {fileID: 3042425543903101238, guid: 3da7e0f8c8d951f41b07541329f0d357,
     type: 3}
+  Raw_model_each_message: {fileID: 1506182428067953116, guid: 13a3f662bc67e6d45aac3d361e805856,
+    type: 3}
   Raw_model_Chat: {fileID: 80083417234226830, guid: f4cd6de3aacfc9d4fa2887309e390b5e,
     type: 3}
   Place_messages: {fileID: 1433612171}
