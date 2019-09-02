@@ -22,7 +22,7 @@ public class Raw_Content_ranking : MonoBehaviour
     {
         BTN_close_Ranking.onClick.AddListener(() => { Destroy(gameObject); });
 
-        Chilligames_SDK.API_Client.Recive_leader_board(new Req_recive_leader_board { Count_leader_board = 50, Name_leader_board = Name_leader_board }, result =>
+        Chilligames_SDK.API_Client.Recive_leader_board(new Req_recive_leader_board { Count = 50, Name_leader_board = Name_leader_board }, result =>
         {
             for (int i = 0; i < result.Length; i++)
             {

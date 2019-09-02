@@ -6,25 +6,33 @@ using TMPro;
 using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
-
+using Unity.Notifications.Android;
 
 public class Panel_Chatroom : MonoBehaviour
 {
     public GameObject Raw_model_profile;
     public GameObject Raw_model_message_Chatroom;
+
     public GameObject Raw_model_Category_message;
     public GameObject Raw_model_each_message;
     public GameObject Raw_model_Chat;
 
+    public GameObject Raw_model_notifactions;
+
+
     public Transform Place_messages;
     public Transform Place_massegase_chatroom;
+    public Transform Place_notifaction;
 
     public Button BTN_Chatroom;
     public Button BTN_Messages;
     public Button BTN_Notifaction;
 
+    public Button BTN_Remove_notifactions;
+
     public Button BTN_Send_message;
     public TMP_InputField Input_Message;
+
 
     public TMP_FontAsset Font_select;
     public TMP_FontAsset Font_deselect;
@@ -38,6 +46,7 @@ public class Panel_Chatroom : MonoBehaviour
 
     GameObject[] Messages_Chatroom = null;
     GameObject[] Messages = null;
+    GameObject[] Notifactions = null;
 
     public string _id_player
     {
@@ -47,8 +56,10 @@ public class Panel_Chatroom : MonoBehaviour
         }
     }
 
+
     void Start()
     {
+
         StartCoroutine(Recive_messages_in_chatroom());
 
         Curent_content = Content_Chatroom;
@@ -68,6 +79,7 @@ public class Panel_Chatroom : MonoBehaviour
             StartCoroutine(Recive_messages_in_chatroom());
 
         });
+
 
         BTN_Messages.onClick.AddListener(() =>
         {
@@ -106,6 +118,19 @@ public class Panel_Chatroom : MonoBehaviour
             Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect;
             Curent_BTN_tab = BTN_Notifaction;
             BTN_Notifaction.GetComponentInChildren<TextMeshProUGUI>().font = Font_select;
+
+            Chilligames_SDK.API_Client.Recive_notifactions(new Req_recive_notifactions { _id = _id_player, Name_App = "Venomic" }, Result =>
+                  {
+                      Notifactions = new GameObject[Result.Length];
+
+                      for (int i = 0; i < Result.Length; i++)
+                      {
+                          Notifactions[i] = Instantiate(Raw_model_notifactions, Place_notifaction);
+                          Notifactions[i].AddComponent<Raw_model_notifaction>().Change_value(Result[i].Body,Result[i].Title);
+                      }
+
+                  }, ERR => { });
+
         });
 
 
@@ -123,6 +148,18 @@ public class Panel_Chatroom : MonoBehaviour
 
         });
 
+
+        BTN_Remove_notifactions.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Remove_Notifaction(new Req_remove_notifactions { Name_App = "Venomic", _id = _id_player }, () =>
+            {
+            }, ERRORS => { });
+
+            for (int i = 0; i < Notifactions.Length; i++)
+            {
+                Destroy(Notifactions[i]);
+            }
+        });
     }
 
     void Update()
@@ -139,7 +176,7 @@ public class Panel_Chatroom : MonoBehaviour
             StopCoroutine(Recive_messages_in_chatroom());
         }
 
-        if (Content_Messages.activeInHierarchy != true&&Messages!=null)
+        if (Content_Messages.activeInHierarchy != true && Messages != null)
         {
             for (int i = 0; i < Messages.Length; i++)
             {
@@ -693,4 +730,52 @@ public class Panel_Chatroom : MonoBehaviour
             }
         }
     }
+
+
+    class Raw_model_notifaction : MonoBehaviour
+    {
+
+        TextMeshProUGUI Text_Title
+        {
+            get
+            {
+                TextMeshProUGUI Text_title = null;
+
+                foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    if (Texts.name == "TTM")
+                    {
+                        Text_title = Texts;
+                    }
+
+                }
+
+                return Text_title;
+            }
+        }
+        TextMeshProUGUI Text_messege_body
+        {
+            get
+            {
+                TextMeshProUGUI Text_message_body = null;
+                foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    if (Texts.name == "TMB")
+                    {
+                        Text_message_body = Texts;
+                    }
+                }
+                return Text_message_body;
+            }
+        }
+
+
+        public void Change_value(string Messege_body, string Text_title)
+        {
+            Text_Title.text = Text_title;
+            Text_messege_body.text = Messege_body;
+        }
+
+    }
+
 }
