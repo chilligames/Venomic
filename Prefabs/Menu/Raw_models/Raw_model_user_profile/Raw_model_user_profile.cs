@@ -18,6 +18,11 @@ public class Raw_model_user_profile : MonoBehaviour
     public Button BTN_Send_massege;
     public Button BTN_close_profile;
 
+    public void Change_value(string _id ,string _id_other_player)
+    {
+        this._id = _id;
+        this._id_other_player = _id_other_player;
+    }
     
     void Start()
     {

@@ -6,7 +6,6 @@ using TMPro;
 using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
-using Unity.Notifications.Android;
 
 public class Panel_Chatroom : MonoBehaviour
 {
@@ -17,12 +16,16 @@ public class Panel_Chatroom : MonoBehaviour
     public GameObject Raw_model_each_message;
     public GameObject Raw_model_Chat;
 
+    public GameObject Raw_model_search;
+    public TextMeshProUGUI Text_not_find;
+
     public GameObject Raw_model_notifactions;
 
 
     public Transform Place_messages;
     public Transform Place_massegase_chatroom;
     public Transform Place_notifaction;
+    public Transform Place_search;
 
     public Button BTN_Chatroom;
     public Button BTN_Messages;
@@ -33,6 +36,7 @@ public class Panel_Chatroom : MonoBehaviour
     public Button BTN_Send_message;
     public TMP_InputField Input_Message;
 
+    public TMP_InputField Input_search;
 
     public TMP_FontAsset Font_select;
     public TMP_FontAsset Font_deselect;
@@ -47,7 +51,7 @@ public class Panel_Chatroom : MonoBehaviour
     GameObject[] Messages_Chatroom = null;
     GameObject[] Messages = null;
     GameObject[] Notifactions = null;
-
+    GameObject Result_search = null;
     public string _id_player
     {
         get
@@ -126,7 +130,7 @@ public class Panel_Chatroom : MonoBehaviour
                       for (int i = 0; i < Result.Length; i++)
                       {
                           Notifactions[i] = Instantiate(Raw_model_notifactions, Place_notifaction);
-                          Notifactions[i].AddComponent<Raw_model_notifaction>().Change_value(Result[i].Body,Result[i].Title);
+                          Notifactions[i].AddComponent<Raw_model_notifaction>().Change_value(Result[i].Body, Result[i].Title);
                       }
 
                   }, ERR => { });
@@ -160,6 +164,34 @@ public class Panel_Chatroom : MonoBehaviour
                 Destroy(Notifactions[i]);
             }
         });
+
+        Input_search.onValueChanged.AddListener((Text_typed) =>
+        {
+
+            Chilligames_SDK.API_Client.Search_Users(new Req_search_user { count = 10, Nickname = Text_typed },
+            () =>
+            {
+                Text_not_find.gameObject.SetActive(true);
+
+            }, result =>
+            {
+                string Nickname = ChilligamesJson.DeserializeObject<Chilligames_SDK.API_Client.Result_search_user.Deserilseinfo>(result.Info.ToString()).Nickname;
+
+                string _id_other_player = result._id;
+                Text_not_find.gameObject.SetActive(false);
+                Result_search = Instantiate(Raw_model_search, Place_search);
+                Result_search.AddComponent<Raw_model_fild_search>().Change_value(_id_player, _id_other_player, Nickname, Raw_model_profile);
+            }, err => { });
+
+        });
+
+        Input_search.onEndEdit.AddListener(s =>
+        {
+            Destroy(Result_search, 0.5f);
+            Input_search.text = null;
+            Text_not_find.gameObject.SetActive(false);
+        });
+
     }
 
     void Update()
@@ -774,6 +806,46 @@ public class Panel_Chatroom : MonoBehaviour
         {
             Text_Title.text = Text_title;
             Text_messege_body.text = Messege_body;
+        }
+
+    }
+
+    class Raw_model_fild_search : MonoBehaviour
+    {
+        Button BTN_info
+        {
+            get
+            {
+                return GetComponent<Button>();
+            }
+        }
+
+        TextMeshProUGUI Text_nick_name
+        {
+            get
+            {
+                TextMeshProUGUI Text_Nickname = null;
+                foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    if (Texts.name == "TNN")
+                    {
+                        Text_Nickname = Texts;
+                    }
+
+                }
+                return Text_Nickname;
+
+            }
+        }
+
+        public void Change_value(string _id, string _id_other_player, string Nick_name, GameObject Raw_model_profile)
+        {
+            Text_nick_name.text = Nick_name;
+            BTN_info.onClick.AddListener(() =>
+            {
+                Instantiate(Raw_model_profile).GetComponent<Raw_model_user_profile>().Change_value(_id, _id_other_player);
+
+            });
         }
 
     }

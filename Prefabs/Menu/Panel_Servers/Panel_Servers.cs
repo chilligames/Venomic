@@ -69,7 +69,7 @@ public class Panel_Servers : MonoBehaviour
     {
         Curent_content = Content_Servers;
 
-        Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count_server = 50, Name_App = "Venomic" }, result =>
+        Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count = 50, Name_App = "Venomic" }, result =>
         {
             Entity_servers = new GameObject[result.Length];
             for (int i = 0; i < result.Length; i++)
@@ -88,7 +88,7 @@ public class Panel_Servers : MonoBehaviour
             Curent_content = Content_Servers;
             Curent_content.SetActive(true);
 
-            Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count_server = 50, Name_App = "Venomic" }, result =>
+            Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count = 50, Name_App = "Venomic" }, result =>
             {
                 Entity_servers = new GameObject[result.Length];
 
