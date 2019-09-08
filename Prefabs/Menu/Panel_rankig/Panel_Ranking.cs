@@ -9,69 +9,58 @@ using Chilligames.SDK;
 
 public class Panel_Ranking : MonoBehaviour
 {
+    public GameObject Raw_model_leader_board;
 
-    TextMeshProUGUI Text_MMR;
-    TextMeshProUGUI Text_Rank;
-    TextMeshProUGUI Text_Servers;
-    TextMeshProUGUI Text_near_you;
+    public TextMeshProUGUI Text_MMR;
+    public TextMeshProUGUI Text_Rank;
+    public TextMeshProUGUI Text_Servers;
+    public TextMeshProUGUI Text_near_you;
 
-    Button BTN_enter_mmr_ranking;
-    Button BTN_enter_top_player;
-    Button BTN_enter_top_active_servers;
-    Button BTN_enter_near_by;
+    public Button BTN_MMR;
+    public Button BTN_Top_player;
+    public Button BTN_server;
+    public Button BTN_Near_you;
 
-    public GameObject Curent_sub_panel = null;
 
+    public string _id
+    {
+        get
+        {
+            return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+        }
+    }
 
     public void Start()
     {
-
-    }
-
-
-    /// <summary>
-    /// recive mikone rank 
-    /// </summary>
-    /// <param name="_id"> before use need  intiles </param>
-    public void Recive_ranking(string _id)
-    {
-        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic", _id = _id }, Result =>
+        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_Player", _id = _id }, Result =>
         {
             Text_MMR.text = Result;
 
         }, null);
-
-        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_player", _id = _id }, Result =>
+        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Ranking", _id = _id }, Result =>
         {
             Text_Rank.text = Result;
 
         }, null);
 
-
-        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Servers", _id = _id }, Result =>
+        Chilligames_SDK.API_Client.Recive_leader_board_near_user(new Req_recive_leaderboard_near_user { Count = 10, Name_laederboard = "Venomic_Top_Player", _id = _id }, result =>
         {
-            Text_Servers.text = Result;
+            print(result[0]._id);
+            Text_near_you.text = result[0].Score.ToString();
 
-        }, null);
+        }, err => { });
+
+        BTN_MMR.onClick.AddListener(() =>
+        {
+            Instantiate(Raw_model_leader_board).GetComponent<Raw_Content_ranking>().Name_leader_board = "Venomic_Top_Player";
+        });
+
+        BTN_Top_player.onClick.AddListener(() =>
+        {
+            Instantiate(Raw_model_leader_board).GetComponent<Raw_Content_ranking>().Name_leader_board = "Venomic_Ranking";
+
+        });
 
     }
-
-
-    public class Schema_other_player
-    {
-        public object _id = null;
-        public object Info = null;
-        public object Inventory = null;
-
-        public class DeserilseInfoPlayer
-        {
-            public string Status = null;
-            public string Nickname = null;
-
-        }
-    }
-
-
-
 
 }

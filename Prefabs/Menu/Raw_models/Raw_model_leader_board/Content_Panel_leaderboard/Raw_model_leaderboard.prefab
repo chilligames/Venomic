@@ -887,7 +887,7 @@ GameObject:
   - component: {fileID: 4652165332388217720}
   - component: {fileID: 2651928931012668693}
   m_Layer: 5
-  m_Name: Raw_content_ranking
+  m_Name: Raw_model_leaderboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1296,7 +1296,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4652165331709573567}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

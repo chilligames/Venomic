@@ -42,7 +42,6 @@ public class UI : MonoBehaviour
     /// </summary>
     public void Press_BTN_Up()
     {
-        Control_Zoom.Press_BTN_Up();
     }
 
 
@@ -51,7 +50,6 @@ public class UI : MonoBehaviour
     /// </summary>
     public void Press_BTN_down()
     {
-        Control_Zoom.Press_BTN_Down();
     }
 
 
@@ -202,66 +200,6 @@ public class UI : MonoBehaviour
             }
 
 
-        }
-
-
-        /// <summary>
-        /// move camera to up
-        /// </summary>
-        public void Press_BTN_Up()
-        {
-            Move();
-
-            async void Move()
-            {
-                Vector3 next_pos_move = new Vector3(Player.cam.transform.position.x + 10, Player.cam.transform.position.y + 10);
-                if (next_pos_move.x > Player.mission_Collection.last_pos.x)//control mikone akharin pos k bishtar move nashe
-                {
-                    next_pos_move = Player.mission_Collection.last_pos;
-                }
-
-                while (true)
-                {
-                    if (Player.cam.transform.position != next_pos_move)
-                    {
-                        await Task.Delay(1);
-                        Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, next_pos_move, 1f);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// move camera to down
-        /// </summary>
-        public void Press_BTN_Down()
-        {
-            Move();
-            async void Move()
-            {
-                Vector3 Pos_previsue = new Vector3(Player.cam.transform.position.x - 10, Player.cam.transform.position.y - 10);
-                if (Pos_previsue.x < 0)// chek mikone ke mogheiat camera cam taraz home nashe
-                {
-                    Pos_previsue = Vector3.zero;
-                }
-                while (true)
-                {
-                    if (Player.cam.transform.position != Pos_previsue)
-                    {
-                        await Task.Delay(1);
-                        Player.cam.transform.position = Vector3.MoveTowards(Player.cam.transform.position, Pos_previsue, 1f);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
         }
 
 

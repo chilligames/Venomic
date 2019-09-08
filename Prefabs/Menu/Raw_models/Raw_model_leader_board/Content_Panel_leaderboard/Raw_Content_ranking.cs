@@ -29,7 +29,7 @@ public class Raw_Content_ranking : MonoBehaviour
 
                 GameObject player_fild = Instantiate(Raw_model_ranking, Place_contetn);
 
-                string ID_player = result[i].ID;
+                string ID_player = result[i]. _id;
                 player_fild.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     GameObject profile_user = Instantiate(Raw_model_profile);
@@ -50,7 +50,7 @@ public class Raw_Content_ranking : MonoBehaviour
                             break;
                         case "Name_player":
                             {
-                                Text_fild.text = result[i].Nick_name;
+                                Text_fild.text = result[i].Nickname;
                             }
                             break;
                         case "Score":

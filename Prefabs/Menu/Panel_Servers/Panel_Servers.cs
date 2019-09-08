@@ -241,7 +241,7 @@ public class Panel_Servers : MonoBehaviour
 
 
 
-    class Model_server
+   public class Model_server
     {
         public string _id = null;
         public object Setting = null;
