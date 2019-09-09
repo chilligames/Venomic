@@ -148,7 +148,7 @@ public class Raw_model_Game_play_online : MonoBehaviour
 
         BTN_delete.onClick.AddListener(() =>
         {
-            if (BTNS.Length >= 1)
+            if (BTNS.Length-1 >= 1)
             {
                 Destroy(BTNS[BTNS.Length - 1]);
 
@@ -159,7 +159,6 @@ public class Raw_model_Game_play_online : MonoBehaviour
                     if (BTNS[i] != null)
                     {
                         New_BTN[i] = BTNS[i];
-
                     }
                 }
                 BTNS = new GameObject[New_BTN.Length];
