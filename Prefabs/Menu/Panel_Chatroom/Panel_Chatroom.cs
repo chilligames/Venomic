@@ -168,7 +168,7 @@ public class Panel_Chatroom : MonoBehaviour
         Input_search.onValueChanged.AddListener((Text_typed) =>
         {
 
-            Chilligames_SDK.API_Client.Search_Users(new Req_search_user { count = 10, Nickname = Text_typed },
+            Chilligames_SDK.API_Client.Search_Users(new Req_search_user {  Nickname = Text_typed },
             () =>
             {
                 Text_not_find.gameObject.SetActive(true);

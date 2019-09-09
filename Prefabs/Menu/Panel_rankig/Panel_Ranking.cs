@@ -45,7 +45,7 @@ public class Panel_Ranking : MonoBehaviour
 
         Chilligames_SDK.API_Client.Recive_leader_board_near_user(new Req_recive_leaderboard_near_user { Count = 10, Name_laederboard = "Venomic_Top_Player", _id = _id }, result =>
         {
-            print(result[0]._id);
+
             Text_near_you.text = result[0].Score.ToString();
 
         }, err => { });

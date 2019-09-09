@@ -12,16 +12,17 @@ public class Panel_home : MonoBehaviour
 {
     public GameObject Raw_model_edit_profile;
     public GameObject Raw_model_fild_server_play;
-    
+
     public TextMeshProUGUI Text_Stars_number;
     public TextMeshProUGUI Text_ranking_number;
     public TextMeshProUGUI Text_level_number;
     public TextMeshProUGUI text_nickname;
 
     public Transform Place_server;
+    public GameObject[] Server_fild;
 
     public Button BTN_edit_profile;
-
+    public Button BTN_Home;
 
     public string _id
     {
@@ -48,7 +49,6 @@ public class Panel_home : MonoBehaviour
         {
             Chilligames_SDK.API_Client.Quick_login(new Req_Login { _id = PlayerPrefs.GetString("_id") }, Result_login =>
             {
-
                 if (Result_login == "1")
                 {
                     Data_reader_and_sender();
@@ -62,16 +62,39 @@ public class Panel_home : MonoBehaviour
 
                     Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result_server =>
                     {
+                        Server_fild = new GameObject[Result_server.Length];
                         for (int i = 0; i < Result_server.Length; i++)
                         {
-                            Instantiate(Raw_model_fild_server_play, Place_server).GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString());
+                            Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
+                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString());
                         }
 
                     }, err => { });
 
 
+                    BTN_Home.onClick.AddListener(() =>
+                    {
+                        for (int i = 0; i < Server_fild.Length; i++)
+                        {
+                            Destroy(Server_fild[i]);
+                        }
+                        Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result =>
+                        {
 
+                            Server_fild = new GameObject[Result.Length];
 
+                            for (int i = 0; i < Result.Length; i++)
+                            {
+                                Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
+                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString());
+
+                            }
+
+                        }, err => { });
+
+                    });
+
+                   
                     async void Data_reader_and_sender()
                     {
                         StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
@@ -106,7 +129,7 @@ public class Panel_home : MonoBehaviour
 
 
 
-                        var Level = "Change model_entity player   ";
+                        var Level = "Change model_entity player";
                         Text_level_number.text = Level;
 
                         Chilligames_SDK.API_Client.Recive_info_user(new Req_recive_Info_player { _id = _id }, result =>
@@ -127,11 +150,7 @@ public class Panel_home : MonoBehaviour
 
         }
 
-
-
-
     }
-
 
 
 }

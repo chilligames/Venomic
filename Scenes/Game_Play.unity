@@ -15748,7 +15748,9 @@ MonoBehaviour:
   Text_level_number: {fileID: 1052836093}
   text_nickname: {fileID: 1897410073}
   Place_server: {fileID: 332377091}
+  Server_fild: []
   BTN_edit_profile: {fileID: 714064976}
+  BTN_Home: {fileID: 199566387}
 --- !u!1 &1114372213
 GameObject:
   m_ObjectHideFlags: 0

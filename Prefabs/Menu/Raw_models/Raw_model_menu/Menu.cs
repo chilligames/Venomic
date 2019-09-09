@@ -72,7 +72,7 @@ public class Menu : MonoBehaviour
             Curent_BTN_Taped = BTN_Home;
             BTN_Home.GetComponentInChildren<RawImage>().color = Color_select;
         });
-
+    
         BTN_Ranking.onClick.AddListener(() =>
         {
             Curent_panel.SetActive(false);
