@@ -25,9 +25,8 @@ public class Raw_model_Game_play_online : MonoBehaviour
     public Button BTN_mines;
     public Button BTN_delete;
     public Button BTN_reset;
-
-    public Button Leader_server;
-    public Button Zoomback;
+    public Button BTN_Leave_server;
+    public Button BTN_Zoomback;
 
     public RawImage Image_signal;
 
@@ -39,10 +38,9 @@ public class Raw_model_Game_play_online : MonoBehaviour
     GameObject[] BTNS;
     GameObject Parent;
 
-    public int[] Count_patern;//remove public 
-    public int[] Tap_Patern;//remove public
+    public int[] Count_patern;
+    public int[] Tap_Patern;
     public int Result_mission;
-    public int star = 3;
 
 
     public void Change_value(string Name_server, int? level_remine, int? level, GameObject Parent)
@@ -96,7 +94,6 @@ public class Raw_model_Game_play_online : MonoBehaviour
         for (int i = 0; i < BTNS.Length; i++)
         {
             BTNS[i].AddComponent<BTN>();
-
         }
 
         Tap_Patern = new int[BTNS.Length];
@@ -148,7 +145,7 @@ public class Raw_model_Game_play_online : MonoBehaviour
 
         BTN_delete.onClick.AddListener(() =>
         {
-            if (BTNS.Length-1 >= 1)
+            if (BTNS.Length - 1 >= 1)
             {
                 Destroy(BTNS[BTNS.Length - 1]);
 
@@ -185,8 +182,89 @@ public class Raw_model_Game_play_online : MonoBehaviour
 
 
             }
+            else
+            {
+                print("cant mines");
+            }
         });
 
+        BTN_reset.onClick.AddListener(() =>
+        {
+
+            if (Parent.GetComponent<Raw_model_fild_server_play>().Reset >= 1)
+            {
+
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    Destroy(BTNS[i]);
+                }
+
+                if (Level < Level_Easy)
+                {
+                    int count = Random.Range(2, 4);
+                    BTNS = new GameObject[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        BTNS[i] = Instantiate(Raw_model_BTN_mission, Place_BTNs);
+                    }
+                }
+                else if (Level <= Level_mediom)
+                {
+                    int Count = Random.Range(2, 5);
+                    BTNS = new GameObject[Count];
+                    for (int i = 0; i < Count; i++)
+                    {
+                        BTNS[i] = Instantiate(Raw_model_BTN_mission, Place_BTNs);
+                    }
+
+                }
+                else if (Level >= Level_hard)
+                {
+                    int Count = Random.Range(2, 6);
+                    BTNS = new GameObject[Count];
+                    for (int i = 0; i < Count; i++)
+                    {
+                        BTNS[i] = Instantiate(Raw_model_BTN_mission, Place_BTNs);
+                    }
+                }
+
+                Count_patern = new int[BTNS.Length];
+
+
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    BTNS[i].AddComponent<BTN>();
+                }
+
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    BTNS[i].GetComponent<BTN>().Start();
+
+                    BTNS[i].GetComponent<BTN>().show_hint = 0;
+                    BTNS[i].GetComponent<BTN>().show_off = 0;
+                    BTNS[i].GetComponent<BTN>().show_on = 1;
+                    Count_patern[i] = BTNS[i].GetComponent<BTN>().Count;
+                }
+
+                Tap_Patern = new int[BTNS.Length];
+                Parent.GetComponent<Raw_model_fild_server_play>().Reset -= 1;
+
+            }
+            else
+            {
+                print("Cant reset");
+            }
+        });
+
+        BTN_Leave_server.onClick.AddListener(() =>
+        {
+            Parent.GetComponent<Raw_model_fild_server_play>().Leave_server();
+        });
+
+        BTN_Zoomback.onClick.AddListener(() =>
+        {
+            Player.Cam.Zoom_Back();
+        });
     }
 
     private void Update()
@@ -218,6 +296,7 @@ public class Raw_model_Game_play_online : MonoBehaviour
         else if (Player.cam.transform.position == transform.position)
         {
 
+
             for (int i = 0; i < BTNS.Length; i++)
             {
                 Tap_Patern[i] = BTNS[i].GetComponent<BTN>().click;
@@ -236,16 +315,16 @@ public class Raw_model_Game_play_online : MonoBehaviour
                     break;
                 }
 
-                if (Result_mission==1)
+                if (Result_mission == 1)
                 {
-                    for (int b =0 ; b > BTNS.Length; b++)
+                    for (int b = 0; b > BTNS.Length; b++)
                     {
-                        if (Tap_Patern[b]!=Count_patern[b])
+                        if (Tap_Patern[b] != Count_patern[b])
                         {
                             Result_mission = 0;
                             break;
                         }
-                      
+
                     }
 
                 }
@@ -256,7 +335,7 @@ public class Raw_model_Game_play_online : MonoBehaviour
             if (Result_mission == 1)
             {
                 print("pass");
-               Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
+                Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
             }
 
 
@@ -284,22 +363,30 @@ public class Raw_model_Game_play_online : MonoBehaviour
         public int Count;
         public int click;
 
-        private void Start()
+        public void Start()
         {
             Count = Random.Range(2, 10);
 
             Text_BTN.text = Count.ToString();
+
             GetComponent<Button>().onClick.AddListener(() =>
             {
                 click += 1;
                 if (click > Count)
                 {
-                    GetComponentInParent<Raw_model_Game_play_online>().Parent.GetComponent<Raw_model_fild_server_play>().Star_missions -= 1;
+                    if (GetComponentInParent<Raw_model_Game_play_online>().Parent.GetComponent<Raw_model_fild_server_play>().Chance < 1)
+                    {
+                        GetComponentInParent<Raw_model_Game_play_online>().Parent.GetComponent<Raw_model_fild_server_play>().Star_missions -= 1;
+                    }
+
+                    if (GetComponentInParent<Raw_model_Game_play_online>().Parent.GetComponent<Raw_model_fild_server_play>().Chance >= 1)
+                    {
+                        GetComponentInParent<Raw_model_Game_play_online>().Parent.GetComponent<Raw_model_fild_server_play>().Chance -= 1;
+                    }
 
                     click = Count;
                 }
                 Text_BTN.text = click.ToString();
-
 
             });
 

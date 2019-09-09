@@ -2190,6 +2190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d78f3126003bd54eba82f01b2fde459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Raw_model_mission_online: {fileID: 6470349561427678086, guid: 3d579590ecbc92f479132ba03c356d2f,
+    type: 3}
+  Raw_model_End_mission: {fileID: 8360215976126092463, guid: e41ac6a0fa441234ca1531367634417d,
+    type: 3}
   Text_nameserver_number: {fileID: 641131076987996376}
   Text_freeze_number: {fileID: 641131077409677255}
   Text_mines_number: {fileID: 641131077056216480}
@@ -2199,9 +2203,10 @@ MonoBehaviour:
   Text_Active_day_number: {fileID: 641131077400836903}
   Text_level_number: {fileID: 641131077685320470}
   Text_Coin_number: {fileID: 641131075720451139}
-  Raw_model_mission_online: {fileID: 6470349561427678086, guid: 3d579590ecbc92f479132ba03c356d2f,
-    type: 3}
   BTN_Play_mission_server: {fileID: 641131075684402618}
+  test: 0
+  Name_server: 
+  Star_missions: 0
 --- !u!1 &641131077424718463
 GameObject:
   m_ObjectHideFlags: 0

@@ -6212,14 +6212,13 @@ MonoBehaviour:
   BTN_mines: {fileID: 3403138606839679456}
   BTN_delete: {fileID: 6291506370721352987}
   BTN_reset: {fileID: 8627388429939932696}
-  Leader_server: {fileID: 1649185638565167890}
-  Zoomback: {fileID: 4898516443478347375}
+  BTN_Leave_server: {fileID: 1649185638565167890}
+  BTN_Zoomback: {fileID: 4898516443478347375}
   Image_signal: {fileID: 1649185639169806627}
   Place_BTNs: {fileID: 4469632065231144116}
   Count_patern: 
-  Tab_Patern: 
-  Resul_mission: 0
-  star: 3
+  Tap_Patern: 
+  Result_mission: 0
 --- !u!1 &6470349561610318824
 GameObject:
   m_ObjectHideFlags: 0
