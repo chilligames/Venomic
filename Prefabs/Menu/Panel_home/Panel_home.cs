@@ -12,6 +12,7 @@ public class Panel_home : MonoBehaviour
 {
     public GameObject Raw_model_edit_profile;
     public GameObject Raw_model_fild_server_play;
+    public GameObject Raw_model_mission_offline;
 
     public TextMeshProUGUI Text_Stars_number;
     public TextMeshProUGUI Text_ranking_number;
@@ -23,6 +24,11 @@ public class Panel_home : MonoBehaviour
 
     public Button BTN_edit_profile;
     public Button BTN_Home;
+    public Button BTN_Play_offline;
+
+    public Transform Place_missons;
+
+    public GameObject Missions;
 
     public string _id
     {
@@ -34,6 +40,8 @@ public class Panel_home : MonoBehaviour
 
     public void Start()
     {
+        /*....online....*/
+
         if (PlayerPrefs.GetString("_id").Length < 2)
         {
             Chilligames_SDK.API_Client.Quick_register(result =>
@@ -94,7 +102,7 @@ public class Panel_home : MonoBehaviour
 
                     });
 
-                   
+
                     async void Data_reader_and_sender()
                     {
                         StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
@@ -150,7 +158,29 @@ public class Panel_home : MonoBehaviour
 
         }
 
+
+        /*....offline....*/
+
+        BTN_Play_offline.onClick.AddListener(() =>
+        {
+
+            Missions = Instantiate(Raw_model_mission_offline, Place_missons);
+            Missions.GetComponent<Raw_model_game_play_offline>().Change_value(0, gameObject);
+            Player.Cam.Move_camera(new Vector3(10, 10, 0));
+
+        });
     }
 
+
+    /// <summary>
+    /// mission insert mikone vaghti offline hast player
+    /// </summary>
+    public void Insert_mission_Offline(int level, Vector3 Pos_mission)
+    {
+        Missions = Instantiate(Raw_model_mission_offline, Place_missons);
+        Missions.transform.position = new Vector3(Pos_mission.x + 10, Pos_mission.y + 10, 0);
+        Player.Cam.Move_camera(Missions.transform.position);
+        Missions.GetComponent<Raw_model_game_play_offline>().Change_value(level + 1, gameObject);
+    }
 
 }

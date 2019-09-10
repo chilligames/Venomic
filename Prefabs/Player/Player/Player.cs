@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     public static Camera cam;
     public static Transform Place_mission;
     public Transform Place;
-    public GameObject mision;
     public static GameObject Raw_mision;
 
 
@@ -17,7 +16,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         Place_mission = Place;
-        Raw_mision = mision;
         cam = Camera.main;
     }
 
