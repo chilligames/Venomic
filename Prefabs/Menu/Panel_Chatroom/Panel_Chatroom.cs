@@ -168,7 +168,7 @@ public class Panel_Chatroom : MonoBehaviour
         Input_search.onValueChanged.AddListener((Text_typed) =>
         {
 
-            Chilligames_SDK.API_Client.Search_Users(new Req_search_user {  Nickname = Text_typed },
+            Chilligames_SDK.API_Client.Search_Users(new Req_search_user { Nickname = Text_typed },
             () =>
             {
                 Text_not_find.gameObject.SetActive(true);
@@ -194,19 +194,33 @@ public class Panel_Chatroom : MonoBehaviour
 
     }
 
-    void Update()
+    private void Update()
     {
-
-        if (Content_Chatroom.activeInHierarchy != true)
+        if (Content_Chatroom.activeInHierarchy != true && Messages_Chatroom != null)
         {
             for (int i = 0; i < Messages_Chatroom.Length; i++)
             {
                 Destroy(Messages_Chatroom[i]);
 
             }
-
-            StopCoroutine(Recive_messages_in_chatroom());
         }
+        if (Content_Messages.activeInHierarchy != true && Messages != null)
+        {
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                Destroy(Messages[i]);
+            }
+        }
+    }
+    public void OnDisable()
+    {
+        for (int i = 0; i < Messages_Chatroom.Length; i++)
+        {
+            Destroy(Messages_Chatroom[i]);
+
+        }
+
+        StopCoroutine(Recive_messages_in_chatroom());
 
         if (Content_Messages.activeInHierarchy != true && Messages != null)
         {
@@ -217,35 +231,48 @@ public class Panel_Chatroom : MonoBehaviour
         }
 
     }
-
-
+    public void OnEnable()
+    {
+        StartCoroutine(Recive_messages_in_chatroom());
+    }
 
     IEnumerator Recive_messages_in_chatroom()
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
+
             Chilligames_SDK.API_Client.Recive_Chatroom_messages(new Req_recive_chatroom_messages { Name_App = "Venomic" }, Result =>
             {
-                if (Messages_Chatroom != null)
+                if (gameObject.activeInHierarchy)
                 {
-                    for (int i = 0; i < Messages_Chatroom.Length; i++)
+                    if (Messages_Chatroom != null)
                     {
-                        Destroy(Messages_Chatroom[i]);
+                        for (int i = 0; i < Messages_Chatroom.Length; i++)
+                        {
+                            Destroy(Messages_Chatroom[i]);
+                        }
+                    }
+                    Messages_Chatroom = new GameObject[Result.Length];
+
+                    for (int i = 0; i < Result.Length; i++)
+                    {
+                        Messages_Chatroom[i] = Instantiate(Raw_model_message_Chatroom, Place_massegase_chatroom);
+                        Messages_Chatroom[i].AddComponent<Raw_model_message_chatroom>().Change_value(Result[i]._id, Result[i].ID, _id_player, Result[i].Nick_Name, Result[i].Message, Result[i].Time, Result[i].Report, Raw_model_profile);
                     }
                 }
-                Messages_Chatroom = new GameObject[Result.Length];
-
-                for (int i = 0; i < Result.Length; i++)
+                else
                 {
-                    Messages_Chatroom[i] = Instantiate(Raw_model_message_Chatroom, Place_massegase_chatroom);
-                    Messages_Chatroom[i].AddComponent<Raw_model_message_chatroom>().Change_value(Result[i]._id, Result[i].ID, _id_player, Result[i].Nick_Name, Result[i].Message, Result[i].Time, Result[i].Report, Raw_model_profile);
-                }
 
+                    StopAllCoroutines();
+                }
 
             }, ERR => { });
         }
+
     }
+
+
 
 
     class Raw_model_message_chatroom : MonoBehaviour
@@ -348,6 +375,7 @@ public class Panel_Chatroom : MonoBehaviour
         Color Color_ban_1 = new Color(0.9f, 0.07f, 0.2f, 0.3f);
         Color Color_ban_2 = new Color(0.9f, 0.07f, 0.2f, 0.5f);
         Color Color_ban_3 = new Color(0.9f, 0.07f, 0.2f, 0.7f);
+
         /// <summary>
         /// change value mikone va recive mikone darayi message haro
         /// </summary>
@@ -810,6 +838,7 @@ public class Panel_Chatroom : MonoBehaviour
 
     }
 
+
     class Raw_model_fild_search : MonoBehaviour
     {
         Button BTN_info
@@ -849,5 +878,5 @@ public class Panel_Chatroom : MonoBehaviour
         }
 
     }
-
 }
+
