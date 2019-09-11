@@ -201,6 +201,9 @@ public class Raw_model_game_play_online : MonoBehaviour
             {
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().End_Result_mission, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
+                int average = Totall_level + Freeze + Minues + Delete + Chance + Reset;
+                Parent.GetComponent<Raw_model_fild_server_play>().Missions.AddComponent<End_mission>().Change_value(Name_server, Totall_level, Freeze, Minues, Delete, Chance, Reset, average, Parent);
+
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
                 Destroy(gameObject);
             }
@@ -315,6 +318,21 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
+        TextMeshProUGUI Text_leve_number
+        {
+            get
+            {
+                TextMeshProUGUI Text_level_number = null;
+                foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    if (text.name == "TNS")
+                    {
+                        Text_level_number = text;
+                    }
+                }
+                return Text_level_number;
+            }
+        }
         TextMeshProUGUI Text_Freeze_number
         {
             get
@@ -402,21 +420,67 @@ public class Raw_model_game_play_online : MonoBehaviour
                 TextMeshProUGUI Text_avrege = null;
                 foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
                 {
-                    Text_avrege = text;
+                    if (text.name == "TAN")
+                    {
+                        Text_avrege = text;
+                    }
                 }
                 return Text_avrege;
             }
         }
 
-        public void Change_value(string name_server, int freeze, int minuse, int delete, int chance, int reset, int avrege, GameObject parent)
+        Button BTN_Send_score_to_server
+        {
+            get
+            {
+                Button BTN_send_score = null;
+                foreach (var BTN in GetComponentsInChildren<Button>())
+                {
+                    if (BTN.name == "BSSTS")
+                    {
+                        BTN_send_score = BTN;
+                    }
+                }
+                return BTN_send_score;
+            }
+        }
+
+        Button BTN_leave_server
+        {
+
+            get
+            {
+                Button BTN_Leave_server = null;
+                foreach (var BTN in GetComponentsInChildren<Button>())
+                {
+                    if (BTN.name == "BLS")
+                    {
+                        BTN_Leave_server = BTN;
+                    }
+                }
+                return BTN_Leave_server;
+            }
+        }
+
+        public void Change_value(string name_server, int level, int freeze, int minuse, int delete, int chance, int reset, int avrege, GameObject parent)
         {
             Text_name_server.text = name_server;
+            Text_leve_number.text = level.ToString();
             Text_Freeze_number.text = freeze.ToString();
             Text_minues_number.text = minuse.ToString();
             Text_delete_number.text = delete.ToString();
             Text_Chance_number.text = chance.ToString();
             Text_reset_number.text = reset.ToString();
             Text_average.text = avrege.ToString();
+            BTN_leave_server.onClick.AddListener(() =>
+            {
+                Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
+                Player.Cam.Move_camera(Vector3.zero);
+            });
+            BTN_Send_score_to_server.onClick.AddListener(() =>
+            {
+                print("send score to server here code in sdk");
+            });
         }
     }
 }

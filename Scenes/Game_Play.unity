@@ -16488,7 +16488,8 @@ MonoBehaviour:
     type: 3}
   Text_ranking_number: {fileID: 885915034}
   Text_level_number: {fileID: 1052836093}
-  text_nickname: {fileID: 1897410073}
+  Text_nickname: {fileID: 1897410073}
+  Text_Coin_number: {fileID: 472032345}
   Offline_mode: {fileID: 1662061674}
   Place_server: {fileID: 332377091}
   Server_fild: []
