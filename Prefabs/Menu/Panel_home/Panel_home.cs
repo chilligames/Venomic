@@ -7,24 +7,42 @@ using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 using System.IO;
+using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// playerprefe:
+/// 1: Freeze
+/// 2: Minuse
+/// 3: Delete
+/// 4: Chance
+/// 5: Reset
+/// 6: Coin
+/// 7: Level
+/// </summary>
+/// 
 public class Panel_home : MonoBehaviour
 {
     public GameObject Raw_model_edit_profile;
     public GameObject Raw_model_fild_server_play;
     public GameObject Raw_model_mission_offline;
 
-    public TextMeshProUGUI Text_Stars_number;
     public TextMeshProUGUI Text_ranking_number;
     public TextMeshProUGUI Text_level_number;
-    public TextMeshProUGUI text_nickname;
+    public TextMeshProUGUI Text_nickname;
+    public TextMeshProUGUI Text_Coin_number;
+    public GameObject Offline_mode;
 
     public Transform Place_server;
     public GameObject[] Server_fild;
 
+
     public Button BTN_edit_profile;
     public Button BTN_Home;
     public Button BTN_Play_offline;
+    public Button BTN_return_online;
+
+    public GameObject[] object_hide_offline;
 
     public Transform Place_missons;
 
@@ -49,9 +67,28 @@ public class Panel_home : MonoBehaviour
                 print("register_new_user");
                 PlayerPrefs.SetString("_id", result._id);
                 Start();
+            }, ERROR =>
+            {
+                Offline_mode.SetActive(true);
 
-            }, ERROR => { });
+                BTN_return_online.onClick.AddListener(() =>
+                {
+                    Chilligames_SDK.API_Client.Quick_register(result =>
+                    {
+                        print("Register_new_user");
+                        PlayerPrefs.SetString("_id", result._id);
+                    }, err =>
+                    {
+                        print(err);
+                    });
 
+                });
+
+                for (int i = 0; i < object_hide_offline.Length; i++)
+                {
+                    object_hide_offline[i].gameObject.SetActive(false);
+                }
+            });
         }
         else
         {
@@ -59,9 +96,7 @@ public class Panel_home : MonoBehaviour
             {
                 if (Result_login == "1")
                 {
-                    Data_reader_and_sender();
-
-                    Change_entitys_stars();
+                    Send_data();
 
                     BTN_edit_profile.onClick.AddListener(() =>
                     {
@@ -78,7 +113,11 @@ public class Panel_home : MonoBehaviour
                         }
 
                     }, err => { });
+                    Chilligames_SDK.API_Client.Recive_info_user(new Req_recive_Info_player { _id = _id }, result =>
+                    {
+                        Text_nickname.text = result.Nickname;
 
+                    }, err => { });
 
                     BTN_Home.onClick.AddListener(() =>
                     {
@@ -102,85 +141,89 @@ public class Panel_home : MonoBehaviour
 
                     });
 
-
-                    async void Data_reader_and_sender()
+                    void Send_data()
                     {
-                        StreamReader reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
-                        var data = await reader.ReadToEndAsync();
-                        Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data { Data_user = data, Name_app = "Venomic", _id = _id }, () =>
+                        Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
+
+                        Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data
                         {
-                            print("Data send to server");
+                            _id = _id,
+                            Name_app = "Venomic",
+                            Data_user = ChilligamesJson.SerializeObject(new Entity_Player
+                            {
+                                Chance = PlayerPrefs.GetInt("Chance"),
+                                Delete = PlayerPrefs.GetInt("Delete"),
+                                Freeze = PlayerPrefs.GetInt("Freeze"),
+                                Level = PlayerPrefs.GetInt("Level"),
+                                Minus = PlayerPrefs.GetInt("Minuse"),
+                                Reset = PlayerPrefs.GetInt("Reset")
+                            })
+                        }, () => { }, () => { });
 
-                        }, () => { }); ;
-
-                    }
-
-                    async void Change_entitys_stars()
-                    {
-                        int entity_stars = 0;
-                        StreamReader Reader = new StreamReader(Application.persistentDataPath + "/Info.Chi");
-
-                        string data = await Reader.ReadToEndAsync();
-
-                        int[] stars = JsonUtility.FromJson<Player.Entity_player_model>(data).S;
-                        for (int i = 0; i < stars.Length; i++)
+                        Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { Leader_board_name = "Venomic_Top_Player", Score = PlayerPrefs.GetInt("Level"), _id = _id }, () => { });
+                        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { _id = _id, Leader_board_name = "Venomic_Top_Player" }, result =>
                         {
-                            entity_stars += stars[i];
-                        }
-                        Text_Stars_number.text = entity_stars.ToString();
-
-                        Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { Leader_board_name = "Venomic_top_Player", Score = entity_stars, _id = _id }, () => { print("Score_send"); });
-                        Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_top_Player", _id = _id }, Result =>
-                        {
-                            Text_ranking_number.text = Result;
-                        }, null);
-
-
-
-                        var Level = "Change model_entity player";
-                        Text_level_number.text = Level;
-
-                        Chilligames_SDK.API_Client.Recive_info_user(new Req_recive_Info_player { _id = _id }, result =>
-                        {
-                            text_nickname.text = result.Nickname;
+                            Text_ranking_number.text = result;
                         }, err => { });
-
-
                     }
                 }
                 else if (Result_login == "0")
                 {
                     print("Code not login here");
                 }
+            }, ERR =>
+            {
+                Offline_mode.SetActive(true);
 
+                BTN_return_online.onClick.AddListener(() =>
+                {
+                    SceneManager.LoadScene(0);
+                });
 
-            }, ERR => { });
+                for (int i = 0; i < object_hide_offline.Length; i++)
+                {
+                    object_hide_offline[i].gameObject.SetActive(false);
+                }
 
+            });
         }
+
 
 
         /*....offline....*/
 
         BTN_Play_offline.onClick.AddListener(() =>
         {
-
             Missions = Instantiate(Raw_model_mission_offline, Place_missons);
-            Missions.GetComponent<Raw_model_game_play_offline>().Change_value(0, gameObject);
+            Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
             Player.Cam.Move_camera(new Vector3(10, 10, 0));
-
         });
     }
 
-
+    public void Update()
+    {
+        Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();
+        Text_Coin_number.text = PlayerPrefs.GetInt("Coin").ToString();
+    }
     /// <summary>
     /// mission insert mikone vaghti offline hast player
     /// </summary>
-    public void Insert_mission_Offline(int level, Vector3 Pos_mission)
+    public void Insert_mission_Offline(Vector3 Pos_mission)
     {
         Missions = Instantiate(Raw_model_mission_offline, Place_missons);
         Missions.transform.position = new Vector3(Pos_mission.x + 10, Pos_mission.y + 10, 0);
         Player.Cam.Move_camera(Missions.transform.position);
-        Missions.GetComponent<Raw_model_game_play_offline>().Change_value(level + 1, gameObject);
+        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+        Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
     }
 
+    public class Entity_Player
+    {
+        public int Level = 0;
+        public int Freeze = 0;
+        public int Minus = 0;
+        public int Delete = 0;
+        public int Chance = 0;
+        public int Reset = 0;
+    }
 }

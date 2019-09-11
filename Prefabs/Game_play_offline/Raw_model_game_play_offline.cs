@@ -26,10 +26,16 @@ public class Raw_model_game_play_offline : MonoBehaviour
     public TextMeshProUGUI Text_reset_number;
     public TextMeshProUGUI Text_coin_number;
 
+
+
     public Button Leave_mission;
-    public Button Save_mission;
+    public Button BTN_Freeze;
+    public Button BTN_Minese;
+    public Button BTN_Delete;
+    public Button BTN_Reset;
 
     public Transform Place_BTN;
+
 
     public int Level;
 
@@ -81,19 +87,87 @@ public class Raw_model_game_play_offline : MonoBehaviour
             BTNS_mission[i].AddComponent<BTN>();
             BTNS_mission[i].GetComponent<BTN>().Change_value(transform, gameObject);
         }
+    }
+    private void Start()
+    {
+        BTN_Reset.onClick.AddListener(() =>
+        {
+            if (PlayerPrefs.GetInt("Reset") >= 1)
+            {
+                for (int i = 0; i < BTNS_mission.Length; i++)
+                {
+                    Destroy(BTNS_mission[i]);
+                }
+
+                PlayerPrefs.SetInt("Reset", PlayerPrefs.GetInt("Reset") - 1);
+                Change_value(Level, Parent);
+            }
+            else
+            {
+                print("Cant reset here");
+            }
+
+        });
+
+        BTN_Freeze.onClick.AddListener(() =>
+        {
+            foreach (var BTNS in BTNS_mission)
+            {
+                BTNS.GetComponent<BTN>().Time_animation = 0.003f;
+            }
+
+        });
+
+        BTN_Minese.onClick.AddListener(() =>
+        {
+            foreach (var BTNS in BTNS_mission)
+            {
+                if (BTNS.GetComponent<BTN>().Count > 1 && PlayerPrefs.GetInt("Minuse") >= 1)
+                {
+                    BTNS.GetComponent<BTN>().Count = BTNS.GetComponent<BTN>().Count - 1;
+                    PlayerPrefs.SetInt("Minuse", PlayerPrefs.GetInt("Minuse") - 1);
+                }
+                else
+                {
+                    print("Cant mines btn here");
+                }
+            }
+
+        });
+
+        BTN_Delete.onClick.AddListener(() =>
+        {
+            if (PlayerPrefs.GetInt("Delete") >= 1 && BTNS_mission.Length - 1 > 1)
+            {
+                Destroy(BTNS_mission[BTNS_mission.Length - 1]);
+
+                GameObject[] BTN_new_mission = new GameObject[BTNS_mission.Length - 1];
+                for (int i = 0; i < BTN_new_mission.Length; i++)
+                {
+                    if (BTNS_mission[i] != null)
+                    {
+                        BTN_new_mission[i] = BTNS_mission[i];
+                    }
+                }
+
+                BTNS_mission = BTN_new_mission;
+                PlayerPrefs.SetInt("Delete", PlayerPrefs.GetInt("Delete") - 1);
+            }
+            else
+            {
+                print("Cod cant delete here");
+            }
+        });
 
         Leave_mission.onClick.AddListener(() =>
         {
             Player.Cam.Move_camera(Vector3.zero);
-            Destroy(parent.GetComponent<Panel_home>().Missions);
-
+            Destroy(Parent.GetComponent<Panel_home>().Missions);
         });
-
     }
-
     private void Update()
     {
-        Text_level_number.text = Level.ToString();
+        Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();
         Text_freeze_number.text = PlayerPrefs.GetInt("Freeze").ToString();
         Text_minus_number.text = PlayerPrefs.GetInt("Minuse").ToString();
         Text_delete_number.text = PlayerPrefs.GetInt("Delete").ToString();
@@ -140,7 +214,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
         if (pass_mission == 1)
         {
-            Parent.GetComponent<Panel_home>().Insert_mission_Offline(Level, transform.position);
+            Parent.GetComponent<Panel_home>().Insert_mission_Offline(transform.position);
             int rand_bounce = Random.Range(1, 6);
 
             int Rand_coin = Random.Range(1, 10);
@@ -200,7 +274,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
         }
 
         Transform Place_mission;
-
+        public float Time_animation = 0.01f;
 
         public int Count;
         public int Tap;
@@ -220,7 +294,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 {
                     if (PlayerPrefs.GetInt("Chance") < 1)
                     {
-                        Parent.GetComponent<Raw_model_game_play_offline>().Level -= 1;
+                       PlayerPrefs.SetInt("Level",PlayerPrefs.GetInt("Level")-1);
                     }
                     else
                     {
@@ -243,7 +317,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
             {
                 if (Text_BTN.transform.localScale != Vector3.zero)
                 {
-                    Text_BTN.transform.localScale = Vector3.MoveTowards(Text_BTN.transform.localScale, Vector3.zero, 0.01f);
+                    Text_BTN.transform.localScale = Vector3.MoveTowards(Text_BTN.transform.localScale, Vector3.zero, Time_animation);
                 }
                 else
                 {

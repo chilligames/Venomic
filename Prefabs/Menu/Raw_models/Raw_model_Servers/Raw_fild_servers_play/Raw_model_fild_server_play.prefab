@@ -2204,9 +2204,10 @@ MonoBehaviour:
   Text_level_number: {fileID: 641131077685320470}
   Text_Coin_number: {fileID: 641131075720451139}
   BTN_Play_mission_server: {fileID: 641131075684402618}
-  test: 0
+  Missions: {fileID: 0}
+  End_Result_mission: {fileID: 8360215976126092463, guid: e41ac6a0fa441234ca1531367634417d,
+    type: 3}
   Name_server: 
-  Star_missions: 0
 --- !u!1 &641131077424718463
 GameObject:
   m_ObjectHideFlags: 0

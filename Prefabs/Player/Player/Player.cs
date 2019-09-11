@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
                     if (Vector3.Distance(cam.transform.position, Pos_new) > 0)
                     {
                         await Task.Delay(1);
-                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, Pos_new, 0.5f);
+                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, Pos_new, 0.7f);
                     }
                     else
                     {
@@ -97,17 +97,5 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-
-
-    public class Entity_player_model
-    {
-        public Vector3[] Pos_G = { };
-        public float[] T_M = { };
-        public int[] ST_P = { };
-        public int[] S = { };
-        public int[] R_M = { };
-    }
-
 
 }
