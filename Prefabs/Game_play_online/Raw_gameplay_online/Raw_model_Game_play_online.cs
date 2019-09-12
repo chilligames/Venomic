@@ -128,6 +128,11 @@ public class Raw_model_game_play_online : MonoBehaviour
             {
                 if (BTN.GetComponent<BTN>().Count > 1)
                 {
+                    if (BTN.GetComponent<BTN>().Count-1<BTN.GetComponent<BTN>().Tap)
+                    {
+                        BTN.GetComponent<BTN>().Tap -= 1;
+                    }
+
                     BTN.GetComponent<BTN>().Count -= 1;
                     Minues -= 1;
                 }
@@ -139,6 +144,39 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         });
 
+        BTN_Delete.onClick.AddListener(() =>
+        {
+            if (Delete >= 1 && BTNS.Length > 1)
+            {
+                Destroy(BTNS[BTNS.Length - 1]);
+                Delete -= 1;
+                GameObject[] New_BTNS = new GameObject[BTNS.Length - 1];
+
+                for (int i = 0; i < New_BTNS.Length; i++)
+                {
+                    New_BTNS[i] = BTNS[i];
+                }
+                BTNS = New_BTNS;
+            }
+            else
+            {
+                print("Cant delete here");
+            }
+        });
+
+        BTN_Reset.onClick.AddListener(() =>
+        {
+            if (Reset >= 1)
+            {
+                Reset -= 1;
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    Destroy(BTNS[i]);
+                }
+                Start();
+
+            }
+        });
     }
 
     void Update()
@@ -195,6 +233,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
+        
         if (Mission_pass == 1)
         {
             if (Level + 1 > Totall_level)
@@ -256,7 +295,6 @@ public class Raw_model_game_play_online : MonoBehaviour
                 if (Tap < Count)
                 {
                     Tap += 1;
-                    Text_BTN.text = Tap.ToString();
                 }
                 else
                 {
@@ -294,6 +332,11 @@ public class Raw_model_game_play_online : MonoBehaviour
                 {
                     show_off = 0;
                 }
+            }
+            else if (show_hint == 1 && show_off == 1)
+            {
+                print("can see");
+                Text_BTN.text = Tap.ToString();
             }
         }
 

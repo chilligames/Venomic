@@ -90,6 +90,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
     }
     private void Start()
     {
+        PlayerPrefs.SetInt("Minuse", 4);//delete
         BTN_Reset.onClick.AddListener(() =>
         {
             if (PlayerPrefs.GetInt("Reset") >= 1)
@@ -124,6 +125,10 @@ public class Raw_model_game_play_offline : MonoBehaviour
             {
                 if (BTNS.GetComponent<BTN>().Count > 1 && PlayerPrefs.GetInt("Minuse") >= 1)
                 {
+                    if (BTNS.GetComponent<BTN>().Count - 1 < BTNS.GetComponent<BTN>().Tap)
+                    {
+                        BTNS.GetComponent<BTN>().Tap -= 1;
+                    }
                     BTNS.GetComponent<BTN>().Count = BTNS.GetComponent<BTN>().Count - 1;
                     PlayerPrefs.SetInt("Minuse", PlayerPrefs.GetInt("Minuse") - 1);
                 }
@@ -287,14 +292,13 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
             Count = Random.Range(1, 9);
             Text_BTN.text = Count.ToString();
-
             BTN_click.onClick.AddListener(() =>
             {
                 if (Tap + 1 > Count)
                 {
                     if (PlayerPrefs.GetInt("Chance") < 1)
                     {
-                       PlayerPrefs.SetInt("Level",PlayerPrefs.GetInt("Level")-1);
+                        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") - 1);
                     }
                     else
                     {
@@ -333,6 +337,11 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 {
                     show_off = 1;
                 }
+            }
+            else if (show_hint == 1 && show_off == 1)
+            {
+                Text_BTN.text = Tap.ToString();
+                print("Can see");
             }
         }
 
