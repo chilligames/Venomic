@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Chilligames.SDK;
+using Chilligames.SDK.Model_Client;
+using Chilligames.Json;
 
 public class Raw_model_game_play_online : MonoBehaviour
 {
     public GameObject Raw_model_BTN;
+    string _id_server;
 
     string Name_server;
     int Count_Player;
@@ -47,11 +51,11 @@ public class Raw_model_game_play_online : MonoBehaviour
     public int[] tap_map;//delete public 
 
     int Mission_pass;
-    public void Change_value(string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, GameObject parent)
+    public void Change_value(string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
     {
         Parent = parent;
         Name_server = name_server;
-        Count_Player = 99;//recive from server
+        Count_Player = 99;
         Rank_player = 99;//recive from server
         Coin_server = coin_server;
         Totall_level = totall_level;
@@ -62,6 +66,7 @@ public class Raw_model_game_play_online : MonoBehaviour
         Chance = chance;
         Reset = reset;
 
+        this._id_server = _id_server;
         Text_Name_server.text = Name_server;
         Text_total_level.text = Totall_level.ToString();
     }
@@ -128,7 +133,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             {
                 if (BTN.GetComponent<BTN>().Count > 1)
                 {
-                    if (BTN.GetComponent<BTN>().Count-1<BTN.GetComponent<BTN>().Tap)
+                    if (BTN.GetComponent<BTN>().Count - 1 < BTN.GetComponent<BTN>().Tap)
                     {
                         BTN.GetComponent<BTN>().Tap -= 1;
                     }
@@ -177,6 +182,22 @@ public class Raw_model_game_play_online : MonoBehaviour
 
             }
         });
+
+        Recive_data();
+
+
+        void Recive_data()
+        {
+            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Chilligames.SDK.Model_Client.Req_data_server { Name_app = "Venomic", _id_server = _id_server }, result =>
+                  {
+                      Count_Player = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Player;
+
+                  }, ERR => { });
+
+            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { _id_server = _id_server, Name_app = "Venomic" }, result => {
+                Coin_server = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Coine;
+            }, err => { });
+        }
     }
 
     void Update()
@@ -233,7 +254,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
-        
+
         if (Mission_pass == 1)
         {
             if (Level + 1 > Totall_level)
@@ -249,7 +270,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             else
             {
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().Raw_model_mission_online, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
-                Parent.GetComponent<Raw_model_fild_server_play>().Missions.GetComponent<Raw_model_game_play_online>().Change_value(Name_server, Coin_server, Totall_level, Level + 1, Freeze, Minues, Delete, Chance, Reset, Parent);
+                Parent.GetComponent<Raw_model_fild_server_play>().Missions.GetComponent<Raw_model_game_play_online>().Change_value(Name_server, Coin_server, Totall_level, Level + 1, Freeze, Minues, Delete, Chance, Reset, _id_server, Parent);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
                 Destroy(gameObject);
@@ -335,7 +356,6 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
             else if (show_hint == 1 && show_off == 1)
             {
-                print("can see");
                 Text_BTN.text = Tap.ToString();
             }
         }
@@ -526,4 +546,5 @@ public class Raw_model_game_play_online : MonoBehaviour
             });
         }
     }
+
 }

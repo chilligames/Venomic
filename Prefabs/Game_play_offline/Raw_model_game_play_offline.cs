@@ -137,7 +137,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                     print("Cant mines btn here");
                 }
             }
-
+            
         });
 
         BTN_Delete.onClick.AddListener(() =>
@@ -341,7 +341,6 @@ public class Raw_model_game_play_offline : MonoBehaviour
             else if (show_hint == 1 && show_off == 1)
             {
                 Text_BTN.text = Tap.ToString();
-                print("Can see");
             }
         }
 
