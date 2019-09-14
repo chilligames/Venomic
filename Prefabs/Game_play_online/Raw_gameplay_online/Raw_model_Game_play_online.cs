@@ -10,6 +10,7 @@ using Chilligames.Json;
 public class Raw_model_game_play_online : MonoBehaviour
 {
     public GameObject Raw_model_BTN;
+    string _id;
     string _id_server;
 
     string Name_server;
@@ -51,12 +52,12 @@ public class Raw_model_game_play_online : MonoBehaviour
     public int[] tap_map;//delete public 
 
     int Mission_pass;
-    public void Change_value(string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
+    public void Change_value(string _id, string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
     {
         Parent = parent;
         Name_server = name_server;
         Count_Player = 99;
-        Rank_player = 99;//recive from server
+        Rank_player = 99;
         Coin_server = coin_server;
         Totall_level = totall_level;
         Level = level;
@@ -65,8 +66,9 @@ public class Raw_model_game_play_online : MonoBehaviour
         Delete = delete;
         Chance = chance;
         Reset = reset;
-
+        this._id = _id;
         this._id_server = _id_server;
+
         Text_Name_server.text = Name_server;
         Text_total_level.text = Totall_level.ToString();
     }
@@ -194,9 +196,32 @@ public class Raw_model_game_play_online : MonoBehaviour
 
                   }, ERR => { });
 
-            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { _id_server = _id_server, Name_app = "Venomic" }, result => {
+            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { _id_server = _id_server, Name_app = "Venomic" }, result =>
+            {
                 Coin_server = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Coine;
             }, err => { });
+            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { Name_app = "Venomic", _id_server = _id_server }, result =>
+                  {
+                      var leader_board = ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Leader_board;
+
+                      int[] score = new int[leader_board.Length];
+
+                      for (int i = 0; i < leader_board.Length; i++)
+                      {
+                          score[i] = (int)ChilligamesJson.DeserializeObject<Raw_model_info_server.Deserilies_leader_board>(leader_board[i].ToString()).Score;
+                      }
+
+                      int curent_score = Level + Freeze + Minues + Delete + Chance + Reset;
+
+
+                      for (int i = 0; i < leader_board.Length; i++)
+                      {
+                          if (curent_score < score[i])
+                          {
+                              Rank_player = i;
+                          }
+                      }
+                  }, err => { });
         }
     }
 
@@ -262,7 +287,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().End_Result_mission, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
                 int average = Totall_level + Freeze + Minues + Delete + Chance + Reset;
-                Parent.GetComponent<Raw_model_fild_server_play>().Missions.AddComponent<End_mission>().Change_value(Name_server, Totall_level, Freeze, Minues, Delete, Chance, Reset, average, Parent);
+                Parent.GetComponent<Raw_model_fild_server_play>().Missions.AddComponent<End_mission>().Change_value(Name_server, Totall_level, Freeze, Minues, Delete, Chance, Reset, average, _id, _id_server, Parent);
 
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
                 Destroy(gameObject);
@@ -270,7 +295,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             else
             {
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().Raw_model_mission_online, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
-                Parent.GetComponent<Raw_model_fild_server_play>().Missions.GetComponent<Raw_model_game_play_online>().Change_value(Name_server, Coin_server, Totall_level, Level + 1, Freeze, Minues, Delete, Chance, Reset, _id_server, Parent);
+                Parent.GetComponent<Raw_model_fild_server_play>().Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id, Name_server, Coin_server, Totall_level, Level + 1, Freeze, Minues, Delete, Chance, Reset, _id_server, Parent);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
                 Destroy(gameObject);
@@ -322,7 +347,6 @@ public class Raw_model_game_play_online : MonoBehaviour
                     if (Parent.GetComponent<Raw_model_game_play_online>().Chance >= 1)
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Chance -= 1;
-
                     }
                     else
                     {
@@ -525,7 +549,8 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
-        public void Change_value(string name_server, int level, int freeze, int minuse, int delete, int chance, int reset, int avrege, GameObject parent)
+
+        public void Change_value(string name_server, int level, int freeze, int minuse, int delete, int chance, int reset, int avrege, string _id, string _id_server, GameObject parent)
         {
             Text_name_server.text = name_server;
             Text_leve_number.text = level.ToString();
@@ -542,7 +567,12 @@ public class Raw_model_game_play_online : MonoBehaviour
             });
             BTN_Send_score_to_server.onClick.AddListener(() =>
             {
-                print("send score to server here code in sdk");
+                Raw_model_info_server.Deserilies_leader_board leader_baord_model = new Raw_model_info_server.Deserilies_leader_board { ID = _id, Score = avrege };
+                Chilligames_SDK.API_Client.Push_data_to_server_fild(new Req_push_data_to_server { _id_server = _id_server, Name_app = "Venomic", Pipe_line_data = "Setting.Leader_board", Inject_data = leader_baord_model }, () =>
+                {
+                    Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
+                    Player.Cam.Move_camera(Vector3.zero);
+                }, null);
             });
         }
     }

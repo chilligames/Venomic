@@ -32,7 +32,6 @@ public class Raw_fild_servers : MonoBehaviour
         get
         {
             return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
-
         }
     }
     public void Change_value(string _id_server)
@@ -94,9 +93,8 @@ public class Raw_fild_servers : MonoBehaviour
                 Chilligames_SDK.API_Client.Exit_server(new Req_Exit_server { _id = _id_player, _id_server = _id_server, Name_App = "Venomic" }, () =>
                    {
 
-
                    }, Error => { });
-
+                Chilligames_SDK.API_Client.Pluse_or_minuse_value_fild_server(new Req_change_server_data_fild { Name_app = "Venomic", Pipe_line_data = "Setting.Player", _id_server = _id_server, Data_inject = "-1" }, null, null);
 
             });
 
@@ -106,6 +104,7 @@ public class Raw_fild_servers : MonoBehaviour
                 Chilligames_SDK.API_Client.Enter_to_server(new Req_enter_to_server { Name_App = "Venomic", _id = _id_player, _id_server = _id_server }, () => { }, ERR => { });
                 BTN_Enter_server.gameObject.SetActive(false);
                 BTN_Exit_server.gameObject.SetActive(true);
+                Chilligames_SDK.API_Client.Pluse_or_minuse_value_fild_server(new Req_change_server_data_fild { Data_inject = "1", _id_server = _id_server, Pipe_line_data = "Setting.Player", Name_app = "Venomic" }, null, null);
             });
 
 

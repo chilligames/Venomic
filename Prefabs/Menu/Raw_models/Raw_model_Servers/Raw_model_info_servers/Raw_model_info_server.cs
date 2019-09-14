@@ -82,13 +82,12 @@ public class Raw_model_info_server : MonoBehaviour
         BTN_close_panel.onClick.AddListener(() =>
         {
             Destroy(gameObject);
-
         });
         
     }
 
 
-    class Deserilies_leader_board
+   public class Deserilies_leader_board
     {
         public string ID = null;
         public int? Score = null;

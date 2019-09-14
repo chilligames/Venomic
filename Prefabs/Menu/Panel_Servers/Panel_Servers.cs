@@ -43,7 +43,7 @@ public class Panel_Servers : MonoBehaviour
     public Slider Value_Reset;
     public Slider Value_Level;
     public Slider Value_Active_Days;
-    int? Coin = null;
+    int? Coin = 0;
 
     public TextMeshProUGUI Text_Min_Chance;
     public TextMeshProUGUI Text_Min_Delete;
@@ -145,7 +145,7 @@ public class Panel_Servers : MonoBehaviour
                 Coine = Coin,
                 Player = 0,
                 like = 0,
-                Leader_board = { },
+                Leader_board = new object[0],
             };
 
             Chilligames_SDK.API_Client.Creat_server(new Req_creat_server { _id = _id_player, Setting = setting, Name_App = "Venomic" }, () =>

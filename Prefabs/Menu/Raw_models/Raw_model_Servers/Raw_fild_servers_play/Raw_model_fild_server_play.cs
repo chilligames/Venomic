@@ -31,6 +31,7 @@ public class Raw_model_fild_server_play : MonoBehaviour
     public GameObject End_Result_mission;
 
 
+
     public string Name_server;
     public int? Freeze, Mines, Delete, Chance, Reset, Active_day, Levels, Total_level, Coin, Player_;
 
@@ -39,7 +40,7 @@ public class Raw_model_fild_server_play : MonoBehaviour
     /// pishniaz hay server inja sakhte mishe;
     /// </summary>
     /// <param name="_id_server"></param>
-    public void Change_value(string _id_server)
+    public void Change_value(string _id_server,string _id)
     {
         Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Chilligames.SDK.Model_Client.Req_data_server { Name_app = "Venomic", _id_server = _id_server }, Result =>
         {
@@ -66,7 +67,7 @@ public class Raw_model_fild_server_play : MonoBehaviour
             BTN_Play_mission_server.onClick.AddListener(() =>
             {
                 Missions = Instantiate(Raw_model_mission_online, Place_mission);
-                Missions.GetComponent<Raw_model_game_play_online>().Change_value(Name_server, (int)Coin, (int)Total_level, 0, (int)Freeze, (int)Mines, (int)Delete, (int)Chance, (int)Reset, _id_server, gameObject);
+                Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id,Name_server, (int)Coin, (int)Total_level, 0, (int)Freeze, (int)Mines, (int)Delete, (int)Chance, (int)Reset, _id_server, gameObject);
                 Player.Cam.Move_camera(new Vector3(10, 10, 0));
             });
 

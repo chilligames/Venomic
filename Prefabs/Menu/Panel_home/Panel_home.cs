@@ -109,7 +109,7 @@ public class Panel_home : MonoBehaviour
                         for (int i = 0; i < Result_server.Length; i++)
                         {
                             Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString());
+                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString(), _id);
                         }
 
                     }, err => { });
@@ -133,7 +133,7 @@ public class Panel_home : MonoBehaviour
                             for (int i = 0; i < Result.Length; i++)
                             {
                                 Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString());
+                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString(), _id);
 
                             }
 
