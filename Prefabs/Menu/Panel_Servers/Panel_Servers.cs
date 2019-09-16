@@ -151,8 +151,32 @@ public class Panel_Servers : MonoBehaviour
 
             Chilligames_SDK.API_Client.Creat_server(new Req_creat_server { _id = _id_player, Setting = setting, Name_App = "Venomic" }, () =>
             {
-                print("code agfter creat");
+                Content_My_servers.SetActive(true);
+                Curent_content.SetActive(false);
+                Curent_content = Content_My_servers;
+                Curent_content.SetActive(true);
+                Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id_player }, Result =>
+                {
 
+                    if (Entity_my_servers != null)
+                    {
+
+                        for (int i = 0; i < Entity_my_servers.Length; i++)
+                        {
+                            Destroy(Entity_my_servers[i]);
+                        }
+                    }
+
+                    Entity_my_servers = new GameObject[Result.Length];
+
+
+                    for (int i = 0; i < Result.Length; i++)
+                    {
+                        Entity_my_servers[i] = Instantiate(Raw_model_fild_server, Place_content_my_servers);
+                        Entity_my_servers[i].GetComponent<Raw_fild_servers>().Change_value(Result[i].ToString());
+                    }
+
+                }, err => { });
             }, err => { });
         });
 
