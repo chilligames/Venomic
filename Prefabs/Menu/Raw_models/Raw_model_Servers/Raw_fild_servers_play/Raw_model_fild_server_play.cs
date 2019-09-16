@@ -54,6 +54,10 @@ public class Raw_model_fild_server_play : MonoBehaviour
             Total_level = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Level;
             Coin = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Coine;
 
+
+            Active_day= Mathf.Abs((int)Active_day);
+            Active_day = Active_day/60/60/24;
+
             Text_nameserver_number.text = Name_server;
             Text_freeze_number.text = Freeze.ToString();
             Text_mines_number.text = Mines.ToString();
@@ -70,6 +74,8 @@ public class Raw_model_fild_server_play : MonoBehaviour
                 Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id,Name_server, (int)Coin, (int)Total_level, 0, (int)Freeze, (int)Mines, (int)Delete, (int)Chance, (int)Reset, _id_server, gameObject);
                 Player.Cam.Move_camera(new Vector3(10, 10, 0));
             });
+
+            
 
         }, err => { });
 

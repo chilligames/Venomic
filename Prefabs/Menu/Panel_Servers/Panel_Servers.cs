@@ -57,6 +57,7 @@ public class Panel_Servers : MonoBehaviour
     GameObject[] Entity_my_servers;
     GameObject[] Entity_servers;
 
+    int test;
     public string _id_player
     {
         get
@@ -92,7 +93,7 @@ public class Panel_Servers : MonoBehaviour
             {
                 Entity_servers = new GameObject[result.Length];
 
-                for (int i = 0; i < result.Length; i++) 
+                for (int i = 0; i < result.Length; i++)
                 {
                     Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
                     Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
@@ -140,7 +141,7 @@ public class Panel_Servers : MonoBehaviour
                 Freeze = (int)Value_Freeze.value,
                 Mines = (int)Value_Mines.value,
                 Reset = (int)Value_Reset.value,
-                Active_Days = (int)Value_Active_Days.value,
+                Active_Days = (int)DateTime.UtcNow.Subtract(DateTime.UtcNow.AddDays((int)Value_Active_Days.value)).TotalSeconds,
                 Level = (int)Value_Level.value,
                 Coine = Coin,
                 Player = 0,
@@ -168,7 +169,6 @@ public class Panel_Servers : MonoBehaviour
 
     void Update()
     {
-
         if (Content_Servers.activeInHierarchy)
         {
             BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_select_tab;
@@ -202,7 +202,7 @@ public class Panel_Servers : MonoBehaviour
                 {
                     Destroy(Entity_my_servers[i]);
                 }
-                    Entity_my_servers =null;
+                Entity_my_servers = null;
             }
 
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
@@ -241,7 +241,7 @@ public class Panel_Servers : MonoBehaviour
 
 
 
-   public class Model_server
+    public class Model_server
     {
         public string _id = null;
         public object Setting = null;
