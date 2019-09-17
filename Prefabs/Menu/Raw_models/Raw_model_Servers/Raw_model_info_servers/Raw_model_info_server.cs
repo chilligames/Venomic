@@ -25,7 +25,7 @@ public class Raw_model_info_server : MonoBehaviour
     public Transform Place_fild_ranking;
 
 
-    public void Change_Values(string Server_name, string Freeze_number, string mines_number, string delet_number, string Chace_number, string Reset_number, string Active_day, string Player_number, string Like_number, string Coin_number,string Level_number, object[] Leader_board_server, string _id)
+    public void Change_Values(string Server_name, string Freeze_number, string mines_number, string delet_number, string Chace_number, string Reset_number, int Active_day, string Player_number, string Like_number, string Coin_number, string Level_number, object[] Leader_board_server, string _id)
     {
         Text_Name_server.text = Server_name;
         Text_Freeze_number.text = Freeze_number;
@@ -33,7 +33,7 @@ public class Raw_model_info_server : MonoBehaviour
         Text_Delete_number.text = delet_number;
         Text_Chance_number.text = Chace_number;
         Text_Reset_number.text = Reset_number;
-        Text_Active_day_number.text = Active_day;
+        Text_Active_day_number.text = Active_day.ToString();
         Text_Player_number.text = Player_number;
         Text_Like_number.text = Like_number;
         Text_Coine_number.text = Coin_number;
@@ -68,7 +68,7 @@ public class Raw_model_info_server : MonoBehaviour
 
             filds.GetComponent<Button>().onClick.AddListener(() =>
             {
-               GameObject Profile= Instantiate(Raw_model_profile);
+                GameObject Profile = Instantiate(Raw_model_profile);
                 Profile.GetComponent<Raw_model_user_profile>()._id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
                 Profile.GetComponent<Raw_model_user_profile>()._id_other_player = ID_other_player;
 
@@ -83,11 +83,11 @@ public class Raw_model_info_server : MonoBehaviour
         {
             Destroy(gameObject);
         });
-        
+
     }
 
 
-   public class Deserilies_leader_board
+    public class Deserilies_leader_board
     {
         public string ID = null;
         public int? Score = null;

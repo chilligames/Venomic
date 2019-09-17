@@ -8,6 +8,10 @@ using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 
+/// <summary>
+/// playerpref:
+/// 1: Coin
+/// </summary>
 public class Panel_Servers : MonoBehaviour
 {
     [Header("entity server")]
@@ -53,6 +57,12 @@ public class Panel_Servers : MonoBehaviour
     public TextMeshProUGUI Text_Min_Level;
     public TextMeshProUGUI Text_Min_coin;
     public TextMeshProUGUI Text_Min_Active_days;
+
+    public TextMeshProUGUI Text_max_Chance;
+    public TextMeshProUGUI Text_max_delete;
+    public TextMeshProUGUI Text_max_freeze;
+    public TextMeshProUGUI Text_max_mines;
+    public TextMeshProUGUI Text_max_reset;
 
     GameObject[] Entity_my_servers;
     GameObject[] Entity_servers;
@@ -232,8 +242,7 @@ public class Panel_Servers : MonoBehaviour
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
         }
 
-
-        if (Text_name_server.text.Length < 4)
+        if (Text_name_server.text.Length < 4|| PlayerPrefs.GetInt("Coin") < Coin)
         {
             BTN_submit_creat_server.enabled = false;
             BTN_submit_creat_server.GetComponent<Image>().color = Color.red;
@@ -244,6 +253,11 @@ public class Panel_Servers : MonoBehaviour
             BTN_submit_creat_server.GetComponent<Image>().color = Color.green;
         }
 
+        if (Value_Level.value >= Value_Level.maxValue)
+        {
+            Value_Level.maxValue = Value_Level.maxValue + 1;
+        }
+
         Text_time_number.text = DateTime.UtcNow.ToString();
 
         Change_value_sliders();
@@ -251,6 +265,14 @@ public class Panel_Servers : MonoBehaviour
 
         void Change_value_sliders()
         {
+            Value_Chance.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 30);
+            Value_delete.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 80);
+            Value_Freeze.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 10);
+            Value_Mines.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 70);
+            Value_Reset.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 50);
+
+            Coin = (int)(Value_Active_Days.value * 11) + (int)(Value_Level.value + Value_Chance.value + Value_delete.value + Value_Freeze.value + Value_Mines.value + Value_Reset.value);
+
             Text_Min_coin.text = Coin.ToString();
             Text_Min_Chance.text = Value_Chance.value.ToString();
             Text_Min_Delete.text = Value_delete.value.ToString();
@@ -259,6 +281,12 @@ public class Panel_Servers : MonoBehaviour
             Text_Min_Reset.text = Value_Reset.value.ToString();
             Text_Min_Level.text = Value_Level.value.ToString();
             Text_Min_Active_days.text = Value_Active_Days.value.ToString();
+
+            Text_max_Chance.text = Value_Chance.maxValue.ToString();
+            Text_max_delete.text = Value_delete.maxValue.ToString();
+            Text_max_freeze.text = Value_Freeze.maxValue.ToString();
+            Text_max_mines.text = Value_Mines.maxValue.ToString();
+            Text_max_reset.text = Value_Reset.maxValue.ToString();
         }
 
     }

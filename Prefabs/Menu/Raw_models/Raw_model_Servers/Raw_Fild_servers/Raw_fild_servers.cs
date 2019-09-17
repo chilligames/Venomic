@@ -44,12 +44,14 @@ public class Raw_fild_servers : MonoBehaviour
             string Delete = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Delete.ToString();
             string Chance = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Chance.ToString();
             string Reset = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Reset.ToString();
-            string Active_days = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Active_Days.ToString();
             string Player = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Player.ToString();
             string Like = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).like.ToString();
+            int Active_days = (int)ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Active_Days;
             string Level = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Level.ToString();
             string Coines = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Coine.ToString();
             object[] leader_board = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Leader_board;
+
+            Active_days =Mathf.Abs(Active_days)/ 60 / 60 / 24;
 
             Text_Name_server.text = Name_server;
             Text_Freeze.text = Freeze;
@@ -57,7 +59,7 @@ public class Raw_fild_servers : MonoBehaviour
             Text_Delete.text = Delete;
             Text_Chance.text = Chance;
             Text_Reset.text = Reset;
-            Text_Active_day.text = Active_days;
+            Text_Active_day.text = Active_days.ToString();
             Text_player.text = Player;
             Text_Like.text = Like;
             Text_Levels.text = Level;
