@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Chilligames.Json;
+﻿using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
-using System.IO;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 /// <summary>

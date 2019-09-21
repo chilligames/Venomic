@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 /// <summary>
@@ -137,7 +135,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                     print("Cant mines btn here");
                 }
             }
-            
+
         });
 
         BTN_Delete.onClick.AddListener(() =>

@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 8844897418593978241}
   - component: {fileID: 8844897418593978242}
   m_Layer: 5
-  m_Name: Contetn_rank
+  m_Name: Content_Categori_leaderboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 234026c7bf483fd4789e564120bec5ba, type: 3}
+  m_Texture: {fileID: 2800000, guid: e6ab2d3137cd8bd41a6731b74b52c907, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

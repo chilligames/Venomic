@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
+﻿using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
-using Chilligames.Json;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Raw_model_game_play_online : MonoBehaviour
 {

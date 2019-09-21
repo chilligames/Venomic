@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using System;
-using UnityEngine.UI;
-using Chilligames.Json;
+﻿using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
+using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// playerpref:
@@ -242,7 +240,7 @@ public class Panel_Servers : MonoBehaviour
             BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
         }
 
-        if (Text_name_server.text.Length < 4|| PlayerPrefs.GetInt("Coin") < Coin)
+        if (Text_name_server.text.Length < 4 || PlayerPrefs.GetInt("Coin") < Coin)
         {
             BTN_submit_creat_server.enabled = false;
             BTN_submit_creat_server.GetComponent<Image>().color = Color.red;

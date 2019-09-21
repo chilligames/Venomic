@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Chilligames.Json;
+﻿using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
-using Chilligames.SDK;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Panel_edit_profile : MonoBehaviour
 {

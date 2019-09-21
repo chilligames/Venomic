@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Chilligames.Json;
-using Chilligames.SDK;
+﻿using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Panel_send_massege : MonoBehaviour
 {

@@ -1,9 +1,7 @@
-﻿using TMPro;
+﻿using Chilligames.Json;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Chilligames.Json;
-using Chilligames.SDK;
-using Chilligames.SDK.Model_Client;
 
 public class Raw_model_info_server : MonoBehaviour
 {

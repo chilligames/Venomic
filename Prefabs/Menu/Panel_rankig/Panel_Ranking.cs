@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Chilligames.SDK;
+using Chilligames.SDK.Model_Client;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Chilligames.Json;
-using Chilligames.SDK.Model_Client;
-using Chilligames.SDK;
 
 public class Panel_Ranking : MonoBehaviour
 {

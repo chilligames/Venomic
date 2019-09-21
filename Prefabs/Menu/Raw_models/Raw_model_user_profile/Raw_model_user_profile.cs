@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Chilligames.Json;
-using Chilligames.SDK.Model_Client;
+﻿using Chilligames.Json;
 using Chilligames.SDK;
+using Chilligames.SDK.Model_Client;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Raw_model_user_profile : MonoBehaviour
 {
@@ -18,12 +16,12 @@ public class Raw_model_user_profile : MonoBehaviour
     public Button BTN_Send_massege;
     public Button BTN_close_profile;
 
-    public void Change_value(string _id ,string _id_other_player)
+    public void Change_value(string _id, string _id_other_player)
     {
         this._id = _id;
         this._id_other_player = _id_other_player;
     }
-    
+
     void Start()
     {
         BTN_close_profile.onClick.AddListener(() =>
@@ -32,7 +30,8 @@ public class Raw_model_user_profile : MonoBehaviour
 
         });
 
-        BTN_Send_massege.onClick.AddListener(() => {
+        BTN_Send_massege.onClick.AddListener(() =>
+        {
 
             Panel_send_message.GetComponent<Panel_send_massege>()._id = _id;
             Panel_send_message.GetComponent<Panel_send_massege>()._id_other_player = _id_other_player;
@@ -111,7 +110,7 @@ public class Raw_model_user_profile : MonoBehaviour
 
     }
 
-   public  class Schema_other_player
+    public class Schema_other_player
     {
         public object _id = null;
         public object Info = null;

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using Chilligames.Json;
-using Chilligames.SDK;
+﻿using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Raw_Content_ranking : MonoBehaviour
@@ -29,13 +26,13 @@ public class Raw_Content_ranking : MonoBehaviour
 
                 GameObject player_fild = Instantiate(Raw_model_ranking, Place_contetn);
 
-                string ID_player = result[i]. _id;
+                string ID_player = result[i]._id;
                 player_fild.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     GameObject profile_user = Instantiate(Raw_model_profile);
                     profile_user.GetComponent<Raw_model_user_profile>()._id_other_player = ID_player;
                     profile_user.GetComponent<Raw_model_user_profile>()._id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
-                    
+
 
                 });
 

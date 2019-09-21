@@ -1,15 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.IO;
-using System.Threading.Tasks;
-using Chilligames.SDK;
-using Chilligames.SDK.Model_Client;
-using Chilligames.Json;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class Menu : MonoBehaviour
@@ -72,7 +64,7 @@ public class Menu : MonoBehaviour
             Curent_BTN_Taped = BTN_Home;
             BTN_Home.GetComponentInChildren<RawImage>().color = Color_select;
         });
-    
+
         BTN_Ranking.onClick.AddListener(() =>
         {
             Curent_panel.SetActive(false);
@@ -167,7 +159,7 @@ public class Menu : MonoBehaviour
 
     private void Update()
     {
-        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position,0.1f);
+        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.1f);
 
     }
 

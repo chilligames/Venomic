@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using Chilligames.Json;
+﻿using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Raw_fild_servers : MonoBehaviour
@@ -51,7 +49,7 @@ public class Raw_fild_servers : MonoBehaviour
             string Coines = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Coine.ToString();
             object[] leader_board = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Leader_board;
 
-            Active_days =Mathf.Abs(Active_days)/ 60 / 60 / 24;
+            Active_days = Mathf.Abs(Active_days) / 60 / 60 / 24;
 
             Text_Name_server.text = Name_server;
             Text_Freeze.text = Freeze;

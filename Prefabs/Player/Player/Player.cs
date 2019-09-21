@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using UnityEngine;
-using System.IO;
-using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
 {

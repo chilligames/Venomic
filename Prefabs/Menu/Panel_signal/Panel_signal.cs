@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Threading.Tasks;
 using TMPro;
-using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 public class Panel_signal : MonoBehaviour
 {
     public Button Button_cheack_net;
@@ -38,7 +36,7 @@ public class Panel_signal : MonoBehaviour
                     Button_cheack_net.GetComponent<Image>().color = Color.green;
                     Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.green;
                     Text_Chack_signal.text = "Good Connection";
-                 
+
                     break;
                 }
                 else
