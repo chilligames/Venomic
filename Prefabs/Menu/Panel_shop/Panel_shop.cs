@@ -5,18 +5,39 @@ using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 using UnityEngine.UI;
+
+
+/// <summary>
+/// playerprefe:
+/// 1: Freeze
+/// 2: Minuse
+/// 3: Delete
+/// 4: Chance
+/// 5: Reset
+/// 6: Coin
+/// </summary>
 public class Panel_shop : MonoBehaviour
 {
     public GameObject Raw_model_convert_panel;
     public GameObject Raw_model_fild_Offer;
+    public GameObject Raw_model_panel_shop_entity;
+
     public Texture[] Icons_offers;
 
     public TextMeshProUGUI Text_Coin_number;
     public TextMeshProUGUI Text_Mony_number;
 
+    public TextMeshProUGUI Text_freeze_number;
+    public TextMeshProUGUI Text_minuse_number;
+    public TextMeshProUGUI Text_delete_number;
+    public TextMeshProUGUI Text_chance_number;
+    public TextMeshProUGUI Text_reset_number;
+
+
     public Transform Place_offers;
 
     public Button BTN_Enter_convert;
+    public Button BTN_Enter_shop_entity;
 
     GameObject[] Offers = null;
     public string _id
@@ -30,10 +51,17 @@ public class Panel_shop : MonoBehaviour
 
     private void OnDisable()
     {
+        for (int i = 0; i < Offers.Length; i++)
+        {
+            Destroy(Offers[i]);
+        }
+
     }
+
     public void OnEnable()
     {
         Recive_entity_wallet();
+        Change_value_entity_shop_category();
 
         Chilligames_SDK.API_Client.Recive_offers(new Req_recive_offers { Name_App = "Venomic", _id = _id }, result =>
         {
@@ -51,6 +79,14 @@ public class Panel_shop : MonoBehaviour
         {
             Instantiate(Raw_model_convert_panel).GetComponent<Panel_Convert_Coins>().Change_value(gameObject);
         });
+
+
+        BTN_Enter_shop_entity.onClick.AddListener(() => {
+
+            Instantiate(Raw_model_panel_shop_entity).GetComponent<Panel_shop_entity>().Change_value(gameObject);
+
+        });
+
     }
 
 
@@ -62,6 +98,18 @@ public class Panel_shop : MonoBehaviour
             Text_Mony_number.text = result.Money.ToString();
 
         }, err => { });
+    }
+
+    /// <summary>
+    /// valure entity categori taghir mide 
+    /// </summary>
+    public void Change_value_entity_shop_category()
+    {
+        Text_freeze_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString() ;
+        Text_minuse_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
+        Text_delete_number.text = (PlayerPrefs.GetInt("Coin")/3).ToString();
+        Text_chance_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
+        Text_reset_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString();
     }
 
     class Raw_model_fild_offer : MonoBehaviour
