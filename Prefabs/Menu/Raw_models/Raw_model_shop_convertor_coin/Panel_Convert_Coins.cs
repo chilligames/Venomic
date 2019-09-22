@@ -43,7 +43,10 @@ public class Panel_Convert_Coins : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// value haro change mikone beyad dashte bash k in bayad farakhani beshe ta entity taghir dashte bashan 
+    /// </summary>
+    /// <param name="Parent"></param>
     public void Change_value(GameObject Parent)
     {
 
@@ -70,7 +73,6 @@ public class Panel_Convert_Coins : MonoBehaviour
         {
             Money_Change_money_to_coin = Money - Value;
             Coin_change_money_to_coin = (int)Value * 470;
-
         });
 
         BTN_Change_coin_to_money.onClick.AddListener(() =>

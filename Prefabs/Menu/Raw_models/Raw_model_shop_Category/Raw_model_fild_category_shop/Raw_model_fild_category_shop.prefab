@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7808325716794512322}
   - component: {fileID: 7808325716794512349}
   m_Layer: 5
-  m_Name: Text_number_entoty
+  m_Name: TCE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7808325716836477959}
   - component: {fileID: 7808325716836477958}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 75ad6dc42dd0ba54bbb3aeffd7801995, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 7808325717594893629}
   - component: {fileID: 7808325717594893628}
   m_Layer: 5
-  m_Name: Text_Coin_number
+  m_Name: TCN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -977,7 +977,7 @@ GameObject:
   - component: {fileID: 7808325717726724856}
   - component: {fileID: 7808325717726724859}
   m_Layer: 5
-  m_Name: Text_Name_entity
+  m_Name: TNE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1294,7 +1294,7 @@ GameObject:
   - component: {fileID: 7808325718133473881}
   - component: {fileID: 7808325718133473880}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
