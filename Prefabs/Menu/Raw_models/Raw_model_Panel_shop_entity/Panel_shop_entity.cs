@@ -228,7 +228,6 @@ public class Panel_shop_entity : MonoBehaviour
 
     private void Update()
     {
-
         Text_Coin_number.text = Coin_new.ToString();
 
         Coin_new = Coin - (int)Slider_freeze.value - (int)Slider_Minuse.value - (int)Slider_delete.value - (int)Slider_chance.value - (int)Slider_reset.value;
@@ -243,7 +242,7 @@ public class Panel_shop_entity : MonoBehaviour
         Slider_delete.maxValue = Coin_new / 3;
         Slider_chance.maxValue = Coin_new / 2;
         Slider_reset.maxValue = Coin_new / 4;
-
+        
 
         Text_Count_freeze.text = Slider_freeze.value.ToString();
         Text_Count_minuse.text = Slider_Minuse.value.ToString();
