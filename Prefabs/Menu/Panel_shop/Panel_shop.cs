@@ -51,9 +51,13 @@ public class Panel_shop : MonoBehaviour
 
     private void OnDisable()
     {
-        for (int i = 0; i < Offers.Length; i++)
+        if (Offers != null)
         {
-            Destroy(Offers[i]);
+
+            for (int i = 0; i < Offers.Length; i++)
+            {
+                Destroy(Offers[i]);
+            }
         }
 
     }
@@ -81,7 +85,8 @@ public class Panel_shop : MonoBehaviour
         });
 
 
-        BTN_Enter_shop_entity.onClick.AddListener(() => {
+        BTN_Enter_shop_entity.onClick.AddListener(() =>
+        {
 
             Instantiate(Raw_model_panel_shop_entity).GetComponent<Panel_shop_entity>().Change_value(gameObject);
 
@@ -105,9 +110,9 @@ public class Panel_shop : MonoBehaviour
     /// </summary>
     public void Change_value_entity_shop_category()
     {
-        Text_freeze_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString() ;
+        Text_freeze_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString();
         Text_minuse_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
-        Text_delete_number.text = (PlayerPrefs.GetInt("Coin")/3).ToString();
+        Text_delete_number.text = (PlayerPrefs.GetInt("Coin") / 3).ToString();
         Text_chance_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
         Text_reset_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString();
     }
