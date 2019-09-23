@@ -70,6 +70,7 @@ public class Panel_shop_entity : MonoBehaviour
     int Coin_new;
     public void Change_value(GameObject Parent)
     {
+
         Tapsell.Initialize("htkkqnefselstgtrfsobqncrsplijfccjaitpqnskqqpjirtbrsbnaljqfneqdcpjbpsmb");
         var Ads = new TapsellAd();
 
@@ -95,9 +96,9 @@ public class Panel_shop_entity : MonoBehaviour
             Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
 
             int rand_num_offer = Random.Range(1, 7);
-            int coin = ((int)Slider_freeze.value )+ ((int)Slider_Minuse.value )+( (int)Slider_delete.value )+((int) Slider_chance.value )+((int) Slider_reset.value);
-            
-            Send_Offer(rand_num_offer,coin);
+            int coin = ((int)Slider_freeze.value) + ((int)Slider_Minuse.value) + ((int)Slider_delete.value) + ((int)Slider_chance.value) + ((int)Slider_reset.value);
+
+            Send_Offer(rand_num_offer, coin);
 
             Instantiate(gameObject).GetComponent<Panel_shop_entity>().Change_value(Parent);
             Parent.GetComponent<Panel_shop>().Change_value_entity_shop_category();
@@ -182,40 +183,44 @@ public class Panel_shop_entity : MonoBehaviour
 
         }
 
-        void Send_Offer(int Rand_Num,int coin)
+        void Send_Offer(int Rand_Num, int coin)
         {
-            switch (Rand_Num)
+            if (coin / 100 * 80 > 1)
             {
-                case 1:
-                    {
-                        int count_Entity = coin / 4;
-                        Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 20), Count = count_Entity, Key = "F", Name_App = "Venomic", Name_Entity = "Freeze", ID_entity = "F" + coin+count_Entity });
-                    }
-                    break;
-                case 2:
-                    {
-                        int Count_Entity = coin / 2;
-                        Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 20), Count = Count_Entity, Key = "M", Name_App = "Venomic", Name_Entity = "Minuse", ID_entity = "M" + coin + Count_Entity });
-                    }
-                    break;
-                case 3:
-                    {
-                        int Count_Entity = coin / 3;
-                        Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user {Coin=(int)(coin/100*20),Count=Count_Entity,Key="D",Name_App="Venomic",Name_Entity="Delete" ,ID_entity="D"+coin+Count_Entity});
-                    }
-                    break;
-                case 4:
-                    {
-                        int Count_Entity = coin / 2;
-                        Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user {Coin=(int)(coin/100*20),Count=Count_Entity,Key="C",Name_App="Venomic",Name_Entity="Chance",ID_entity="C"+coin+Count_Entity });
-                    }
-                    break;
-                case 5:
-                    {
-                        int Count_Entity = coin / 4;
-                        Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 20), Count = Count_Entity, Key = "R", Name_App = "Venomic", Name_Entity = "Reset", ID_entity = "R" + coin + Count_Entity });
-                    }
-                    break;
+                switch (Rand_Num)
+                {
+                    case 1:
+                        {
+                            int count_Entity = coin / 4;
+
+                            Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 80), Count = count_Entity, Key = "F", Name_App = "Venomic", Name_Entity = "Freeze", ID_entity = "F" + coin + count_Entity });
+                        }
+                        break;
+                    case 2:
+                        {
+                            int Count_Entity = coin / 2;
+                            Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 80), Count = Count_Entity, Key = "M", Name_App = "Venomic", Name_Entity = "Minuse", ID_entity = "M" + coin + Count_Entity });
+                        }
+                        break;
+                    case 3:
+                        {
+                            int Count_Entity = coin / 3;
+                            Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 80), Count = Count_Entity, Key = "D", Name_App = "Venomic", Name_Entity = "Delete", ID_entity = "D" + coin + Count_Entity });
+                        }
+                        break;
+                    case 4:
+                        {
+                            int Count_Entity = coin / 2;
+                            Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 80), Count = Count_Entity, Key = "C", Name_App = "Venomic", Name_Entity = "Chance", ID_entity = "C" + coin + Count_Entity });
+                        }
+                        break;
+                    case 5:
+                        {
+                            int Count_Entity = coin / 4;
+                            Chilligames_SDK.API_Client.Push_Offer_to_all_player(new Req_Push_offer_to_all_user { Coin = (int)(coin / 100 * 80), Count = Count_Entity, Key = "R", Name_App = "Venomic", Name_Entity = "Reset", ID_entity = "R" + coin + Count_Entity });
+                        }
+                        break;
+                }
             }
         }
     }
@@ -223,7 +228,7 @@ public class Panel_shop_entity : MonoBehaviour
 
     private void Update()
     {
-       
+
         Text_Coin_number.text = Coin_new.ToString();
 
         Coin_new = Coin - (int)Slider_freeze.value - (int)Slider_Minuse.value - (int)Slider_delete.value - (int)Slider_chance.value - (int)Slider_reset.value;
