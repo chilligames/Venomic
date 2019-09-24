@@ -5,6 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// playerprefe:
+/// 1: Freeze
+/// 2: Minuse
+/// 3: Delete
+/// 4: Chance
+/// 5: Reset
+/// 6: Coin
+/// 7: Level
+/// 8: _id
+/// </summary>
 public class Panel_edit_profile : MonoBehaviour
 {
     public TMP_InputField InputField_nickname;
@@ -13,12 +24,24 @@ public class Panel_edit_profile : MonoBehaviour
     public TMP_InputField InputField_Password;
     public TMP_InputField InputFieldSatatus;
 
+    public TMP_InputField InputField_Username_login;
+    public TMP_InputField InputField_password_login;
+    public TMP_InputField InputField_Email_recovery;
+
     public Color Color_edit;
     public Color Color_error;
     public Color Color_Pass;
 
+    public GameObject Content_edit_profile;
+    public GameObject Content_login;
+
     public Button BTN_Change;
     public Button BTN_Close;
+    public Button BTN_old_user;
+    public Button BTN_Back_to_profile;
+    public Button BTN_login;
+    public Button BTN_recovery;
+
 
     string _id
     {
@@ -185,6 +208,54 @@ public class Panel_edit_profile : MonoBehaviour
 
             Destroy(gameObject);
         });
+
+        BTN_old_user.onClick.AddListener(() =>
+        {
+            Content_edit_profile.SetActive(false);
+            Content_login.SetActive(true);
+            BTN_old_user.gameObject.SetActive(false);
+        });
+
+        BTN_Back_to_profile.onClick.AddListener(() =>
+        {
+            Content_edit_profile.SetActive(true);
+            Content_login.SetActive(false);
+            BTN_old_user.gameObject.SetActive(true);
+
+        });
+
+        BTN_login.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Login_with_username_Password(new Req_login_with_username_password { Username = InputField_Username_login.text, Password = InputField_password_login.text }, result =>
+            {
+                PlayerPrefs.SetString("_id", result);
+                Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = result }, Data_user =>
+                {
+
+                    PlayerPrefs.SetInt("Freeze", Data_user.Freeze);
+                    PlayerPrefs.SetInt("Minuse", Data_user.Minus);
+                    PlayerPrefs.SetInt("Delete", Data_user.Delete);
+                    PlayerPrefs.SetInt("Chance", Data_user.Chance);
+                    PlayerPrefs.SetInt("Reset", Data_user.Reset);
+                    PlayerPrefs.SetInt("Level", Data_user.Level);
+                    print("scense_here load");
+                }, err => { });
+
+
+            }, err => { });
+
+        });
+
+        BTN_recovery.onClick.AddListener(() =>
+        {
+
+            InputField_Email_recovery.gameObject.SetActive(true);
+            print("recovery code here");
+
+        });
+
     }
+
+
 
 }

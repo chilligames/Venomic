@@ -16,6 +16,7 @@ using UnityEngine.UI;
 /// 5: Reset
 /// 6: Coin
 /// 7: Level
+/// 8: _id
 /// </summary>
 /// 
 public class Panel_home : MonoBehaviour
@@ -53,7 +54,7 @@ public class Panel_home : MonoBehaviour
         }
     }
 
-    public void Start()
+    public  void Start()
     {
         /*....online....*/
 
