@@ -27,6 +27,9 @@ public class Panel_edit_profile : MonoBehaviour
     public TMP_InputField InputField_Username_login;
     public TMP_InputField InputField_password_login;
     public TMP_InputField InputField_Email_recovery;
+    public TMP_InputField Input_field_recovery_number;
+
+    public TextMeshProUGUI Text_info_recovery;
 
     public Color Color_edit;
     public Color Color_error;
@@ -250,7 +253,34 @@ public class Panel_edit_profile : MonoBehaviour
         {
 
             InputField_Email_recovery.gameObject.SetActive(true);
-            print("recovery code here");
+
+            BTN_recovery.onClick.AddListener(() =>
+            {
+                InputField_Email_recovery.gameObject.SetActive(false);
+
+                Chilligames_SDK.API_Client.Recovery_email_send(new Req_send_recovery_email { Email = InputField_Email_recovery.text }, result =>
+                {
+                    BTN_recovery.onClick.RemoveAllListeners();
+                    if (result == "1")
+                    {
+                        Input_field_recovery_number.gameObject.SetActive(true);
+                        Text_info_recovery.gameObject.SetActive(true);
+
+                        BTN_recovery.onClick.AddListener(() =>
+                        {
+                            print("submit Code recovery here");
+
+                        });
+                    }
+                    else
+                    {
+                        print("code_not recovery here all pipe recovery normal");
+                    }
+
+                }, err => { });
+
+            });
+
 
         });
 
