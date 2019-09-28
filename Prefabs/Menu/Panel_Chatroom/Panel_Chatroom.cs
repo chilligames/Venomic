@@ -44,6 +44,7 @@ public class Panel_Chatroom : MonoBehaviour
     public GameObject Content_Messages;
     public GameObject Content_Notifactions;
 
+
     GameObject Curent_content;
     Button Curent_BTN_tab;
 
@@ -62,7 +63,6 @@ public class Panel_Chatroom : MonoBehaviour
 
     void Start()
     {
-
         StartCoroutine(Recive_messages_in_chatroom());
 
         Curent_content = Content_Chatroom;
@@ -211,6 +211,7 @@ public class Panel_Chatroom : MonoBehaviour
             }
         }
     }
+
     public void OnDisable()
     {
         for (int i = 0; i < Messages_Chatroom.Length; i++)
@@ -230,10 +231,50 @@ public class Panel_Chatroom : MonoBehaviour
         }
 
     }
+
     public void OnEnable()
     {
         StartCoroutine(Recive_messages_in_chatroom());
+
+        Chilligames_SDK.API_Client.Mark_all_messages_as_read(new Req_mark_messeges_as_read { _id = _id_player });
     }
+
+    /// <summary>
+    /// cheack mikone age pm jadid bashe va status messsage 0 bashe icon roshan mishe
+    /// </summary>
+    /// <param name="Icon_status_messege">icon status bayad dad </param>
+    public void Cheack_new_message(RawImage Icon_status_messege)
+    {
+        Chilligames_SDK.API_Client.Cheack_status_new_message(new Req_cheack_new_message { _id = _id_player }, result =>
+        {
+            if (result == "1")
+            {
+                try
+                {
+
+                    Icon_status_messege.gameObject.SetActive(true);
+                }
+                catch (System.Exception)
+                {
+
+                }
+            }
+            else if (result == "0")
+            {
+                try
+                {
+
+                    Icon_status_messege.gameObject.SetActive(false);
+                }
+                catch (System.Exception)
+                {
+
+                }
+            }
+        }, err => { });
+
+    }
+
 
     IEnumerator Recive_messages_in_chatroom()
     {
@@ -270,7 +311,6 @@ public class Panel_Chatroom : MonoBehaviour
         }
 
     }
-
 
 
 
@@ -455,11 +495,9 @@ public class Panel_Chatroom : MonoBehaviour
                     if (Texts.name == "TLM")
                     {
                         Text_last_message = Texts;
-
                     }
 
                 }
-
 
                 return Text_last_message;
             }

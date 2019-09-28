@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
+using System.Collections;
 
 public class Menu : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Menu : MonoBehaviour
     public GameObject Content_Shop;
     public GameObject Content_Message;
     public GameObject Content_Setting;
+
+    public RawImage Icon_Cheack_status_new_message;
 
     public Color Color_select;
     public Color Color_deselect;
@@ -125,6 +128,7 @@ public class Menu : MonoBehaviour
 
 
         Cheack_net();
+        StartCoroutine(Cheack_new_message());
 
         async void Cheack_net()
         {
@@ -156,14 +160,23 @@ public class Menu : MonoBehaviour
 
     }
 
-
     private void Update()
     {
         Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.1f);
 
     }
 
-
-
+    /// <summary>
+    /// cheack mikone new message bashe
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Cheack_new_message()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Content_Message.GetComponent<Panel_Chatroom>().Cheack_new_message(Icon_Cheack_status_new_message);
+        }
+    }
 
 }

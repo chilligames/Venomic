@@ -33,7 +33,7 @@ public class Panel_home : MonoBehaviour
 
     public Transform Place_server;
     public GameObject[] Server_fild;
-
+    
 
     public Button BTN_edit_profile;
     public Button BTN_Home;

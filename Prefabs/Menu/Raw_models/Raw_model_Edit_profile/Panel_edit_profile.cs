@@ -232,10 +232,8 @@ public class Panel_edit_profile : MonoBehaviour
         {
             Chilligames_SDK.API_Client.Login_with_username_Password(new Req_login_with_username_password { Username = InputField_Username_login.text, Password = InputField_password_login.text }, result =>
             {
-                print("result");
                 if (result != "0")
                 {
-                    print("Login");
                     PlayerPrefs.SetString("_id", result);
                     Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = result }, Data_user =>
                     {
@@ -250,7 +248,7 @@ public class Panel_edit_profile : MonoBehaviour
                 }
                 else
                 {
-                    print("cant login");
+                    print("Code cant login here");
                 }
             }, err => { });
 
