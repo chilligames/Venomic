@@ -162,7 +162,6 @@ public class Panel_home : MonoBehaviour
                        
                         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { _id = _id, Leader_board_name = "Venomic_Top_Player" }, result =>
                         {
-                            print(result);
                             Text_ranking_number.text = result;
                         }, err => { });
                     }

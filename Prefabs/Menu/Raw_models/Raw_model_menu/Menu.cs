@@ -4,6 +4,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using Chilligames.SDK.Model_Client;
+using Chilligames.SDK;
 
 public class Menu : MonoBehaviour
 {

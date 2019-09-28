@@ -545,8 +545,8 @@ public class Panel_Chatroom : MonoBehaviour
 
             }, err => { });
 
-
-            Text_Last_messege.text = messages[messages.Length - 1].ToString();
+            
+            Text_Last_messege.text =ChilligamesJson.DeserializeObject<Chilligames_SDK.API_Client.Result_each_messege>( messages[messages.Length - 1].ToString()).PM;
 
             Text_Last_date.text = Last_date;
 
@@ -559,6 +559,8 @@ public class Panel_Chatroom : MonoBehaviour
                 Curent_panel_chat.AddComponent<Raw_model_chat>().Change_values(ID, Raw_model_each_messege, Text_sender.text);
 
             });
+
+           
 
         }
 
