@@ -15,8 +15,11 @@ public class Raw_Content_ranking : MonoBehaviour
     public GameObject Raw_model_profile;
 
 
-    void Start()
+    public void Change_value(string Name_leader_board)
     {
+        this.Name_leader_board = Name_leader_board;
+
+        
         BTN_close_Ranking.onClick.AddListener(() => { Destroy(gameObject); });
 
         Chilligames_SDK.API_Client.Recive_leader_board(new Req_recive_leader_board { Count = 50, Name_leader_board = Name_leader_board }, result =>
@@ -32,8 +35,6 @@ public class Raw_Content_ranking : MonoBehaviour
                     GameObject profile_user = Instantiate(Raw_model_profile);
                     profile_user.GetComponent<Raw_model_user_profile>()._id_other_player = ID_player;
                     profile_user.GetComponent<Raw_model_user_profile>()._id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
-
-
                 });
 
                 foreach (var Text_fild in player_fild.GetComponentsInChildren<TextMeshProUGUI>())

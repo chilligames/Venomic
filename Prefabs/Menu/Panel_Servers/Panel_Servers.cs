@@ -258,10 +258,10 @@ public class Panel_Servers : MonoBehaviour
 
         Text_time_number.text = DateTime.UtcNow.ToString();
 
-        Change_value_sliders();
+        Change_value_sliders_creat_server();
 
-
-        void Change_value_sliders()
+        
+        void Change_value_sliders_creat_server()
         {
             Value_Chance.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 30);
             Value_delete.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 80);
