@@ -65,7 +65,6 @@ public class Panel_Servers : MonoBehaviour
     GameObject[] Entity_my_servers;
     GameObject[] Entity_servers;
 
-    int test;
     public string _id_player
     {
         get
@@ -242,6 +241,8 @@ public class Panel_Servers : MonoBehaviour
 
         if (Text_name_server.text.Length < 4 || PlayerPrefs.GetInt("Coin") < Coin)
         {
+            print(Text_name_server.text.Length);
+            print(PlayerPrefs.GetInt("Coin"));
             BTN_submit_creat_server.enabled = false;
             BTN_submit_creat_server.GetComponent<Image>().color = Color.red;
         }

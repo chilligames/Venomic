@@ -538,7 +538,8 @@ public class Panel_Chatroom : MonoBehaviour
 
         public void Change_value(object[] messages, string ID, string Last_date, int? status, GameObject Raw_model_chat, GameObject Raw_model_each_message)
         {
-
+            
+           
             Chilligames_SDK.API_Client.Recive_Info_other_User<schema_other_player>(new Req_recive_Info_player { _id = ID }, result =>
             {
                 Text_sender.text = ChilligamesJson.DeserializeObject<schema_other_player.deserilise_info>(result.Info.ToString()).Nickname;
@@ -915,6 +916,7 @@ public class Panel_Chatroom : MonoBehaviour
 
             });
         }
+
 
     }
 }
