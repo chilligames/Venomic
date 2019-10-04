@@ -18,11 +18,10 @@ public class Raw_model_fild_server_play : MonoBehaviour
     public TextMeshProUGUI Text_level_number;
     public TextMeshProUGUI Text_Coin_number;
 
-    public Button BTN_Play_mission_server;
 
     public Transform Place_mission
     {
-        get { return GameObject.Find("Player").GetComponent<Player>().Place; }
+        get { return GameObject.Find("Player").GetComponent<Player>().Place_mission; }
     }
     public GameObject Missions;
     public GameObject End_Result_mission;
@@ -65,14 +64,13 @@ public class Raw_model_fild_server_play : MonoBehaviour
             Text_level_number.text = Total_level.ToString();
             Text_Coin_number.text = Coin.ToString();
 
-            BTN_Play_mission_server.onClick.AddListener(() =>
+            gameObject.GetComponent<Button>().onClick.AddListener(() =>
             {
                 Missions = Instantiate(Raw_model_mission_online, Place_mission);
                 Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id, Name_server, (int)Coin, (int)Total_level, 0, (int)Freeze, (int)Mines, (int)Delete, (int)Chance, (int)Reset, _id_server, gameObject);
                 Player.Cam.Move_camera(new Vector3(10, 10, 0));
+
             });
-
-
 
         }, err => { });
 

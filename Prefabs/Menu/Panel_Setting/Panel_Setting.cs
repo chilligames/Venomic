@@ -1,10 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
+/// <summary>
+/// playerpref
+/// 1: Language
+/// 2: Vibrator
+/// 3: Sound
+/// </summary>
+
+
 public class Panel_Setting : MonoBehaviour
 {
+    public GameObject Contact_us;
+
     public Button BTN_vibrator;
     public Button BTN_Music;
+    public Button BTN_Fa;
+    public Button BTN_EN;
+    public Button BTN_Cotact_us;
+    public Button BTN_Other_game;
 
     public TextMeshProUGUI Text_vibrator;
     public TextMeshProUGUI Text_music;
@@ -19,6 +35,7 @@ public class Panel_Setting : MonoBehaviour
 
     public void Start()
     {
+        //control on/off vibrator
         if (PlayerPrefs.GetInt("Vibrator") == 0)
         {
             BTN_vibrator.GetComponent<RawImage>().color = Color_Disable;
@@ -34,7 +51,7 @@ public class Panel_Setting : MonoBehaviour
             Text_vibrator.font = Font_Enable;
         }
 
-
+        //control on/off sound
         if (PlayerPrefs.GetInt("Sound") == 0)
         {
             BTN_Music.GetComponent<RawImage>().color = Color_Disable;
@@ -49,6 +66,7 @@ public class Panel_Setting : MonoBehaviour
             Text_music.font = Font_Enable;
             Text_music.color = Color_Enable;
         }
+
 
 
         BTN_vibrator.onClick.AddListener(() =>
@@ -83,6 +101,24 @@ public class Panel_Setting : MonoBehaviour
             }
 
         });
+
+        BTN_Fa.onClick.AddListener(() =>
+        {
+            PlayerPrefs.SetInt("Language", 1);
+            SceneManager.LoadScene(0);
+        });
+
+        BTN_EN.onClick.AddListener(() =>
+        {
+            PlayerPrefs.SetInt("Language", 0);
+            SceneManager.LoadScene(0);
+        });
+
+        BTN_Cotact_us.onClick.AddListener(() =>
+        {
+            Instantiate(Contact_us);
+        });
+
 
     }
 

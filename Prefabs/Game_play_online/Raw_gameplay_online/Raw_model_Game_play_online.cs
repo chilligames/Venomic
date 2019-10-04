@@ -40,6 +40,7 @@ public class Raw_model_game_play_online : MonoBehaviour
     public Button BTN_Minus;
     public Button BTN_Delete;
     public Button BTN_Reset;
+    public Button BTN_Leave_mission;
 
     public Transform Place_BTNS;
     public GameObject Parent;
@@ -73,6 +74,7 @@ public class Raw_model_game_play_online : MonoBehaviour
 
     private void Start()
     {
+        //level QA
         if (Level < 50)
         {
             print("level_easy");
@@ -104,6 +106,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
+        //insert value to btn
         for (int i = 0; i < BTNS.Length; i++)
         {
             BTNS[i].AddComponent<BTN>();
@@ -183,21 +186,30 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         });
 
+        BTN_Leave_mission.onClick.AddListener(() =>
+        {
+            Player.Cam.Move_Camera_To_Menu();
+            Destroy(Parent.GetComponent<Raw_model_fild_server_play>().Missions);
+        });
+
         Recive_data();
 
 
         void Recive_data()
         {
+            //recive count player
             Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Chilligames.SDK.Model_Client.Req_data_server { Name_app = "Venomic", _id_server = _id_server }, result =>
                   {
                       Count_Player = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Player;
-
                   }, ERR => { });
 
+            //recive coin server
             Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { _id_server = _id_server, Name_app = "Venomic" }, result =>
             {
                 Coin_server = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Coine;
             }, err => { });
+
+            // recive ranking 
             Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { Name_app = "Venomic", _id_server = _id_server }, result =>
                   {
                       var leader_board = ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Leader_board;

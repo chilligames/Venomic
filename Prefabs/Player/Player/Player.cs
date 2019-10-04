@@ -1,24 +1,24 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
+using System.Threading;
+
 public class Player : MonoBehaviour
 {
     public static Camera cam;
-    public static Transform Place_mission;
-    public Transform Place;
-    public static GameObject Raw_mision;
+    public Transform Place_mission;
 
-
+    public Color[] Colors_cam_;
+    public static Color[] Colors_cam;
 
     void Start()
     {
-        Place_mission = Place;
+        Colors_cam = Colors_cam_;
         cam = Camera.main;
     }
 
     public class Cam
     {
-        public static int Zoom;
 
         /// <summary>
         /// animation move camera mire pos k behesh dade shode 
@@ -44,55 +44,70 @@ public class Player : MonoBehaviour
             }
         }
 
-        /// <summary>
-        /// camera zoom_back mikone be meghdar maelom
-        /// </summary>
-        public static void Zoom_Back()
-        {
-            Zoom_in();
 
-            async void Zoom_in()
+        /// <summary>
+        /// move camera to menu
+        /// </summary>
+        public static void Move_Camera_To_Menu()
+        {
+            Color Color_menu = new Color(1, 0.8f, 0.2f, 1);
+            cam.backgroundColor = Color_menu;
+            move();
+
+            while (cam.backgroundColor != Color_menu)
+            {
+                cam.backgroundColor = Color_menu;
+            }
+
+
+            async void move()
+            {
+                cam.transform.position = new Vector3(10, 10, 0);
+                while (true)
+                {
+                    if (cam.transform.position != Vector3.zero)
+                    {
+                        await Task.Delay(1);
+                        cam.transform.position = Vector3.MoveTowards(cam.transform.position, Vector3.zero, 0.7f);
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Color camera change mikone
+        /// </summary>
+        public static void Change_color()
+        {
+            int rand_color = Random.Range(0, Colors_cam.Length);
+            Change_color();
+
+            async void Change_color()
             {
                 while (true)
                 {
-                    if (cam.orthographicSize < 50)
+                    if (cam.backgroundColor != Colors_cam[rand_color])
                     {
-                        Zoom = 1;
-
-                        cam.orthographicSize = 6;
-
-                        for (int i = 0; i < 50; i++)
+                        cam.backgroundColor = Color.Lerp(cam.backgroundColor, Colors_cam[rand_color], 0.3f);
+                        print("cahnge");
+                        if (cam.backgroundColor == Colors_cam[rand_color])
                         {
-                            await Task.Delay(1);
-
-                            cam.orthographicSize++;
-                            if (cam.orthographicSize == 50)
-                            {
-                                break;
-                            }
+                            break;
                         }
-
-                        break;
+                        await Task.Delay(1);
                     }
-                    else if (cam.orthographicSize > 6)
+                    else
                     {
-                        Zoom = 0;
-                        cam.orthographicSize = 50;
-
-                        for (int i = 0; i < 50; i++)
-                        {
-                            await Task.Delay(1);
-                            cam.orthographicSize--;
-                            if (cam.orthographicSize == 6)
-                            {
-                                break;
-                            }
-                        }
                         break;
                     }
                 }
             }
         }
     }
-
 }

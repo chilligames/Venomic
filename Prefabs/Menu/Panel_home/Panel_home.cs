@@ -33,7 +33,7 @@ public class Panel_home : MonoBehaviour
 
     public Transform Place_server;
     public GameObject[] Server_fild;
-    
+
 
     public Button BTN_edit_profile;
     public Button BTN_Home;
@@ -54,7 +54,7 @@ public class Panel_home : MonoBehaviour
         }
     }
 
-    public  void Start()
+    public void Start()
     {
         /*....online....*/
 
@@ -159,7 +159,7 @@ public class Panel_home : MonoBehaviour
                         }, () => { }, () => { });
 
                         Chilligames_SDK.API_Client.Send_Score_to_leader_board(new Req_send_score { Leader_board_name = "Venomic_Top_Player", Score = PlayerPrefs.GetInt("Level"), _id = _id }, () => { });
-                       
+
                         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { _id = _id, Leader_board_name = "Venomic_Top_Player" }, result =>
                         {
                             Text_ranking_number.text = result;
@@ -204,6 +204,7 @@ public class Panel_home : MonoBehaviour
         Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();
         Text_Coin_number.text = PlayerPrefs.GetInt("Coin").ToString();
     }
+
     /// <summary>
     /// mission insert mikone vaghti offline hast player
     /// </summary>
@@ -214,6 +215,7 @@ public class Panel_home : MonoBehaviour
         Player.Cam.Move_camera(Missions.transform.position);
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
+        Player.Cam.Change_color();
     }
 
     public class Entity_Player

@@ -17,8 +17,8 @@ public class Panel_Servers : MonoBehaviour
     public GameObject Raw_model_info_server;
     public Transform Place_content_my_servers;
 
-    public TMP_FontAsset Font_select_tab;
-    public TMP_FontAsset Font_deselect_tab;
+    public Color Color_select_tab;
+    public Color Color_deselect_tab;
 
 
     public TextMeshProUGUI Text_time_number;
@@ -202,7 +202,7 @@ public class Panel_Servers : MonoBehaviour
     {
         if (Content_Servers.activeInHierarchy)
         {
-            BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_select_tab;
+            BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().color = Color_select_tab;
 
         }
         else
@@ -217,13 +217,13 @@ public class Panel_Servers : MonoBehaviour
 
             }
 
-            BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
+            BTN_Servers.GetComponentInChildren<TextMeshProUGUI>().color = Color_deselect_tab;
         }
 
 
         if (Content_My_servers.activeInHierarchy)
         {
-            BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_select_tab;
+            BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().color = Color_select_tab;
         }
         else
         {
@@ -236,13 +236,11 @@ public class Panel_Servers : MonoBehaviour
                 Entity_my_servers = null;
             }
 
-            BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect_tab;
+            BTN_My_servers.GetComponentInChildren<TextMeshProUGUI>().color = Color_deselect_tab;
         }
 
         if (Text_name_server.text.Length < 4 || PlayerPrefs.GetInt("Coin") < Coin)
         {
-            print(Text_name_server.text.Length);
-            print(PlayerPrefs.GetInt("Coin"));
             BTN_submit_creat_server.enabled = false;
             BTN_submit_creat_server.GetComponent<Image>().color = Color.red;
         }
@@ -261,7 +259,7 @@ public class Panel_Servers : MonoBehaviour
 
         Change_value_sliders_creat_server();
 
-        
+
         void Change_value_sliders_creat_server()
         {
             Value_Chance.maxValue = Mathf.RoundToInt(Value_Level.value / 100 * 30);
@@ -312,6 +310,11 @@ public class Panel_Servers : MonoBehaviour
             public int? like = null;
             public int? Coine = null;
 
+            public class Deserilise_leader_board
+            {
+                public string ID;
+                public int Score;
+            }
         }
 
     }

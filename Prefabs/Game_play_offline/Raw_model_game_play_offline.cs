@@ -50,6 +50,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
         Level = level;
         Parent = parent;
 
+        //spawener btn
         if (Level < 100)
         {
             int Count_btn = Random.Range(1, 4);
@@ -88,7 +89,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
     }
     private void Start()
     {
-        PlayerPrefs.SetInt("Minuse", 4);//delete
+        
         BTN_Reset.onClick.AddListener(() =>
         {
             if (PlayerPrefs.GetInt("Reset") >= 1)
@@ -164,7 +165,8 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
         Leave_mission.onClick.AddListener(() =>
         {
-            Player.Cam.Move_camera(Vector3.zero);
+            Player.Cam.Move_Camera_To_Menu();
+
             Destroy(Parent.GetComponent<Panel_home>().Missions);
         });
     }
