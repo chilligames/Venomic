@@ -37,8 +37,7 @@ public class Panel_Chatroom : MonoBehaviour
 
     public TMP_InputField Input_search;
 
-    public TMP_FontAsset Font_select;
-    public TMP_FontAsset Font_deselect;
+   
 
     public GameObject Content_Chatroom;
     public GameObject Content_Messages;
@@ -74,10 +73,10 @@ public class Panel_Chatroom : MonoBehaviour
             Curent_content = Content_Chatroom;
             Curent_content.SetActive(true);
 
-            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect;
+            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             Curent_BTN_tab = BTN_Chatroom;
 
-            BTN_Chatroom.GetComponentInChildren<TextMeshProUGUI>().font = Font_select;
+            BTN_Chatroom.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
 
             StartCoroutine(Recive_messages_in_chatroom());
 
@@ -90,9 +89,9 @@ public class Panel_Chatroom : MonoBehaviour
             Curent_content = Content_Messages;
             Curent_content.SetActive(true);
 
-            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect;
+            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             Curent_BTN_tab = BTN_Messages;
-            BTN_Messages.GetComponentInChildren<TextMeshProUGUI>().font = Font_select;
+            BTN_Messages.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
 
 
 
@@ -118,9 +117,9 @@ public class Panel_Chatroom : MonoBehaviour
             Curent_content = Content_Notifactions;
             Curent_content.SetActive(true);
 
-            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().font = Font_deselect;
+            Curent_BTN_tab.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             Curent_BTN_tab = BTN_Notifaction;
-            BTN_Notifaction.GetComponentInChildren<TextMeshProUGUI>().font = Font_select;
+            BTN_Notifaction.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
 
             Chilligames_SDK.API_Client.Recive_notifactions(new Req_recive_notifactions { _id = _id_player, Name_App = "Venomic" }, Result =>
                   {

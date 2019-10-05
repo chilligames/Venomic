@@ -198,11 +198,7 @@ public class Panel_shop : MonoBehaviour
             }
         }
 
-        Color Color_Freeze = new Color(0.64f, 0.96f, 0.96f, 1);
-        Color Color_Mines = new Color(0.91f, 0, 0.26f, 1);
-        Color Color_delet = new Color(0.98f, 0.92f, 0.73f, 1);
-        Color Color_Chance = new Color(0.54f, 1, 0.65f);
-        Color Color_reset = new Color(0.63f, 0.87f, 0.8f);
+
 
         internal void Change_Value(string _id, string Key, string Name_entity, int Count, int Coin, string ID, Texture[] Icons)
         {
@@ -214,27 +210,27 @@ public class Panel_shop : MonoBehaviour
             if (Key == "F")
             {
                 Icon_entity.texture = Icons[0];
-                Icon_entity.color = Color_Freeze;
+                Icon_entity.color = Color.black;
             }
             else if (Key == "M")
             {
                 Icon_entity.texture = Icons[1];
-                Icon_entity.color = Color_Mines;
+                Icon_entity.color = Color.black;
             }
             else if (Key == "D")
             {
                 Icon_entity.texture = Icons[2];
-                Icon_entity.color = Color_delet;
+                Icon_entity.color = Color.black;
             }
             else if (Key == "C")
             {
                 Icon_entity.texture = Icons[3];
-                Icon_entity.color = Color_Chance;
+                Icon_entity.color = Color.black;
             }
             else if (Key == "R")
             {
                 Icon_entity.texture = Icons[4];
-                Icon_entity.color = Color_reset;
+                Icon_entity.color = Color.black;
             }
 
 

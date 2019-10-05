@@ -47,8 +47,8 @@ public class Raw_model_game_play_online : MonoBehaviour
 
     GameObject[] BTNS;
 
-    public int[] Count_map;//delete public 
-    public int[] tap_map;//delete public 
+    public int[] Count_map;
+    public int[] tap_map; 
 
     int Mission_pass;
     public void Change_value(string _id, string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
@@ -573,7 +573,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             BTN_leave_server.onClick.AddListener(() =>
             {
                 Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
-                Player.Cam.Move_camera(Vector3.zero);
+                Player.Cam.Move_Camera_To_Menu();
             });
             BTN_Send_score_to_server.onClick.AddListener(() =>
             {
