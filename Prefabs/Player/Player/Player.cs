@@ -52,14 +52,8 @@ public class Player : MonoBehaviour
         {
             Color Color_menu = new Color(1, 0.8f, 0.2f, 1);
             cam.backgroundColor = Color_menu;
+
             move();
-
-            while (cam.backgroundColor != Color_menu)
-            {
-                cam.backgroundColor = Color_menu;
-            }
-
-
             async void move()
             {
                 cam.transform.position = new Vector3(10, 10, 0);
@@ -74,7 +68,6 @@ public class Player : MonoBehaviour
                     {
                         break;
                     }
-
                 }
             }
         }
@@ -85,29 +78,11 @@ public class Player : MonoBehaviour
         /// </summary>
         public static void Change_color()
         {
+            print("Change back;");
             int rand_color = Random.Range(0, Colors_cam.Length);
-            Change_color();
 
-            async void Change_color()
-            {
-                while (true)
-                {
-                    if (cam.backgroundColor != Colors_cam[rand_color])
-                    {
-                        cam.backgroundColor = Color.Lerp(cam.backgroundColor, Colors_cam[rand_color], 0.3f);
-                        print("cahnge");
-                        if (cam.backgroundColor == Colors_cam[rand_color])
-                        {
-                            break;
-                        }
-                        await Task.Delay(1);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
+            cam.backgroundColor = Colors_cam[rand_color];
         }
     }
 }
+

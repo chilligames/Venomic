@@ -28,9 +28,6 @@ public class Panel_Setting : MonoBehaviour
     public Color Color_Enable;
     public Color Color_Disable;
 
-    public TMP_FontAsset Font_Disable;
-    public TMP_FontAsset Font_Enable;
-
 
 
     public void Start()
@@ -38,32 +35,25 @@ public class Panel_Setting : MonoBehaviour
         //control on/off vibrator
         if (PlayerPrefs.GetInt("Vibrator") == 0)
         {
-            BTN_vibrator.GetComponent<RawImage>().color = Color_Disable;
             Text_vibrator.text = "Off";
-            Text_vibrator.font = Font_Disable;
             Text_vibrator.color = Color_Disable;
         }
         else if (PlayerPrefs.GetInt("Vibrator") == 1)
         {
-            BTN_vibrator.GetComponent<RawImage>().color = Color_Enable;
             Text_vibrator.text = "On";
             Text_vibrator.color = Color_Enable;
-            Text_vibrator.font = Font_Enable;
         }
 
         //control on/off sound
         if (PlayerPrefs.GetInt("Sound") == 0)
         {
-            BTN_Music.GetComponent<RawImage>().color = Color_Disable;
             Text_music.text = "Off";
-            Text_music.font = Font_Disable;
             Text_music.color = Color_Disable;
         }
         else if (PlayerPrefs.GetInt("Sound") == 1)
         {
             BTN_Music.GetComponent<RawImage>().color = Color_Enable;
             Text_music.text = "On";
-            Text_music.font = Font_Enable;
             Text_music.color = Color_Enable;
         }
 
@@ -73,13 +63,15 @@ public class Panel_Setting : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Vibrator") == 0)
             {
-                BTN_vibrator.GetComponent<RawImage>().color = Color_Enable;
+                Text_vibrator.text = "ON";
+                Text_vibrator.color = Color_Enable;
                 PlayerPrefs.SetInt("Vibrator", 1);
                 print("Vibre on");
             }
             else if (PlayerPrefs.GetInt("Vibrator") == 1)
             {
-                BTN_vibrator.GetComponent<RawImage>().color = Color_Disable;
+                Text_vibrator.text = "OFF";
+                Text_vibrator.color = Color_Disable;
                 PlayerPrefs.SetInt("Vibrator", 0);
                 print("vibre off");
             }
@@ -89,13 +81,15 @@ public class Panel_Setting : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Sound") == 0)
             {
-                BTN_Music.GetComponent<RawImage>().color = Color_Enable;
+                Text_music.text = "ON";
+                Text_music.color = Color_Enable;
                 PlayerPrefs.SetInt("Sound", 1);
                 print("sound on");
             }
             else if (PlayerPrefs.GetInt("Sound") == 1)
             {
-                BTN_Music.GetComponent<RawImage>().color = Color_Disable;
+                Text_music.text = "OFF";
+                Text_music.color = Color_Disable;
                 PlayerPrefs.SetInt("Sound", 0);
                 print("Sound off");
             }
