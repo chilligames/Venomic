@@ -2276,9 +2276,10 @@ GameObject:
   - component: {fileID: 4506307202115325522}
   - component: {fileID: 4506307202115325516}
   - component: {fileID: 7756207240465067163}
+  - component: {fileID: 2679547636401120336}
   m_Layer: 5
   m_Name: Raw_Fild_servers
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2388,6 +2389,21 @@ MonoBehaviour:
   BTN_info: {fileID: 4506307201949031806}
   BTN_Exit_server: {fileID: 4506307201916091447}
   BTN_Enter_server: {fileID: 4506307201568813591}
+--- !u!114 &2679547636401120336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307202115325520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 0, y: -0.06}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307202115695931
 GameObject:
   m_ObjectHideFlags: 0

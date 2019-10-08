@@ -10,6 +10,7 @@ using Chilligames.SDK;
 public class Menu : MonoBehaviour
 {
     public Button BTN_signal;
+    public Button BTN_Profile;
     public Button BTN_Home;
     public Button BTN_Ranking;
     public Button BTN_Servers;
@@ -17,7 +18,9 @@ public class Menu : MonoBehaviour
     public Button BTN_Messages;
     public Button BTN_Setting;
 
+
     public GameObject Content_Signal;
+    public GameObject Content_Profile;
     public GameObject content_Home;
     public GameObject Content_Ranking;
     public GameObject Content_Servers;
@@ -57,6 +60,17 @@ public class Menu : MonoBehaviour
             Curent_BTN_Taped.GetComponentInChildren<RawImage>().color = Color_deselect;
             Curent_BTN_Taped = BTN_signal;
             BTN_signal.GetComponentInChildren<RawImage>().color = Color_select;
+        });
+
+        BTN_Profile.onClick.AddListener(() =>
+        {
+            Curent_panel.SetActive(false);
+            Curent_panel = Content_Profile;
+            Content_Profile.SetActive(true);
+
+            Curent_BTN_Taped.GetComponentInChildren<RawImage>().color = Color_deselect;
+            Curent_BTN_Taped = BTN_Profile;
+            BTN_Profile.GetComponentInChildren<RawImage>().color = Color_select;
         });
 
         BTN_Home.onClick.AddListener(() =>

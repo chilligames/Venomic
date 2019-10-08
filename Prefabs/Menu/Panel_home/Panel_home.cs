@@ -98,7 +98,7 @@ public class Panel_home : MonoBehaviour
 
                     BTN_edit_profile.onClick.AddListener(() =>
                     {
-                        Instantiate(Raw_model_edit_profile).GetComponent<Panel_edit_profile>();
+                        Instantiate(Raw_model_edit_profile).GetComponent<Panel_profile>();
                     });
 
                     Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result_server =>
