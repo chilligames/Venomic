@@ -17,7 +17,6 @@ using UnityEngine.UI;
 /// 7: Level
 /// 8: _id
 /// </summary>
-/// 
 
 public class Panel_profile : MonoBehaviour
 {
@@ -30,6 +29,12 @@ public class Panel_profile : MonoBehaviour
     public TMP_InputField InputField_Password;
     public TMP_InputField InputFieldSatatus;
 
+    public TMP_InputField InputField_Username_panel_login;
+    public TMP_InputField InputField_Password_panel_login;
+
+    public TMP_InputField InputField_email_recovery;
+    public TMP_InputField InputField_Key;
+    public TMP_InputField InputField_new_password;
 
     public Color Color_edit;
     public Color Color_error;
@@ -40,10 +45,16 @@ public class Panel_profile : MonoBehaviour
     public Button BTN_Editprofile;
     public Button BTN_Friend_list;
     public Button BTN_Login;
+    public Button BTN_login_panel_login;
+    public Button BTN_recovery_panel_login;
+    public Button BTN_submit_recovery;
+    public Button BTN_Back_to_login;
 
     public GameObject Content_panel_editprofile;
     public GameObject Content_panel_firend;
     public GameObject Content_panel_login;
+    public GameObject Content_login;
+    public GameObject Content_recovery;
 
     public Transform Place_friend_list;
 
@@ -62,9 +73,11 @@ public class Panel_profile : MonoBehaviour
 
     void Start()
     {
+        //frist change
         Curent_panel = Content_panel_editprofile;
         Curent_BTN_tap = BTN_Editprofile;
 
+        //tab change
         BTN_Editprofile.onClick.AddListener(() =>
         {
 
@@ -115,7 +128,7 @@ public class Panel_profile : MonoBehaviour
             BTN_Login.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
         });
 
-
+        //change input edit profile
         InputField_nickname.onSelect.AddListener(text =>
         {
             InputField_nickname.GetComponent<Image>().color = Color_edit;
@@ -256,6 +269,7 @@ public class Panel_profile : MonoBehaviour
         });
 
 
+
         BTN_Change.onClick.AddListener(() =>
         {
             Chilligames_SDK.API_Client.Update_User_Info(new Req_Update_User_Info { Nickname = InputField_nickname.text, Username = InputField_Username.text, Email = InputField_Email.text, Password = InputField_Password.text, status = InputFieldSatatus.text, _id = _id }, () =>
@@ -264,7 +278,87 @@ public class Panel_profile : MonoBehaviour
             }, err => { });
         });
 
+        //panel login
+        BTN_login_panel_login.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Login_with_username_Password(new Req_login_with_username_password { Password = InputField_Password_panel_login.text, Username = InputField_Username_panel_login.text }, result =>
+            {
+                PlayerPrefs.SetString("_id", result);
 
+                //coin cheack for reset all
+
+                Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = _id }, result_data =>
+                      {
+                          PlayerPrefs.SetInt("Freeze", result_data.Freeze);
+                          PlayerPrefs.SetInt("Minuse", result_data.Minus);
+                          PlayerPrefs.SetInt("Delete", result_data.Delete);
+                          PlayerPrefs.SetInt("Chance", result_data.Chance);
+                          PlayerPrefs.SetInt("Reset", result_data.Reset);
+                          PlayerPrefs.SetInt("Level", result_data.Level);
+
+                          SceneManager.LoadScene(0);
+                      }, err => { });
+            }, err => { });
+        });
+
+
+        BTN_recovery_panel_login.onClick.AddListener(() =>
+        {
+            Content_login.SetActive(false);
+            Content_recovery.SetActive(true);
+
+        });
+
+
+        BTN_submit_recovery.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Recovery_email_send(new Req_send_recovery_email { Email = InputField_email_recovery.text }, result =>
+               {
+                   if (result == "1")
+                   {
+
+                       InputField_Key.gameObject.SetActive(true);
+                       BTN_submit_recovery.onClick.RemoveAllListeners();
+
+                       BTN_submit_recovery.onClick.AddListener(() =>
+                       {
+                           Chilligames_SDK.API_Client.Submit_recovery_email(new Req_submit_recovery_email { Email = InputField_email_recovery.text, Key = InputField_Key.text }, result_submit =>
+                           {
+                               if (result_submit == "1")
+                               {
+                                   InputField_new_password.gameObject.SetActive(true);
+                                   BTN_submit_recovery.onClick.RemoveAllListeners();
+
+                                   BTN_submit_recovery.onClick.AddListener(() =>
+                                   {
+                                       Chilligames_SDK.API_Client.Change_password(new Req_change_password { Email = InputField_email_recovery.text, New_Password = InputField_new_password.text }, () =>
+                                       {
+                                           BTN_submit_recovery.GetComponentInChildren<TextMeshProUGUI>().text = "Changed ";
+                                           InputField_email_recovery.gameObject.SetActive(false);
+                                           InputField_Key.gameObject.SetActive(false);
+                                           BTN_submit_recovery.onClick.RemoveAllListeners();
+                                           SceneManager.LoadScene(0);
+
+                                       }, err => { });
+
+                                   });
+                               }
+
+                           }, err => { });
+
+                       });
+                   }
+
+               }, err => { });
+
+        });
+
+        BTN_Back_to_login.onClick.AddListener(() =>
+        {
+            Content_login.SetActive(true);
+            Content_recovery.SetActive(false);
+
+        });
     }
 
     private void OnDisable()
