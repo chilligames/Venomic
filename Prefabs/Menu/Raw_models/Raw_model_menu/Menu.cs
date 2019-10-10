@@ -9,6 +9,12 @@ using Chilligames.SDK;
 
 public class Menu : MonoBehaviour
 {
+    public static AudioSource Music_menu_;
+    public static AudioSource music_game_play_;
+
+    public AudioSource Music_menu;
+    public AudioSource Music_game_play;
+
     public Button BTN_signal;
     public Button BTN_Profile;
     public Button BTN_Home;
@@ -54,9 +60,17 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
+        //music controler
+        music_game_play_ = Music_game_play;
+        Music_menu_ = Music_menu;
+
+
+        //frist start chagne
         Curent_panel = content_Home;
         Curent_BTN_Taped = BTN_Home;
 
+
+        //change action btns
         BTN_signal.onClick.AddListener(() =>
         {
             Curent_panel.SetActive(false);
@@ -194,8 +208,19 @@ public class Menu : MonoBehaviour
 
     private void Update()
     {
-        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position,0.2f);
+        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.2f);
 
+    }
+
+    public static void Play_music_menu()
+    {
+        music_game_play_.Stop();
+        Music_menu_.Play();
+    }
+    public static void Play_music_GamePlay()
+    {
+        music_game_play_.Play();
+        Music_menu_.Stop();
     }
 
     /// <summary>

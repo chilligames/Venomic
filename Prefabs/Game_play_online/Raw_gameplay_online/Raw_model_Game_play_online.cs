@@ -8,6 +8,13 @@ using UnityEngine.UI;
 public class Raw_model_game_play_online : MonoBehaviour
 {
     public GameObject Raw_model_BTN;
+    public ParticleSystem Partical_freeze;
+    public ParticleSystem Partical_Minus;
+    public ParticleSystem Partical_delete;
+    public ParticleSystem Partical_chance;
+    public ParticleSystem Partical_reset;
+    public ParticleSystem Partical_reject;
+
     string _id;
     string _id_server;
 
@@ -48,7 +55,7 @@ public class Raw_model_game_play_online : MonoBehaviour
     GameObject[] BTNS;
 
     public int[] Count_map;
-    public int[] tap_map; 
+    public int[] tap_map;
 
     int Mission_pass;
     public void Change_value(string _id, string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
@@ -95,7 +102,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                 BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
             }
         }
-        else if (Level >= 21&&Level <=40)
+        else if (Level >= 21 && Level <= 40)
         {
             print("level_hard");
             int Count = Random.Range(3, 8);
@@ -105,7 +112,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                 BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
             }
         }
-        else if (Level>=41)
+        else if (Level >= 41)
         {
             print("expert");
             int Count = Random.Range(3, 9);
@@ -125,6 +132,7 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         BTN_Freeze.onClick.AddListener(() =>
         {
+            BTN_Freeze.GetComponent<AudioSource>().Play();
             if (Freeze >= 1)
             {
                 foreach (var BTN in BTNS)
@@ -132,16 +140,17 @@ public class Raw_model_game_play_online : MonoBehaviour
                     BTN.GetComponent<BTN>().Freeze_time = 0.005f;
                 }
                 Freeze -= 1;
+                Partical_freeze.Play();
             }
             else
             {
-                print("Cant freeze here");
+                Partical_reject.Play();
             }
         });
 
         BTN_Minus.onClick.AddListener(() =>
         {
-
+            BTN_Minus.GetComponent<AudioSource>().Play();
             foreach (var BTN in BTNS)
             {
                 if (BTN.GetComponent<BTN>().Count > 1)
@@ -153,10 +162,11 @@ public class Raw_model_game_play_online : MonoBehaviour
 
                     BTN.GetComponent<BTN>().Count -= 1;
                     Minues -= 1;
+                    Partical_Minus.Play();
                 }
                 else
                 {
-                    print("cant minuse");
+                    Partical_reject.Play();
                 }
             }
 
@@ -164,6 +174,7 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         BTN_Delete.onClick.AddListener(() =>
         {
+            BTN_Delete.GetComponent<AudioSource>().Play();
             if (Delete >= 1 && BTNS.Length > 1)
             {
                 Destroy(BTNS[BTNS.Length - 1]);
@@ -175,15 +186,18 @@ public class Raw_model_game_play_online : MonoBehaviour
                     New_BTNS[i] = BTNS[i];
                 }
                 BTNS = New_BTNS;
+                Partical_delete.Play();
             }
             else
             {
+                Partical_reject.Play();
                 print("Cant delete here");
             }
         });
 
         BTN_Reset.onClick.AddListener(() =>
         {
+            BTN_Reset.GetComponent<AudioSource>().Play();
             if (Reset >= 1)
             {
                 Reset -= 1;
@@ -191,14 +205,25 @@ public class Raw_model_game_play_online : MonoBehaviour
                 {
                     Destroy(BTNS[i]);
                 }
+                Partical_reset.Play();
                 Start();
 
+            }
+            else
+            {
+                Partical_reject.Play();
             }
         });
 
         BTN_Leave_mission.onClick.AddListener(() =>
         {
+            //camera action
             Player.Cam.Move_Camera_To_Menu();
+
+            //music controller
+            Menu.Play_music_menu();
+
+            //destroy game play
             Destroy(Parent.GetComponent<Raw_model_fild_server_play>().Missions);
         });
 
@@ -271,6 +296,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             tap_map[i] = BTNS[i].GetComponent<BTN>().Tap;
         }
 
+        //cheack pass mission
         for (int i = 0; i < BTNS.Length; i++)
         {
             if (tap_map[i] == Count_map[i])
@@ -302,14 +328,20 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         if (Mission_pass == 1)
         {
+            Player.Cam.Change_color();
             if (Level + 1 > Totall_level)
             {
+                //insert new mission
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().End_Result_mission, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
                 int average = Totall_level + Freeze + Minues + Delete + Chance + Reset;
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.AddComponent<End_mission>().Change_value(Name_server, Totall_level, Freeze, Minues, Delete, Chance, Reset, average, _id, _id_server, Parent);
 
+                //effect camera
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
+              
+
+                //destroy gameplay
                 Destroy(gameObject);
             }
             else
@@ -358,23 +390,28 @@ public class Raw_model_game_play_online : MonoBehaviour
 
             BTN_click.onClick.AddListener(() =>
             {
+                //audio controler
+                GetComponent<AudioSource>().Play();
+
+                //work
                 if (Tap < Count)
                 {
                     Tap += 1;
-                    Text_BTN.text =Tap.ToString();//cheack 
+                    Text_BTN.text = Tap.ToString();
                 }
                 else
                 {
                     if (Parent.GetComponent<Raw_model_game_play_online>().Chance >= 1)
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Chance -= 1;
+                        Parent.GetComponent<Raw_model_game_play_online>().Partical_chance.Play();
                     }
                     else
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Level -= 1;
+                        Parent.GetComponent<Raw_model_game_play_online>().Partical_reject.Play();
                     }
                 }
-
             });
         }
 
@@ -581,6 +618,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             Text_Chance_number.text = chance.ToString();
             Text_reset_number.text = reset.ToString();
             Text_average.text = avrege.ToString();
+
             BTN_leave_server.onClick.AddListener(() =>
             {
                 Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
@@ -588,12 +626,19 @@ public class Raw_model_game_play_online : MonoBehaviour
             });
             BTN_Send_score_to_server.onClick.AddListener(() =>
             {
+
                 Raw_model_info_server.Deserilies_leader_board leader_baord_model = new Raw_model_info_server.Deserilies_leader_board { ID = _id, Score = avrege };
                 Chilligames_SDK.API_Client.Push_data_to_server_fild(new Req_push_data_to_server { _id_server = _id_server, Name_app = "Venomic", Pipe_line_data = "Setting.Leader_board", Inject_data = leader_baord_model }, () =>
                 {
                     Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
-                    Player.Cam.Move_camera(Vector3.zero);
+                    Player.Cam.Move_Camera_To_Menu();
+
+                    //audio controler
+                    Menu.Play_music_menu();
                 }, null);
+
+
+
             });
         }
     }

@@ -21,6 +21,7 @@ using UnityEngine.UI;
 /// 
 public class Panel_home : MonoBehaviour
 {
+
     public GameObject Raw_model_fild_server_play;
     public GameObject Raw_model_mission_offline;
 
@@ -34,7 +35,6 @@ public class Panel_home : MonoBehaviour
     public GameObject[] Server_fild;
 
 
-    public Button BTN_edit_profile;
     public Button BTN_Home;
     public Button BTN_Play_offline;
     public Button BTN_return_online;
@@ -68,6 +68,7 @@ public class Panel_home : MonoBehaviour
             {
                 Offline_mode.SetActive(true);
 
+      
                 BTN_return_online.onClick.AddListener(() =>
                 {
                     Chilligames_SDK.API_Client.Quick_register(result =>
@@ -101,7 +102,7 @@ public class Panel_home : MonoBehaviour
                         for (int i = 0; i < Result_server.Length; i++)
                         {
                             Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString(), _id);
+                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString(), _id,gameObject);
                         }
 
                     }, err => { });
@@ -125,7 +126,7 @@ public class Panel_home : MonoBehaviour
                             for (int i = 0; i < Result.Length; i++)
                             {
                                 Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString(), _id);
+                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString(), _id,gameObject);
 
                             }
 
@@ -190,6 +191,9 @@ public class Panel_home : MonoBehaviour
             Missions = Instantiate(Raw_model_mission_offline, Place_missons);
             Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
             Player.Cam.Move_camera(new Vector3(10, 10, 0));
+
+            //soundcontrol
+            Menu.Play_music_GamePlay();
         });
     }
 

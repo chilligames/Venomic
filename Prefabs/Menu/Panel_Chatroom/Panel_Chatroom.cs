@@ -157,9 +157,13 @@ public class Panel_Chatroom : MonoBehaviour
             {
             }, ERRORS => { });
 
-            for (int i = 0; i < Notifactions.Length; i++)
+            if (Notifactions != null)
             {
-                Destroy(Notifactions[i]);
+
+                for (int i = 0; i < Notifactions.Length; i++)
+                {
+                    Destroy(Notifactions[i]);
+                }
             }
         });
 

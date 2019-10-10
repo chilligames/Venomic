@@ -12,6 +12,8 @@ using UnityEngine.UI;
 /// </summary>
 public class Day_night_controler : MonoBehaviour
 {
+    public float Float_Shadow;
+
     public Color Color_camera_in_day;
     public Color Color_camera_in_night;
 
@@ -24,6 +26,7 @@ public class Day_night_controler : MonoBehaviour
 
     private void Start()
     {
+
         if (PlayerPrefs.GetInt("Day_Night") == 1)
         {
             Camera.main.backgroundColor = Color_camera_in_night;
@@ -50,22 +53,20 @@ public class Day_night_controler : MonoBehaviour
     }
     private void Update()
     {
-       
-
         if (PlayerPrefs.GetInt("Day_Night") == 1)
         {
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
             {
                 Raw_Image.GetComponent<RawImage>().color = Color_night;
                 Raw_Image.GetComponent<Shadow>().effectColor = Color_night_shadow;
-                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x/8, Input.acceleration.y/8);
+                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / Float_Shadow);
             }
 
             foreach (var Image in GameObject.FindGameObjectsWithTag("Change_Color_Image"))
             {
                 Image.GetComponent<Image>().color = Color_night;
                 Image.GetComponent<Shadow>().effectColor = Color_night_shadow;
-                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x/8, Input.acceleration.y/8);
+                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / Float_Shadow);
             }
 
             foreach (var Texts in GameObject.FindGameObjectsWithTag("Change_Color_Texts"))
@@ -79,13 +80,13 @@ public class Day_night_controler : MonoBehaviour
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
             {
                 Raw_Image.GetComponent<RawImage>().color = Color_day;
-                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / 8);
+                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / Float_Shadow);
             }
 
             foreach (var Image in GameObject.FindGameObjectsWithTag("Change_Color_Image"))
             {
                 Image.GetComponent<Image>().color = Color_day;
-                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / 8);
+                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / Float_Shadow);
             }
 
             foreach (var Texts in GameObject.FindGameObjectsWithTag("Change_Color_Texts"))

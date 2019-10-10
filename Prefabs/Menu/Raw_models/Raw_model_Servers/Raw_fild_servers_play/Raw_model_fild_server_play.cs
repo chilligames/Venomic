@@ -26,6 +26,7 @@ public class Raw_model_fild_server_play : MonoBehaviour
     public GameObject Missions;
     public GameObject End_Result_mission;
 
+    public GameObject Content_home;
 
 
     public string Name_server;
@@ -36,10 +37,14 @@ public class Raw_model_fild_server_play : MonoBehaviour
     /// pishniaz hay server inja sakhte mishe;
     /// </summary>
     /// <param name="_id_server"></param>
-    public void Change_value(string _id_server, string _id)
+    public void Change_value(string _id_server, string _id, GameObject content_home)
     {
+        //content_home
+        Content_home = content_home;
+
         Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Chilligames.SDK.Model_Client.Req_data_server { Name_app = "Venomic", _id_server = _id_server }, Result =>
         {
+            // fill entitys
             Name_server = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Name_server;
             Freeze = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Freeze;
             Mines = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Mines;
@@ -50,10 +55,11 @@ public class Raw_model_fild_server_play : MonoBehaviour
             Total_level = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Level;
             Coin = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Coine;
 
-
+            //formule S to Day
             Active_day = Mathf.Abs((int)Active_day);
             Active_day = Active_day / 60 / 60 / 24;
 
+            //change texts
             Text_nameserver_number.text = Name_server;
             Text_freeze_number.text = Freeze.ToString();
             Text_mines_number.text = Mines.ToString();
@@ -66,10 +72,16 @@ public class Raw_model_fild_server_play : MonoBehaviour
 
             gameObject.GetComponent<Button>().onClick.AddListener(() =>
             {
+                //work
                 Missions = Instantiate(Raw_model_mission_online, Place_mission);
                 Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id, Name_server, (int)Coin, (int)Total_level, 0, (int)Freeze, (int)Mines, (int)Delete, (int)Chance, (int)Reset, _id_server, gameObject);
+              
+                //effect camera
                 Player.Cam.Move_camera(new Vector3(10, 10, 0));
+                Player.Cam.Change_color();
 
+                //music controler
+                Menu.Play_music_GamePlay();
             });
 
         }, err => { });

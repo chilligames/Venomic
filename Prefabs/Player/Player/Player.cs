@@ -10,6 +10,7 @@ using System.Threading;
 public class Player : MonoBehaviour
 {
     public static Camera cam;
+
     public Transform Place_mission;
 
     public Color[] Colors_cam_Night;
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
     public static Color[] Colors_cam_night_;
     void Start()
     {
+
         Colors_cam_night_ = Colors_cam_Night;
         Colors_cam_day_ = Colors_cam_day;
 
@@ -62,7 +64,6 @@ public class Player : MonoBehaviour
             {
                 Color color_day = new Color(1, 0.8f, 0.2f, 1);
                 cam.backgroundColor = color_day;
-
             }
             else
             {

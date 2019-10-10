@@ -16,6 +16,14 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
     public GameObject Raw_BTN_mission;
 
+    public ParticleSystem Partical_Freeze;
+    public ParticleSystem Partical_minuse;
+    public ParticleSystem Partical_delete;
+    public ParticleSystem Parical_Chance;
+    public ParticleSystem Partical_Reset;
+    public ParticleSystem Partica_reject;
+
+
     public TextMeshProUGUI Text_level_number;
     public TextMeshProUGUI Text_freeze_number;
     public TextMeshProUGUI Text_minus_number;
@@ -61,7 +69,8 @@ public class Raw_model_game_play_offline : MonoBehaviour
             {
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
-        }else if (level>=11&&level<20)
+        }
+        else if (level >= 11 && level < 20)
         {
             print("P2");
             int Count_btn = Random.Range(2, 5);
@@ -71,7 +80,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level>=21&&level<=40)
+        else if (level >= 21 && level <= 40)
         {
             print("P3");
             int count_btn = Random.Range(2, 6);
@@ -81,7 +90,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level>=41&&level<=60)
+        else if (level >= 41 && level <= 60)
         {
             print("P4");
             int Count_btn = Random.Range(3, 7);
@@ -91,7 +100,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level>=61&&level<=100)
+        else if (level >= 61 && level <= 100)
         {
             print("P5");
             int count_btn = Random.Range(3, 8);
@@ -101,7 +110,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level >=101 && level <= 200)
+        else if (level >= 101 && level <= 200)
         {
             print("P6");
             int Count_BTN = Random.Range(4, 10);
@@ -130,41 +139,34 @@ public class Raw_model_game_play_offline : MonoBehaviour
     }
     private void Start()
     {
-        
-        BTN_Reset.onClick.AddListener(() =>
-        {
-            if (PlayerPrefs.GetInt("Reset") >= 1)
-            {
-                for (int i = 0; i < BTNS_mission.Length; i++)
-                {
-                    Destroy(BTNS_mission[i]);
-                }
-
-                PlayerPrefs.SetInt("Reset", PlayerPrefs.GetInt("Reset") - 1);
-                Change_value(Level, Parent);
-            }
-            else
-            {
-                print("Cant reset here");
-            }
-
-        });
 
         BTN_Freeze.onClick.AddListener(() =>
         {
+            Partical_Freeze.Play();
+            BTN_Freeze.GetComponent<AudioSource>().Play();
             foreach (var BTNS in BTNS_mission)
             {
-                BTNS.GetComponent<BTN>().Time_animation = 0.003f;
+                if (PlayerPrefs.GetInt("Freeze") >= 1)
+                {
+                    BTNS.GetComponent<BTN>().Time_animation = 0.003f;
+                    PlayerPrefs.SetInt("Freeze", PlayerPrefs.GetInt("Freeze") - 1);
+                }
+                else
+                {
+                    Partica_reject.Play();
+                }
             }
 
         });
 
         BTN_Minese.onClick.AddListener(() =>
         {
+            BTN_Minese.GetComponent<AudioSource>().Play();
             foreach (var BTNS in BTNS_mission)
             {
                 if (BTNS.GetComponent<BTN>().Count > 1 && PlayerPrefs.GetInt("Minuse") >= 1)
                 {
+                    Partical_minuse.Play();
                     if (BTNS.GetComponent<BTN>().Count - 1 < BTNS.GetComponent<BTN>().Tap)
                     {
                         BTNS.GetComponent<BTN>().Tap -= 1;
@@ -174,7 +176,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 }
                 else
                 {
-                    print("Cant mines btn here");
+                    Partica_reject.Play();
                 }
             }
 
@@ -182,8 +184,10 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
         BTN_Delete.onClick.AddListener(() =>
         {
+            BTN_Delete.GetComponent<AudioSource>().Play();
             if (PlayerPrefs.GetInt("Delete") >= 1 && BTNS_mission.Length - 1 > 1)
             {
+                Partical_delete.Play();
                 Destroy(BTNS_mission[BTNS_mission.Length - 1]);
 
                 GameObject[] BTN_new_mission = new GameObject[BTNS_mission.Length - 1];
@@ -200,21 +204,50 @@ public class Raw_model_game_play_offline : MonoBehaviour
             }
             else
             {
-                print("Cod cant delete here");
+                Partica_reject.Play();
             }
+        });
+
+        BTN_Reset.onClick.AddListener(() =>
+        {
+            BTN_Reset.GetComponent<AudioSource>().Play();
+            if (PlayerPrefs.GetInt("Reset") >= 1)
+            {
+                Partical_Reset.Play();
+                for (int i = 0; i < BTNS_mission.Length; i++)
+                {
+                    Destroy(BTNS_mission[i]);
+                }
+
+                PlayerPrefs.SetInt("Reset", PlayerPrefs.GetInt("Reset") - 1);
+                Change_value(Level, Parent);
+            }
+            else
+            {
+                Partica_reject.Play();
+            }
+
         });
 
         Leave_mission.onClick.AddListener(() =>
         {
+            //camera effect
             Player.Cam.Move_Camera_To_Menu();
 
+            //send deta to server
             Parent.GetComponent<Panel_home>().Send_data_to_server();
 
+            //destroy gameplay
             Destroy(Parent.GetComponent<Panel_home>().Missions);
+
+            //audio controler
+            Menu.Play_music_menu();
         });
     }
     private void Update()
     {
+
+        //control entitys
         Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();
         Text_freeze_number.text = PlayerPrefs.GetInt("Freeze").ToString();
         Text_minus_number.text = PlayerPrefs.GetInt("Minuse").ToString();
@@ -223,6 +256,8 @@ public class Raw_model_game_play_offline : MonoBehaviour
         Text_reset_number.text = PlayerPrefs.GetInt("Reset").ToString();
         Text_coin_number.text = PlayerPrefs.GetInt("Coin").ToString();
 
+
+        //control win
         Count_map = new int[BTNS_mission.Length];
         for (int i = 0; i < BTNS_mission.Length; i++)
         {
@@ -337,15 +372,23 @@ public class Raw_model_game_play_offline : MonoBehaviour
             Text_BTN.text = Count.ToString();
             BTN_click.onClick.AddListener(() =>
             {
+                //audi control
+                GetComponent<AudioSource>().Play();
+
+
+                //tap contorol
+
                 if (Tap + 1 > Count)
                 {
                     if (PlayerPrefs.GetInt("Chance") < 1)
                     {
                         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") - 1);
+                        Parent.GetComponent<Raw_model_game_play_offline>().Partica_reject.Play();
                     }
                     else
                     {
                         PlayerPrefs.SetInt("Chance", PlayerPrefs.GetInt("Chance") - 1);
+                        Parent.GetComponent<Raw_model_game_play_offline>().Parical_Chance.Play();
                     }
                 }
                 else
