@@ -37,7 +37,7 @@ public class Panel_Chatroom : MonoBehaviour
 
     public TMP_InputField Input_search;
 
-   
+
 
     public GameObject Content_Chatroom;
     public GameObject Content_Messages;
@@ -163,6 +163,7 @@ public class Panel_Chatroom : MonoBehaviour
             }
         });
 
+
         Input_search.onValueChanged.AddListener((Text_typed) =>
         {
 
@@ -181,13 +182,6 @@ public class Panel_Chatroom : MonoBehaviour
                 Result_search.AddComponent<Raw_model_fild_search>().Change_value(_id_player, _id_other_player, Nickname, Raw_model_profile);
             }, err => { });
 
-        });
-
-        Input_search.onEndEdit.AddListener(s =>
-        {
-            Destroy(Result_search, 0.5f);
-            Input_search.text = null;
-            Text_not_find.gameObject.SetActive(false);
         });
 
     }
@@ -280,7 +274,6 @@ public class Panel_Chatroom : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-
             Chilligames_SDK.API_Client.Recive_Chatroom_messages(new Req_recive_chatroom_messages { Name_App = "Venomic" }, Result =>
             {
                 if (gameObject.activeInHierarchy)
@@ -537,16 +530,16 @@ public class Panel_Chatroom : MonoBehaviour
 
         public void Change_value(object[] messages, string ID, string Last_date, int? status, GameObject Raw_model_chat, GameObject Raw_model_each_message)
         {
-            
-           
+
+
             Chilligames_SDK.API_Client.Recive_Info_other_User<schema_other_player>(new Req_recive_Info_player { _id = ID }, result =>
             {
                 Text_sender.text = ChilligamesJson.DeserializeObject<schema_other_player.deserilise_info>(result.Info.ToString()).Nickname;
 
             }, err => { });
 
-            
-            Text_Last_messege.text =ChilligamesJson.DeserializeObject<Chilligames_SDK.API_Client.Result_each_messege>( messages[messages.Length - 1].ToString()).PM;
+
+            Text_Last_messege.text = ChilligamesJson.DeserializeObject<Chilligames_SDK.API_Client.Result_each_messege>(messages[messages.Length - 1].ToString()).PM;
 
             Text_Last_date.text = Last_date;
 
@@ -560,7 +553,7 @@ public class Panel_Chatroom : MonoBehaviour
 
             });
 
-           
+
 
         }
 

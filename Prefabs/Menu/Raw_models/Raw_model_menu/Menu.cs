@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
     public Button BTN_Shop;
     public Button BTN_Messages;
     public Button BTN_Setting;
+    public Button BTN_bug;
 
 
     public GameObject Content_Signal;
@@ -27,13 +28,18 @@ public class Menu : MonoBehaviour
     public GameObject Content_Shop;
     public GameObject Content_Message;
     public GameObject Content_Setting;
+    public GameObject Content_bug;
+
 
     public RawImage Icon_Cheack_status_new_message;
 
+
     public Color Color_select;
     public Color Color_deselect;
+    public Color Color_bug;
 
     public GameObject Holder;
+
 
     GameObject Curent_panel = null;
     Button Curent_BTN_Taped = null;
@@ -142,6 +148,16 @@ public class Menu : MonoBehaviour
             BTN_Setting.GetComponentInChildren<RawImage>().color = Color_select;
         });
 
+        BTN_bug.onClick.AddListener(() =>
+        {
+            Curent_panel.SetActive(false);
+            Curent_panel = Content_bug;
+            Content_bug.SetActive(true);
+
+            Curent_BTN_Taped.GetComponentInChildren<RawImage>().color = Color_deselect;
+            Curent_BTN_Taped = BTN_bug;
+            BTN_bug.GetComponentInChildren<RawImage>().color = Color_select;
+        });
 
         Cheack_net();
         StartCoroutine(Cheack_new_message());
@@ -178,7 +194,7 @@ public class Menu : MonoBehaviour
 
     private void Update()
     {
-        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.1f);
+        Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position,0.2f);
 
     }
 

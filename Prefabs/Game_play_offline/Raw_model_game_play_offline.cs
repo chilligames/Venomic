@@ -51,29 +51,70 @@ public class Raw_model_game_play_offline : MonoBehaviour
         Parent = parent;
 
         //spawener btn
-        if (Level < 100)
+        if (Level <= 10)
         {
+            print("P1");
             int Count_btn = Random.Range(1, 4);
             BTNS_mission = new GameObject[Count_btn];
 
             for (int i = 0; i < Count_btn; i++)
             {
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
-
+            }
+        }else if (level>=11&&level<20)
+        {
+            print("P2");
+            int Count_btn = Random.Range(2, 5);
+            BTNS_mission = new GameObject[Count_btn];
+            for (int i = 0; i < Count_btn; i++)
+            {
+                BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level >= 100 && level < 300)
+        else if (level>=21&&level<=40)
         {
-            int Count_BTN = Random.Range(2, 5);
+            print("P3");
+            int count_btn = Random.Range(2, 6);
+            BTNS_mission = new GameObject[count_btn];
+            for (int i = 0; i < BTNS_mission.Length; i++)
+            {
+                BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
+            }
+        }
+        else if (level>=41&&level<=60)
+        {
+            print("P4");
+            int Count_btn = Random.Range(3, 7);
+            BTNS_mission = new GameObject[Count_btn];
+            for (int i = 0; i < BTNS_mission.Length; i++)
+            {
+                BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
+            }
+        }
+        else if (level>=61&&level<=100)
+        {
+            print("P5");
+            int count_btn = Random.Range(3, 8);
+            BTNS_mission = new GameObject[count_btn];
+            for (int i = 0; i < count_btn; i++)
+            {
+                BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
+            }
+        }
+        else if (level >=101 && level <= 200)
+        {
+            print("P6");
+            int Count_BTN = Random.Range(4, 10);
             BTNS_mission = new GameObject[Count_BTN];
             for (int i = 0; i < Count_BTN; i++)
             {
                 BTNS_mission[i] = Instantiate(Raw_BTN_mission, Place_BTN);
             }
         }
-        else if (level >= 300)
+        else if (level >= 201)
         {
-            int Count_BTN = Random.Range(3, 6);
+            print("P7");
+            int Count_BTN = Random.Range(3, 11);
             BTNS_mission = new GameObject[Count_BTN];
             for (int i = 0; i < Count_BTN; i++)
             {
@@ -166,6 +207,8 @@ public class Raw_model_game_play_offline : MonoBehaviour
         Leave_mission.onClick.AddListener(() =>
         {
             Player.Cam.Move_Camera_To_Menu();
+
+            Parent.GetComponent<Panel_home>().Send_data_to_server();
 
             Destroy(Parent.GetComponent<Panel_home>().Missions);
         });

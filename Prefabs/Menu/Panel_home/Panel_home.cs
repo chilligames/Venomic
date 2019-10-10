@@ -21,7 +21,6 @@ using UnityEngine.UI;
 /// 
 public class Panel_home : MonoBehaviour
 {
-    public GameObject Raw_model_edit_profile;
     public GameObject Raw_model_fild_server_play;
     public GameObject Raw_model_mission_offline;
 
@@ -95,11 +94,6 @@ public class Panel_home : MonoBehaviour
                 if (Result_login == "1")
                 {
                     Send_data();
-
-                    BTN_edit_profile.onClick.AddListener(() =>
-                    {
-                        Instantiate(Raw_model_edit_profile).GetComponent<Panel_profile>();
-                    });
 
                     Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result_server =>
                     {
@@ -216,6 +210,34 @@ public class Panel_home : MonoBehaviour
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
         Player.Cam.Change_color();
+    }
+
+
+    /// <summary>
+    /// send data to server after mission end
+    /// </summary>
+    public void Send_data_to_server()
+    {
+        if (PlayerPrefs.GetString("_id").Length > 2)
+        {
+            Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data
+            {
+                _id = _id,
+                Name_app = "Venomic",
+                Data_user = ChilligamesJson.SerializeObject(new Entity_Player
+                {
+                    Freeze = PlayerPrefs.GetInt("Freeze"),
+                    Minus = PlayerPrefs.GetInt("Minuse"),
+                    Chance = PlayerPrefs.GetInt("Chance"),
+                    Delete = PlayerPrefs.GetInt("Delete"),
+                    Reset = PlayerPrefs.GetInt("Reset"),
+                    Level = PlayerPrefs.GetInt("Level"),
+                })
+
+            }, () => { }, () => { });
+
+            Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
+        }
     }
 
     public class Entity_Player

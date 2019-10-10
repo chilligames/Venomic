@@ -363,9 +363,22 @@ public class Panel_profile : MonoBehaviour
 
     private void OnDisable()
     {
+        
 
     }
 
+    private void Update()
+    {
+        if (Content_panel_firend.activeInHierarchy!=true&&Friend_list!=null)
+        {
+            print("delet");
+            for (int i = 0; i < Friend_list.Length; i++)
+            {
+                Destroy(Friend_list[i]);
+            }
+            Friend_list = null;
+        }
+    }
     class Raw_model_Friend : MonoBehaviour
     {
         Button BTN_profile

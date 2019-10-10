@@ -71,16 +71,6 @@ public class Panel_shop_entity : MonoBehaviour
     public void Change_value(GameObject Parent)
     {
 
-        Tapsell.Initialize("htkkqnefselstgtrfsobqncrsplijfccjaitpqnskqqpjirtbrsbnaljqfneqdcpjbpsmb");
-        var Ads = new TapsellAd();
-
-        Tapsell.RequestAd(" 5d88d35a9a75990001f83f22 ", true, avaible =>
-        {
-
-            Ads = avaible;
-
-        }, notavaible => { }, err => { }, nonet => { }, expri => { });
-
 
         Coin = PlayerPrefs.GetInt("Coin");
         Coin_new = Coin;
@@ -128,6 +118,17 @@ public class Panel_shop_entity : MonoBehaviour
 
 
         //buy with ads
+
+        Tapsell.Initialize("htkkqnefselstgtrfsobqncrsplijfccjaitpqnskqqpjirtbrsbnaljqfneqdcpjbpsmb");
+        var Ads = new TapsellAd();
+
+        Tapsell.RequestAd(" 5d88d35a9a75990001f83f22 ", true, avaible =>
+        {
+
+            Ads = avaible;
+
+        }, notavaible => { }, err => { }, nonet => { }, expri => { });
+
 
         int count_freeze = Random.Range(1, 9);
         int count_minuse = Random.Range(1, 9);

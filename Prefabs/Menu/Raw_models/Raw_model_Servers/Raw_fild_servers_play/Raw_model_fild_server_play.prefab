@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 641131075623105877}
   - component: {fileID: 641131075623105875}
   - component: {fileID: 641131075623105876}
+  - component: {fileID: 8114662571635564998}
   m_Layer: 5
   m_Name: Icon_Mines
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,6 +71,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &8114662571635564998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131075623105878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131075720451141
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +99,7 @@ GameObject:
   - component: {fileID: 641131075720451139}
   m_Layer: 5
   m_Name: Text_Coin_number
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,7 +255,7 @@ GameObject:
   - component: {fileID: 641131075910715584}
   m_Layer: 5
   m_Name: Text_Coin
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -468,9 +484,10 @@ GameObject:
   - component: {fileID: 641131076427570783}
   - component: {fileID: 641131076427570781}
   - component: {fileID: 641131076427570782}
+  - component: {fileID: 5822076247875616910}
   m_Layer: 5
   m_Name: Icon_Chance
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -527,6 +544,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &5822076247875616910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131076427571104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131076489458485
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,9 +570,10 @@ GameObject:
   - component: {fileID: 641131076489458484}
   - component: {fileID: 641131076489458482}
   - component: {fileID: 641131076489458483}
+  - component: {fileID: 6677452961429290062}
   m_Layer: 5
   m_Name: Icon_Reset
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,6 +630,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6677452961429290062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131076489458485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131076520529771
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +658,7 @@ GameObject:
   - component: {fileID: 641131076520529769}
   m_Layer: 5
   m_Name: Text_number_Delete
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -764,9 +812,10 @@ GameObject:
   - component: {fileID: 641131076822634832}
   - component: {fileID: 641131076822634830}
   - component: {fileID: 641131076822634831}
+  - component: {fileID: 5476052439150553263}
   m_Layer: 5
   m_Name: Icon_Active_day
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -823,6 +872,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &5476052439150553263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131076822634833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131076953059302
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,7 +973,7 @@ GameObject:
   - component: {fileID: 641131076987996376}
   m_Layer: 5
   m_Name: Text_nameserver
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1065,7 +1129,7 @@ GameObject:
   - component: {fileID: 641131077056216480}
   m_Layer: 5
   m_Name: Text_number_Mines
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1221,7 +1285,7 @@ GameObject:
   - component: {fileID: 641131077236435350}
   m_Layer: 5
   m_Name: Text_number_Reset
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1375,9 +1439,10 @@ GameObject:
   - component: {fileID: 641131077266516225}
   - component: {fileID: 641131077266516287}
   - component: {fileID: 641131077266516224}
+  - component: {fileID: 8922432587408724476}
   m_Layer: 5
   m_Name: Icon_Delete
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1434,6 +1499,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &8922432587408724476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131077266516226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131077358567955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,9 +1525,10 @@ GameObject:
   - component: {fileID: 641131077358567954}
   - component: {fileID: 641131077358567952}
   - component: {fileID: 641131077358567953}
+  - component: {fileID: 1197864903921406727}
   m_Layer: 5
   m_Name: Icon_Freeze
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1504,6 +1585,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1197864903921406727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641131077358567955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &641131077400836905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,7 +1613,7 @@ GameObject:
   - component: {fileID: 641131077400836903}
   m_Layer: 5
   m_Name: Text_number_Active_day
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1736,7 +1832,7 @@ GameObject:
   - component: {fileID: 641131077409677255}
   m_Layer: 5
   m_Name: Text_number_Freeze
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1948,7 +2044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 234026c7bf483fd4789e564120bec5ba, type: 3}
+  m_Texture: {fileID: 2800000, guid: bf391a4c91476a04ab79bf5fe9abebd4, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2070,7 +2166,7 @@ GameObject:
   - component: {fileID: 641131077544661044}
   m_Layer: 5
   m_Name: Text_level
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2226,7 +2322,7 @@ GameObject:
   - component: {fileID: 641131077628789606}
   m_Layer: 5
   m_Name: Text_number_Chance
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2382,7 +2478,7 @@ GameObject:
   - component: {fileID: 641131077685320470}
   m_Layer: 5
   m_Name: Text_level_number
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -75,32 +75,42 @@ public class Raw_model_game_play_online : MonoBehaviour
     private void Start()
     {
         //level QA
-        if (Level < 50)
+        if (Level <= 10)
         {
             print("level_easy");
-            int Count = Random.Range(2, 5);
+            int Count = Random.Range(1, 5);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
             {
                 BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
             }
         }
-        else if (Level >= 50 && Level < 150)
+        else if (Level >= 11 && Level <= 20)
         {
             print("Level_mediom");
-            int Count = Random.Range(3, 6);
+            int Count = Random.Range(2, 7);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
             {
                 BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
             }
         }
-        else if (Level >= 150)
+        else if (Level >= 21&&Level <=40)
         {
             print("level_hard");
-            int Count = Random.Range(4, 6);
+            int Count = Random.Range(3, 8);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
+            {
+                BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
+            }
+        }
+        else if (Level>=41)
+        {
+            print("expert");
+            int Count = Random.Range(3, 9);
+            BTNS = new GameObject[Count];
+            for (int i = 0; i < Count; i++)
             {
                 BTNS[i] = Instantiate(Raw_model_BTN, Place_BTNS);
             }
@@ -333,7 +343,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
-        public float Freeze_time = 0.02f;
+        public float Freeze_time = 0.01f;
 
         public int Count;
         public int Tap;
@@ -351,6 +361,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                 if (Tap < Count)
                 {
                     Tap += 1;
+                    Text_BTN.text =Tap.ToString();//cheack 
                 }
                 else
                 {

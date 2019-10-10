@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6419777844161458694}
   m_Layer: 5
   m_Name: TLVLN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 4506307200623987816}
   m_Layer: 5
   m_Name: TCN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 4506307200838470408}
   m_Layer: 5
   m_Name: TADN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 4506307200986204236}
   m_Layer: 5
   m_Name: TDN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 4506307201126070317}
   m_Layer: 5
   m_Name: TPN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -975,7 +975,7 @@ GameObject:
   - component: {fileID: 4506307201235375346}
   m_Layer: 5
   m_Name: TNNP
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1129,9 +1129,10 @@ GameObject:
   - component: {fileID: 4506307201345039020}
   - component: {fileID: 4506307201345039022}
   - component: {fileID: 8211868231727758764}
+  - component: {fileID: 9192618728655418971}
   m_Layer: 5
   m_Name: Icon_C
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1188,6 +1189,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &9192618728655418971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201345039021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201356681366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,9 +1215,10 @@ GameObject:
   - component: {fileID: 4506307201356681361}
   - component: {fileID: 4506307201356681363}
   - component: {fileID: 319835475250616884}
+  - component: {fileID: 1320297120675159658}
   m_Layer: 5
   m_Name: Icon_D
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1258,6 +1275,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1320297120675159658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201356681366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201427645020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1303,7 @@ GameObject:
   - component: {fileID: 4506307201427645022}
   m_Layer: 5
   m_Name: Text_LVL
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1427,7 +1459,7 @@ GameObject:
   - component: {fileID: 4506307201490836327}
   m_Layer: 5
   m_Name: Text_Coines
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1581,9 +1613,10 @@ GameObject:
   - component: {fileID: 4506307201541243324}
   - component: {fileID: 4506307201541243326}
   - component: {fileID: 924971289002310210}
+  - component: {fileID: 8275347303382762425}
   m_Layer: 5
   m_Name: Icon_R
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1640,6 +1673,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &8275347303382762425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201541243325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201568813589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,6 +1700,7 @@ GameObject:
   - component: {fileID: 4506307201568813585}
   - component: {fileID: 4506307201568813590}
   - component: {fileID: 4506307201568813591}
+  - component: {fileID: 8600449970761014259}
   m_Layer: 5
   m_Name: BTN_enter_to_server
   m_TagString: Untagged
@@ -1757,6 +1806,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8600449970761014259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201568813589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.54901963, g: 1, b: 0.6509804, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201674426725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,9 +1832,10 @@ GameObject:
   - component: {fileID: 4506307201674426724}
   - component: {fileID: 4506307201674426726}
   - component: {fileID: 5786503559492891026}
+  - component: {fileID: 1623597289240863810}
   m_Layer: 5
   m_Name: Icon_P
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1827,6 +1892,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1623597289240863810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201674426725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201754043485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,7 +1920,7 @@ GameObject:
   - component: {fileID: 4506307201754043487}
   m_Layer: 5
   m_Name: TTCN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1995,6 +2075,7 @@ GameObject:
   - component: {fileID: 4506307201916091441}
   - component: {fileID: 4506307201916091446}
   - component: {fileID: 4506307201916091447}
+  - component: {fileID: 5240607823641403573}
   m_Layer: 5
   m_Name: BTNS_Exit_to_server
   m_TagString: Untagged
@@ -2018,7 +2099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 163, y: -17}
+  m_AnchoredPosition: {x: 181, y: -17}
   m_SizeDelta: {x: 36, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4506307201916091441
@@ -2100,6 +2181,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5240607823641403573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201916091445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.9254902, g: 0.07450981, b: 0.29803923, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307201949031804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,9 +2208,10 @@ GameObject:
   - component: {fileID: 4506307201949031800}
   - component: {fileID: 4506307201949031801}
   - component: {fileID: 4506307201949031806}
+  - component: {fileID: 3995097743540381620}
   m_Layer: 5
   m_Name: BIS
-  m_TagString: Untagged
+  m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2217,6 +2314,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3995097743540381620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307201949031804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307202080374552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,9 +2527,10 @@ GameObject:
   - component: {fileID: 4506307202115695930}
   - component: {fileID: 4506307202115695924}
   - component: {fileID: 7340204531984806187}
+  - component: {fileID: 8184487872612973852}
   m_Layer: 5
   m_Name: Icon_A_D
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2474,6 +2587,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &8184487872612973852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307202115695931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307202416623252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2487,7 +2615,7 @@ GameObject:
   - component: {fileID: 4506307202416623254}
   m_Layer: 5
   m_Name: TMN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2643,7 +2771,7 @@ GameObject:
   - component: {fileID: 4506307202419243576}
   m_Layer: 5
   m_Name: TRN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2797,9 +2925,10 @@ GameObject:
   - component: {fileID: 4506307202437678615}
   - component: {fileID: 4506307202437678609}
   - component: {fileID: 1875468370076100848}
+  - component: {fileID: 6640567317050410008}
   m_Layer: 5
   m_Name: Icon_F
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2856,6 +2985,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6640567317050410008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307202437678612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4506307202504986584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,7 +3085,7 @@ GameObject:
   - component: {fileID: 4506307202628291752}
   m_Layer: 5
   m_Name: TFN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3170,9 +3314,10 @@ GameObject:
   - component: {fileID: 4506307202663394055}
   - component: {fileID: 4506307202663394049}
   - component: {fileID: 1490129741443520375}
+  - component: {fileID: 5371628512587322474}
   m_Layer: 5
   m_Name: Icon_M
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3229,6 +3374,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &5371628512587322474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506307202663394052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5998939545052070448
 GameObject:
   m_ObjectHideFlags: 0
@@ -3240,9 +3400,10 @@ GameObject:
   - component: {fileID: 7521951168129053646}
   - component: {fileID: 6134102164392883005}
   - component: {fileID: 6788005067700087406}
+  - component: {fileID: 4292620432806397881}
   m_Layer: 5
   m_Name: Icon_L
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3299,6 +3460,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &4292620432806397881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5998939545052070448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8276740389581818380
 GameObject:
   m_ObjectHideFlags: 0
@@ -3312,7 +3488,7 @@ GameObject:
   - component: {fileID: 7862691786015441963}
   m_Layer: 5
   m_Name: TLN
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

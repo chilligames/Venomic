@@ -50,18 +50,22 @@ public class Day_night_controler : MonoBehaviour
     }
     private void Update()
     {
+       
+
         if (PlayerPrefs.GetInt("Day_Night") == 1)
         {
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
             {
                 Raw_Image.GetComponent<RawImage>().color = Color_night;
                 Raw_Image.GetComponent<Shadow>().effectColor = Color_night_shadow;
+                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x/8, Input.acceleration.y/8);
             }
 
             foreach (var Image in GameObject.FindGameObjectsWithTag("Change_Color_Image"))
             {
                 Image.GetComponent<Image>().color = Color_night;
                 Image.GetComponent<Shadow>().effectColor = Color_night_shadow;
+                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x/8, Input.acceleration.y/8);
             }
 
             foreach (var Texts in GameObject.FindGameObjectsWithTag("Change_Color_Texts"))
@@ -75,11 +79,13 @@ public class Day_night_controler : MonoBehaviour
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
             {
                 Raw_Image.GetComponent<RawImage>().color = Color_day;
+                Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / 8);
             }
 
             foreach (var Image in GameObject.FindGameObjectsWithTag("Change_Color_Image"))
             {
                 Image.GetComponent<Image>().color = Color_day;
+                Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / 8);
             }
 
             foreach (var Texts in GameObject.FindGameObjectsWithTag("Change_Color_Texts"))

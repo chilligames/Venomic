@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 7669098498436559772}
   m_Layer: 5
   m_Name: Name_player
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,9 +259,10 @@ GameObject:
   - component: {fileID: 7669098498777476159}
   - component: {fileID: 7669098498777476097}
   - component: {fileID: 7669098498777476158}
+  - component: {fileID: 4954381154793117366}
   m_Layer: 5
   m_Name: Holder
-  m_TagString: Untagged
+  m_TagString: Change_Color_RawImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,6 +319,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &4954381154793117366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7669098498777476156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.29803923}
+  m_EffectDistance: {x: 0, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &7669098498894939275
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +347,7 @@ GameObject:
   - component: {fileID: 7669098498894939277}
   m_Layer: 5
   m_Name: Postion
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -487,7 +503,7 @@ GameObject:
   - component: {fileID: 7669098499952554668}
   m_Layer: 5
   m_Name: Score
-  m_TagString: Untagged
+  m_TagString: Change_Color_Texts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

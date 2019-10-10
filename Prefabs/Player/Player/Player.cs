@@ -3,17 +3,25 @@ using UnityEngine;
 
 using System.Threading;
 
+/// <summary>
+/// playerpref
+/// 1: Day_Night
+/// </summary>
 public class Player : MonoBehaviour
 {
     public static Camera cam;
     public Transform Place_mission;
 
-    public Color[] Colors_cam_;
-    public static Color[] Colors_cam;
+    public Color[] Colors_cam_Night;
+    public Color[] Colors_cam_day;
 
+    public static Color[] Colors_cam_day_;
+    public static Color[] Colors_cam_night_;
     void Start()
     {
-        Colors_cam = Colors_cam_;
+        Colors_cam_night_ = Colors_cam_Night;
+        Colors_cam_day_ = Colors_cam_day;
+
         cam = Camera.main;
     }
 
@@ -50,8 +58,17 @@ public class Player : MonoBehaviour
         /// </summary>
         public static void Move_Camera_To_Menu()
         {
-            Color Color_menu = new Color(1, 0.8f, 0.2f, 1);
-            cam.backgroundColor = Color_menu;
+            if (PlayerPrefs.GetInt("Day_Night") == 0)
+            {
+                Color color_day = new Color(1, 0.8f, 0.2f, 1);
+                cam.backgroundColor = color_day;
+
+            }
+            else
+            {
+                Color color_night = new Color(0.13f, 0.15f, 0.19f, 1);
+                cam.backgroundColor = color_night;
+            }
 
             move();
             async void move()
@@ -78,10 +95,17 @@ public class Player : MonoBehaviour
         /// </summary>
         public static void Change_color()
         {
-            print("Change back;");
-            int rand_color = Random.Range(0, Colors_cam.Length);
+            if (PlayerPrefs.GetInt("Day_Night") == 0)
+            {
+                int rand_color = Random.Range(0, Colors_cam_day_.Length);
+                cam.backgroundColor = Colors_cam_day_[rand_color];
+            }
+            else
+            {
+                int rand_color = Random.Range(0, Colors_cam_night_.Length);
+                cam.backgroundColor = Colors_cam_night_[rand_color];
+            }
 
-            cam.backgroundColor = Colors_cam[rand_color];
         }
     }
 }

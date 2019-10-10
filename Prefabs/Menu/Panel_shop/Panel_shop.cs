@@ -100,7 +100,7 @@ public class Panel_shop : MonoBehaviour
         Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin { _id = _id }, result =>
         {
             Text_Coin_number.text = result.Coin.ToString();
-            Text_Mony_number.text = result.Money.ToString();
+            Text_Mony_number.text = System.Math.Round( (decimal)result.Money,1).ToString();
 
         }, err => { });
     }

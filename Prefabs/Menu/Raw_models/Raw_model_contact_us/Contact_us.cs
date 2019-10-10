@@ -14,6 +14,7 @@ public class Contact_us : MonoBehaviour
 
     public Button BTN_Send_form;
     public Button BTN_Send_rate;
+    public Button BTN_close;
 
     public Slider Slider_rate_us;
 
@@ -71,6 +72,10 @@ public class Contact_us : MonoBehaviour
 
                 }, ERRORS => { });
 
+        });
+
+        BTN_close.onClick.AddListener(() => {
+            Destroy(gameObject);
         });
     }
 
