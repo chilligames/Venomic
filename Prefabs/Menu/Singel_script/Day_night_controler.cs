@@ -58,6 +58,7 @@ public class Day_night_controler : MonoBehaviour
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
             {
                 Raw_Image.GetComponent<RawImage>().color = Color_night;
+               
                 Raw_Image.GetComponent<Shadow>().effectColor = Color_night_shadow;
                 Raw_Image.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / 8, Input.acceleration.y / Float_Shadow);
             }

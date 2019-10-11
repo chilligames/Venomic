@@ -220,8 +220,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Message body here
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7911c26043849374ea042a1d37c1667f, type: 2}
-  m_sharedMaterial: {fileID: 5260568673589451686, guid: 7911c26043849374ea042a1d37c1667f,
+  m_fontAsset: {fileID: 11400000, guid: bfd9720bc67c3aa49b9b95cb9cb9500c, type: 2}
+  m_sharedMaterial: {fileID: 5864647046942626920, guid: bfd9720bc67c3aa49b9b95cb9cb9500c,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.1
+  m_fontSize: 20
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 302020988825232103}
   - component: {fileID: 302020988825232101}
   - component: {fileID: 302020988825232102}
+  - component: {fileID: 7233602340884014808}
   m_Layer: 5
   m_Name: Time_send
   m_TagString: Untagged
@@ -381,6 +382,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &7233602340884014808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302020988825232096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &302020989191953680
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,8 +462,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 999:99:99:99
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7991c8f1d0f3bea43a159a0cd7d067ed, type: 2}
-  m_sharedMaterial: {fileID: 369722368860911302, guid: 7991c8f1d0f3bea43a159a0cd7d067ed,
+  m_fontAsset: {fileID: 11400000, guid: bfd9720bc67c3aa49b9b95cb9cb9500c, type: 2}
+  m_sharedMaterial: {fileID: 5864647046942626920, guid: bfd9720bc67c3aa49b9b95cb9cb9500c,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -473,7 +489,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 23.8
+  m_fontSize: 13.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

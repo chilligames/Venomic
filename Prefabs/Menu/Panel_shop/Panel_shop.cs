@@ -48,20 +48,20 @@ public class Panel_shop : MonoBehaviour
         }
     }
 
-
-    private void OnDisable()
+    private void Start()
     {
-        if (Offers != null)
+        BTN_Enter_convert.onClick.AddListener(() =>
+        {
+            Instantiate(Raw_model_convert_panel).GetComponent<Panel_Convert_Coins>().Change_value(gameObject);
+        });
+        
+        BTN_Enter_shop_entity.onClick.AddListener(() =>
         {
 
-            for (int i = 0; i < Offers.Length; i++)
-            {
-                Destroy(Offers[i]);
-            }
-        }
+            Instantiate(Raw_model_panel_shop_entity).GetComponent<Panel_shop_entity>().Change_value(gameObject);
 
+        });
     }
-
     public void OnEnable()
     {
         Recive_entity_wallet();
@@ -78,21 +78,20 @@ public class Panel_shop : MonoBehaviour
 
 
         }, err => { });
+    }
 
-        BTN_Enter_convert.onClick.AddListener(() =>
+    private void OnDisable()
+    {
+        if (Offers != null)
         {
-            Instantiate(Raw_model_convert_panel).GetComponent<Panel_Convert_Coins>().Change_value(gameObject);
-        });
-
-
-        BTN_Enter_shop_entity.onClick.AddListener(() =>
-        {
-
-            Instantiate(Raw_model_panel_shop_entity).GetComponent<Panel_shop_entity>().Change_value(gameObject);
-
-        });
+            for (int i = 0; i < Offers.Length; i++)
+            {
+                Destroy(Offers[i]);
+            }
+        }
 
     }
+
 
 
     public void Recive_entity_wallet()

@@ -3,7 +3,11 @@ guid: afd324f199431a947b16583457714895
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Font_boild_persian: {fileID: 11400000, guid: b05dbfe2c3a8b7f49aaf7a7ca4a58854,
+      type: 2}
+  - Font_normal_persian: {fileID: 11400000, guid: 3240f568d74ddf1479141f86a58f0a06,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 4652165331632423629}
   - component: {fileID: 4652165331632423631}
   - component: {fileID: 4652165331632423630}
+  - component: {fileID: 2938551169834089419}
   m_Layer: 5
   m_Name: Text_header
   m_TagString: Untagged
@@ -350,6 +351,23 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2938551169834089419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652165331632423628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd324f199431a947b16583457714895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: "\uFEAE\uFE97\uFEAE\uFE91 \uFEE5\uFE8E\uFEE8\uFEDC\uFBFE\uFEAF\uFE8E\uFE91"
+  Boild_font: 1
+  Font_boild_persian: {fileID: 11400000, guid: b05dbfe2c3a8b7f49aaf7a7ca4a58854, type: 2}
+  Font_normal_persian: {fileID: 11400000, guid: 3240f568d74ddf1479141f86a58f0a06,
+    type: 2}
 --- !u!1 &4652165331698869535
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +420,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 50
     m_Bottom: 0
   m_ChildAlignment: 1
   m_StartCorner: 0
@@ -1215,6 +1233,7 @@ GameObject:
   - component: {fileID: 4652165333116961175}
   - component: {fileID: 4652165333116961177}
   - component: {fileID: 4652165333116961176}
+  - component: {fileID: 5015203486717127756}
   m_Layer: 5
   m_Name: Text_Close
   m_TagString: Untagged
@@ -1360,6 +1379,23 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5015203486717127756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652165333116961174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd324f199431a947b16583457714895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: "\uFEE6\uFE98\uFEB4\uFE91"
+  Boild_font: 1
+  Font_boild_persian: {fileID: 11400000, guid: b05dbfe2c3a8b7f49aaf7a7ca4a58854, type: 2}
+  Font_normal_persian: {fileID: 11400000, guid: 3240f568d74ddf1479141f86a58f0a06,
+    type: 2}
 --- !u!1 &4652165333133976402
 GameObject:
   m_ObjectHideFlags: 0

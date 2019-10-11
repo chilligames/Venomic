@@ -62,8 +62,6 @@ public class Panel_Chatroom : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(Recive_messages_in_chatroom());
-
         Curent_content = Content_Chatroom;
         Curent_BTN_tab = BTN_Chatroom;
 
@@ -189,24 +187,11 @@ public class Panel_Chatroom : MonoBehaviour
         });
 
     }
-
-    private void Update()
+    public void OnEnable()
     {
-        if (Content_Chatroom.activeInHierarchy != true && Messages_Chatroom != null)
-        {
-            for (int i = 0; i < Messages_Chatroom.Length; i++)
-            {
-                Destroy(Messages_Chatroom[i]);
+        StartCoroutine(Recive_messages_in_chatroom());
 
-            }
-        }
-        if (Content_Messages.activeInHierarchy != true && Messages != null)
-        {
-            for (int i = 0; i < Messages.Length; i++)
-            {
-                Destroy(Messages[i]);
-            }
-        }
+        Chilligames_SDK.API_Client.Mark_all_messages_as_read(new Req_mark_messeges_as_read { _id = _id_player });
     }
 
     public void OnDisable()
@@ -229,12 +214,26 @@ public class Panel_Chatroom : MonoBehaviour
 
     }
 
-    public void OnEnable()
+    private void Update()
     {
-        StartCoroutine(Recive_messages_in_chatroom());
+        if (Content_Chatroom.activeInHierarchy != true && Messages_Chatroom != null)
+        {
+            for (int i = 0; i < Messages_Chatroom.Length; i++)
+            {
+                Destroy(Messages_Chatroom[i]);
 
-        Chilligames_SDK.API_Client.Mark_all_messages_as_read(new Req_mark_messeges_as_read { _id = _id_player });
+            }
+        }
+        if (Content_Messages.activeInHierarchy != true && Messages != null)
+        {
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                Destroy(Messages[i]);
+            }
+        }
     }
+
+
 
     /// <summary>
     /// cheack mikone age pm jadid bashe va status messsage 0 bashe icon roshan mishe

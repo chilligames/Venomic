@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         {
             if (PlayerPrefs.GetInt("Day_Night") == 0)
             {
-                Color color_day = new Color(1, 0.8f, 0.2f, 1);
+                Color color_day = new Color(1, 0.83f, 0, 1);
                 cam.backgroundColor = color_day;
             }
             else

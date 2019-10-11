@@ -73,22 +73,9 @@ public class Panel_Servers : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
-        Curent_content = Content_Servers;
-
-        Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count = 50, Name_App = "Venomic" }, result =>
-        {
-            Entity_servers = new GameObject[result.Length];
-            for (int i = 0; i < result.Length; i++)
-            {
-                Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
-                Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
-            }
-
-        }, ERR => { });
-
-
+        //change action btns
         BTN_Servers.onClick.AddListener(() =>
         {
             Content_Servers.SetActive(true);
@@ -195,6 +182,25 @@ public class Panel_Servers : MonoBehaviour
             Curent_content = Content_My_servers;
             Curent_content.SetActive(true);
         });
+    }
+
+    void OnEnable()
+    {
+
+        //starter
+        Curent_content = Content_Servers;
+
+        //recive all server
+        Chilligames_SDK.API_Client.Recive_all_servers(new Req_recive_all_server { Count = 50, Name_App = "Venomic" }, result =>
+        {
+            Entity_servers = new GameObject[result.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                Entity_servers[i] = Instantiate(Raw_model_fild_server, Place_instant_servers);
+                Entity_servers[i].GetComponent<Raw_fild_servers>().Change_value(ChilligamesJson.DeserializeObject<Model_server>(result[i].ToString())._id);
+            }
+
+        }, ERR => { });
 
     }
 
@@ -288,6 +294,33 @@ public class Panel_Servers : MonoBehaviour
 
     }
 
+
+    private void OnDisable()
+    {
+        //delet entity recive
+        if (Entity_my_servers != null)
+        {
+            for (int i = 0; i < Entity_my_servers.Length; i++)
+            {
+                Destroy(Entity_my_servers[i]);
+            }
+            Entity_my_servers = null;
+        }
+
+        if (Entity_servers != null)
+        {
+            for (int i = 0; i < Entity_servers.Length; i++)
+            {
+                Destroy(Entity_servers[i]);
+            }
+            Entity_servers = null;
+        }
+
+        //change to defult
+        Curent_content.SetActive(false);
+        Curent_content = Content_Servers;
+        Content_Servers.SetActive(true);
+    }
 
 
     public class Model_server

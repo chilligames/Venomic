@@ -115,8 +115,6 @@ public class Raw_fild_servers : MonoBehaviour
 
 
 
-
-
     class Deserilse_data_server
     {
         public string _id = null;

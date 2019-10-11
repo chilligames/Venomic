@@ -56,7 +56,7 @@ public class Panel_Setting : MonoBehaviour
             Text_music.text = "On";
             Text_music.color = Color_Enable;
         }
-
+        
 
 
         BTN_vibrator.onClick.AddListener(() =>
@@ -112,8 +112,6 @@ public class Panel_Setting : MonoBehaviour
         {
             Instantiate(Contact_us);
         });
-
-
     }
 
 }

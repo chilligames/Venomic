@@ -133,6 +133,7 @@ public class Raw_model_game_play_online : MonoBehaviour
         BTN_Freeze.onClick.AddListener(() =>
         {
             BTN_Freeze.GetComponent<AudioSource>().Play();
+            Partical_freeze.Play();
             if (Freeze >= 1)
             {
                 foreach (var BTN in BTNS)
@@ -140,7 +141,6 @@ public class Raw_model_game_play_online : MonoBehaviour
                     BTN.GetComponent<BTN>().Freeze_time = 0.005f;
                 }
                 Freeze -= 1;
-                Partical_freeze.Play();
             }
             else
             {
@@ -151,30 +151,37 @@ public class Raw_model_game_play_online : MonoBehaviour
         BTN_Minus.onClick.AddListener(() =>
         {
             BTN_Minus.GetComponent<AudioSource>().Play();
-            foreach (var BTN in BTNS)
+            Partical_Minus.Play();
+            if (Minues >= 1)
             {
-                if (BTN.GetComponent<BTN>().Count > 1)
+                Minues -= 1;
+                foreach (var BTN in BTNS)
                 {
-                    if (BTN.GetComponent<BTN>().Count - 1 < BTN.GetComponent<BTN>().Tap)
+                    if (BTN.GetComponent<BTN>().Count > 1)
                     {
-                        BTN.GetComponent<BTN>().Tap -= 1;
-                    }
+                        if (BTN.GetComponent<BTN>().Count - 1 < BTN.GetComponent<BTN>().Tap)
+                        {
+                            BTN.GetComponent<BTN>().Tap -= 1;
+                        }
 
-                    BTN.GetComponent<BTN>().Count -= 1;
-                    Minues -= 1;
-                    Partical_Minus.Play();
-                }
-                else
-                {
-                    Partical_reject.Play();
+                        BTN.GetComponent<BTN>().Count -= 1;
+                    }
+                    else
+                    {
+                        print("One btn cant minus");
+                    }
                 }
             }
-
+            else
+            {
+                Partical_reject.Play();
+            }
         });
 
         BTN_Delete.onClick.AddListener(() =>
         {
             BTN_Delete.GetComponent<AudioSource>().Play();
+            Partical_delete.Play();
             if (Delete >= 1 && BTNS.Length > 1)
             {
                 Destroy(BTNS[BTNS.Length - 1]);
@@ -186,18 +193,17 @@ public class Raw_model_game_play_online : MonoBehaviour
                     New_BTNS[i] = BTNS[i];
                 }
                 BTNS = New_BTNS;
-                Partical_delete.Play();
             }
             else
             {
                 Partical_reject.Play();
-                print("Cant delete here");
             }
         });
 
         BTN_Reset.onClick.AddListener(() =>
         {
             BTN_Reset.GetComponent<AudioSource>().Play();
+            Partical_reset.Play();
             if (Reset >= 1)
             {
                 Reset -= 1;
@@ -205,7 +211,6 @@ public class Raw_model_game_play_online : MonoBehaviour
                 {
                     Destroy(BTNS[i]);
                 }
-                Partical_reset.Play();
                 Start();
 
             }
@@ -339,7 +344,7 @@ public class Raw_model_game_play_online : MonoBehaviour
 
                 //effect camera
                 Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
-              
+
 
                 //destroy gameplay
                 Destroy(gameObject);
@@ -405,11 +410,23 @@ public class Raw_model_game_play_online : MonoBehaviour
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Chance -= 1;
                         Parent.GetComponent<Raw_model_game_play_online>().Partical_chance.Play();
+
+                        //vibrator control
+                        if (PlayerPrefs.GetInt("Vibrator") == 0)
+                        {
+                            Handheld.Vibrate();
+                        }
                     }
                     else
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Level -= 1;
                         Parent.GetComponent<Raw_model_game_play_online>().Partical_reject.Play();
+
+                        //vibrator control
+                        if (PlayerPrefs.GetInt("Vibrator") == 0)
+                        {
+                            Handheld.Vibrate();
+                        }
                     }
                 }
             });

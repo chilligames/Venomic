@@ -26,17 +26,21 @@ public class Panel_Ranking : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        
+        BTN_Top_player.onClick.AddListener(() =>
+        {
+            Instantiate(Raw_model_leader_board).GetComponent<Raw_Content_ranking>().Change_value("Venomic_Top_Player");
+        });
+    }
     private void OnEnable()
     {
         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_Player", _id = _id }, result =>
         {
             Text_Rank.text = result;
         }, err => { });
-
-        BTN_Top_player.onClick.AddListener(() =>
-        {
-            Instantiate(Raw_model_leader_board).GetComponent<Raw_Content_ranking>().Change_value("Venomic_Top_Player");
-        });
+       
         Chilligames_SDK.API_Client.Recive_leader_board_near_user(new Req_recive_leaderboard_near_user { Count = 20, Name_laederboard = "Venomic_Top_Player", _id = _id }, result =>
         {
             Fild_leaderboard = new GameObject[result.Length];
@@ -44,14 +48,13 @@ public class Panel_Ranking : MonoBehaviour
             for (int i = 0; i < result.Length; i++)
             {
                 Fild_leaderboard[i] = Instantiate(Raw_model_fild_leaderboard, Place_spawn_score_near_player);
-                Fild_leaderboard[i].AddComponent<Raw_Fild_leaderboard>().Change_value(_id,result[i]._id, i, result[i].Nickname, result[i].Score,Raw_model_profile_player);
+                Fild_leaderboard[i].AddComponent<Raw_Fild_leaderboard>().Change_value(_id, result[i]._id, i, result[i].Nickname, result[i].Score, Raw_model_profile_player);
             }
         }, err => { }); ;
     }
-
     private void OnDisable()
     {
-        if (Fild_leaderboard!=null)
+        if (Fild_leaderboard != null)
         {
             for (int i = 0; i < Fild_leaderboard.Length; i++)
             {
@@ -118,7 +121,7 @@ public class Panel_Ranking : MonoBehaviour
             }
         }
 
-        public void Change_value(string _id,string _id_other_player, int Postion, string Nickname, int? score,GameObject Profile_player)
+        public void Change_value(string _id, string _id_other_player, int Postion, string Nickname, int? score, GameObject Profile_player)
         {
             Text_postion.text = Postion.ToString();
             Text_Nickname.text = Nickname;
@@ -126,7 +129,7 @@ public class Panel_Ranking : MonoBehaviour
 
             BTN_Profile.onClick.AddListener(() =>
             {
-                Instantiate(Profile_player).GetComponent<Raw_model_user_profile>().Change_value(_id, _id_other_player);   
+                Instantiate(Profile_player).GetComponent<Raw_model_user_profile>().Change_value(_id, _id_other_player);
             });
         }
 

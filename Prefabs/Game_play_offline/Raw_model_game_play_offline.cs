@@ -10,6 +10,7 @@ using UnityEngine.UI;
 /// 4: Chance
 /// 5: Reset
 /// 6: Coin
+/// 7: Vibrator
 /// </summary>
 public class Raw_model_game_play_offline : MonoBehaviour
 {
@@ -139,7 +140,11 @@ public class Raw_model_game_play_offline : MonoBehaviour
     }
     private void Start()
     {
+        //music win
 
+        GetComponent<AudioSource>().Play();
+
+        //change action btns
         BTN_Freeze.onClick.AddListener(() =>
         {
             Partical_Freeze.Play();
@@ -372,7 +377,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
             Text_BTN.text = Count.ToString();
             BTN_click.onClick.AddListener(() =>
             {
-                //audi control
+                //audi0 control
                 GetComponent<AudioSource>().Play();
 
 
@@ -384,11 +389,25 @@ public class Raw_model_game_play_offline : MonoBehaviour
                     {
                         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") - 1);
                         Parent.GetComponent<Raw_model_game_play_offline>().Partica_reject.Play();
+
+                        //vibrator control
+                        if (PlayerPrefs.GetInt("Vibrator") == 0)
+                        {
+                            Handheld.Vibrate();
+
+                        }
+
                     }
                     else
                     {
                         PlayerPrefs.SetInt("Chance", PlayerPrefs.GetInt("Chance") - 1);
                         Parent.GetComponent<Raw_model_game_play_offline>().Parical_Chance.Play();
+
+                        //Vibrator control
+                        if (PlayerPrefs.GetInt("Vibrator") == 0)
+                        {
+                            Handheld.Vibrate();
+                        }
                     }
                 }
                 else

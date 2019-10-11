@@ -45,6 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7564982841248840511}
   - component: {fileID: 5306511448650399896}
+  - component: {fileID: 8875518218015817000}
   - component: {fileID: 3175654926161502698}
   m_Layer: 5
   m_Name: Text_header
@@ -80,6 +81,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210941162814581996}
   m_CullTransparentMesh: 0
+--- !u!114 &8875518218015817000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210941162814581996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd324f199431a947b16583457714895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: 
+  Boild_font: 1
+  Font_boild_persian: {fileID: 11400000, guid: b05dbfe2c3a8b7f49aaf7a7ca4a58854, type: 2}
+  Font_normal_persian: {fileID: 11400000, guid: 3240f568d74ddf1479141f86a58f0a06,
+    type: 2}
 --- !u!114 &3175654926161502698
 MonoBehaviour:
   m_ObjectHideFlags: 0

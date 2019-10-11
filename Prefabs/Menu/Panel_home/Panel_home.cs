@@ -35,7 +35,6 @@ public class Panel_home : MonoBehaviour
     public GameObject[] Server_fild;
 
 
-    public Button BTN_Home;
     public Button BTN_Play_offline;
     public Button BTN_return_online;
 
@@ -53,7 +52,7 @@ public class Panel_home : MonoBehaviour
         }
     }
 
-    public void Start()
+    public void OnEnable()
     {
         /*....online....*/
 
@@ -63,12 +62,12 @@ public class Panel_home : MonoBehaviour
             {
                 print("register_new_user");
                 PlayerPrefs.SetString("_id", result._id);
-                Start();
+                OnEnable();
             }, ERROR =>
             {
                 Offline_mode.SetActive(true);
 
-      
+
                 BTN_return_online.onClick.AddListener(() =>
                 {
                     Chilligames_SDK.API_Client.Quick_register(result =>
@@ -102,37 +101,16 @@ public class Panel_home : MonoBehaviour
                         for (int i = 0; i < Result_server.Length; i++)
                         {
                             Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString(), _id,gameObject);
+                            Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result_server[i].ToString(), _id, gameObject);
                         }
 
                     }, err => { });
+                 
                     Chilligames_SDK.API_Client.Recive_info_user(new Req_recive_Info_player { _id = _id }, result =>
                     {
                         Text_nickname.text = result.Nickname;
 
                     }, err => { });
-
-                    BTN_Home.onClick.AddListener(() =>
-                    {
-                        for (int i = 0; i < Server_fild.Length; i++)
-                        {
-                            Destroy(Server_fild[i]);
-                        }
-                        Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result =>
-                        {
-
-                            Server_fild = new GameObject[Result.Length];
-
-                            for (int i = 0; i < Result.Length; i++)
-                            {
-                                Server_fild[i] = Instantiate(Raw_model_fild_server_play, Place_server);
-                                Server_fild[i].GetComponent<Raw_model_fild_server_play>().Change_value(Result[i].ToString(), _id,gameObject);
-
-                            }
-
-                        }, err => { });
-
-                    });
 
                     void Send_data()
                     {
@@ -169,10 +147,6 @@ public class Panel_home : MonoBehaviour
             {
                 Offline_mode.SetActive(true);
 
-                BTN_return_online.onClick.AddListener(() =>
-                {
-                    SceneManager.LoadScene(0);
-                });
 
                 for (int i = 0; i < object_hide_offline.Length; i++)
                 {
@@ -181,11 +155,10 @@ public class Panel_home : MonoBehaviour
 
             });
         }
-
-
-
+    }
+    private void Start()
+    {
         /*....offline....*/
-
         BTN_Play_offline.onClick.AddListener(() =>
         {
             Missions = Instantiate(Raw_model_mission_offline, Place_missons);
@@ -195,8 +168,22 @@ public class Panel_home : MonoBehaviour
             //soundcontrol
             Menu.Play_music_GamePlay();
         });
-    }
+        BTN_return_online.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(0);
+        });
 
+    }
+    private void OnDisable()
+    {
+        if (Server_fild != null)
+        {
+            for (int i = 0; i < Server_fild.Length; i++)
+            {
+                Destroy(Server_fild[i]);
+            }
+        }
+    }
     public void Update()
     {
         Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();

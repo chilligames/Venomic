@@ -7,6 +7,10 @@ using System.Collections;
 using Chilligames.SDK.Model_Client;
 using Chilligames.SDK;
 
+/// <summary>
+/// playerpref
+/// 1: Sound
+/// </summary>
 public class Menu : MonoBehaviour
 {
     public static AudioSource Music_menu_;
@@ -209,6 +213,15 @@ public class Menu : MonoBehaviour
     private void Update()
     {
         Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.2f);
+
+        if (PlayerPrefs.GetInt("Sound")==0)
+        {
+            AudioListener.volume = 0;
+        }
+        else
+        {
+            AudioListener.volume = 1;
+        }
 
     }
 
