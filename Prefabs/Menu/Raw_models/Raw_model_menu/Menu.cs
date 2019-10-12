@@ -232,7 +232,7 @@ public class Menu : MonoBehaviour
         Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.2f);
 
 
-        if (PlayerPrefs.GetInt("Sound")==0)
+        if (PlayerPrefs.GetInt("Sound")==1)
         {
             AudioListener.volume = 0;
         }

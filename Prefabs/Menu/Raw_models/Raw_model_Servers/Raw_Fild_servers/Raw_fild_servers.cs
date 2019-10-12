@@ -49,7 +49,7 @@ public class Raw_fild_servers : MonoBehaviour
             string Coines = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Coine.ToString();
             object[] leader_board = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Leader_board;
 
-            Active_days = Mathf.Abs(Active_days) / 60 / 60 / 24;
+            Active_days = Mathf.Abs(Active_days) / 60 / 60 / 24 +1;
 
             Text_Name_server.text = Name_server;
             Text_Freeze.text = Freeze;
@@ -101,6 +101,10 @@ public class Raw_fild_servers : MonoBehaviour
 
             BTN_Enter_server.onClick.AddListener(() =>
             {
+                int count_player = int.Parse(Text_player.text);
+
+                count_player += 1;
+                Text_player.text = count_player.ToString();
                 Chilligames_SDK.API_Client.Enter_to_server(new Req_enter_to_server { Name_App = "Venomic", _id = _id_player, _id_server = _id_server }, () => { }, ERR => { });
                 BTN_Enter_server.gameObject.SetActive(false);
                 BTN_Exit_server.gameObject.SetActive(true);

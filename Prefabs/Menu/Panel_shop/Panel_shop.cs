@@ -100,8 +100,8 @@ public class Panel_shop : MonoBehaviour
             {
                 Destroy(Offers[i]);
             }
+            Offers = null;
         }
-
     }
 
 

@@ -101,7 +101,7 @@ public class Panel_Chatroom : MonoBehaviour
                 for (int i = 0; i < result.Length; i++)
                 {
                     Messages[i] = Instantiate(Raw_model_Category_message, Place_messages);
-                    Messages[i].AddComponent<Raw_model_Category>().Change_value(result[i].Message, result[i].ID, result[i].Last_Date, result[i].Status, Raw_model_Chat, Raw_model_each_message);
+                    Messages[i].AddComponent<Raw_model_Category>().Change_value(result[i].Message, _id_player, result[i].ID, result[i].Last_Date, result[i].Status, Raw_model_Chat, Raw_model_each_message);
                 }
 
             }, ERRORS => { });
@@ -189,6 +189,26 @@ public class Panel_Chatroom : MonoBehaviour
     }
     public void OnEnable()
     {
+        //starter
+        if (Messages_Chatroom != null)
+        {
+            for (int i = 0; i < Messages_Chatroom.Length; i++)
+            {
+                Destroy(Messages_Chatroom[i]);
+            }
+
+            Messages_Chatroom = null;
+        }
+        if (Messages != null)
+        {
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                Destroy(Messages[i]);
+
+            }
+            Messages = null;
+        }
+
         StartCoroutine(Recive_messages_in_chatroom());
 
         Chilligames_SDK.API_Client.Mark_all_messages_as_read(new Req_mark_messeges_as_read { _id = _id_player });
@@ -201,15 +221,24 @@ public class Panel_Chatroom : MonoBehaviour
         StopCoroutine(Recive_messages_in_chatroom());
 
         //destroy message chatroom
-        if (Messages_Chatroom!=null)
+        if (Messages_Chatroom != null)
         {
-        for (int i = 0; i < Messages_Chatroom.Length; i++)
-        {
-            Destroy(Messages_Chatroom[i]);
-        }
+            for (int i = 0; i < Messages_Chatroom.Length; i++)
+            {
+                Destroy(Messages_Chatroom[i]);
+            }
         }
 
         //destroy messages
+        if (Messages != null)
+        {
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                Destroy(Messages[i]);
+            }
+            Messages = null;
+        }
+
         if (Content_Messages.activeInHierarchy != true && Messages != null)
         {
             for (int i = 0; i < Messages.Length; i++)
@@ -269,7 +298,6 @@ public class Panel_Chatroom : MonoBehaviour
             {
                 try
                 {
-
                     Icon_status_messege.gameObject.SetActive(true);
                 }
                 catch (System.Exception)
@@ -549,11 +577,29 @@ public class Panel_Chatroom : MonoBehaviour
             }
         }
 
+        Button BTN_delete_category
+        {
+
+            get
+            {
+                Button BTN_delet = null;
+                foreach (var BTNS in GetComponentsInChildren<Button>())
+                {
+                    if (BTNS.name == "BDCM")
+                    {
+                        BTN_delet = BTNS;
+                    }
+                }
+                return BTN_delet;
+
+            }
+        }
+
         GameObject Curent_panel_chat = null;
 
         GameObject Raw_model_each_messege = null;
 
-        public void Change_value(object[] messages, string ID, string Last_date, int? status, GameObject Raw_model_chat, GameObject Raw_model_each_message)
+        public void Change_value(object[] messages, string _id, string ID, string Last_date, int? status, GameObject Raw_model_chat, GameObject Raw_model_each_message)
         {
 
 
@@ -578,7 +624,11 @@ public class Panel_Chatroom : MonoBehaviour
 
             });
 
-
+            BTN_delete_category.onClick.AddListener(() =>
+            {
+                Chilligames_SDK.API_Client.Delete_category_message(new Req_delete_message_category { _id = _id, _id_other_player = ID }, () => { }, err => { });
+                Destroy(gameObject);
+            });
 
         }
 

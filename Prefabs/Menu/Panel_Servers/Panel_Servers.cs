@@ -137,8 +137,8 @@ public class Panel_Servers : MonoBehaviour
                 Reset = (int)Value_Reset.value,
                 Active_Days = (int)DateTime.UtcNow.Subtract(DateTime.UtcNow.AddDays((int)Value_Active_Days.value)).TotalSeconds,
                 Level = (int)Value_Level.value,
-                Coine = Coin,
-                Player = 0,
+                Coine = Coin*3,
+                Player = 1,
                 like = 0,
                 Leader_board = new object[0],
             };

@@ -56,8 +56,8 @@ public class Raw_model_fild_server_play : MonoBehaviour
             Coin = DeserializeObject<Panel_Servers.Model_server.Setting_servers>(Result.Setting.ToString()).Coine;
 
             //formule S to Day
-            Active_day = Mathf.Abs((int)Active_day);
-            Active_day = Active_day / 60 / 60 / 24;
+            Active_day = Mathf.Abs((int)Active_day) /60/60/24+1;
+           
 
             //change texts
             Text_nameserver_number.text = Name_server;
@@ -69,6 +69,8 @@ public class Raw_model_fild_server_play : MonoBehaviour
             Text_Active_day_number.text = Active_day.ToString();
             Text_level_number.text = Total_level.ToString();
             Text_Coin_number.text = Coin.ToString();
+
+
 
             gameObject.GetComponent<Button>().onClick.AddListener(() =>
             {

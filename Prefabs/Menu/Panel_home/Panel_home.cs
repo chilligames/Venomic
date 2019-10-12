@@ -62,6 +62,7 @@ public class Panel_home : MonoBehaviour
             {
                 Destroy(Server_fild[i]);
             }
+            Server_fild = null;
         }
 
 

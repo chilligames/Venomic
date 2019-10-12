@@ -1,4 +1,5 @@
 ﻿using Chilligames.Json;
+using Chilligames.SDK;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +42,10 @@ public class Raw_model_info_server : MonoBehaviour
         for (int i = 0; i < Leader_board_server.Length; i++)
         {
             GameObject filds = Instantiate(Raw_model_fild_ranking, Place_fild_ranking);
+
             string ID_other_player = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[i].ToString()).ID;
+
+
             foreach (var Text_Fild_ranking in filds.GetComponentsInChildren<TextMeshProUGUI>())
             {
                 switch (Text_Fild_ranking.name)
@@ -53,7 +57,13 @@ public class Raw_model_info_server : MonoBehaviour
                         break;
                     case "Name_player":
                         {
-                            Text_Fild_ranking.text = "recive name from data base";
+                            Chilligames_SDK.API_Client.Recive_info_user(new Chilligames.SDK.Model_Client.Req_recive_Info_player { _id = ID_other_player }, result =>
+                            {
+
+                                Text_Fild_ranking.text = result.Nickname;
+
+
+                            }, err => { });
                         }
                         break;
                     case "Score":
