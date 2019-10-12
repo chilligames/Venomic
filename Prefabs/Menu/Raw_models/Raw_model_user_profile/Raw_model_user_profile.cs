@@ -12,7 +12,12 @@ public class Raw_model_user_profile : MonoBehaviour
     public GameObject Panel_send_message;
     public TextMeshProUGUI Nickname;
     public TextMeshProUGUI Status;
-    public Button[] BTNs_Connection;
+
+    public Button BTN_send_req_friend;
+    public Button BTN_Pending;
+    public Button BTN_Aceept;
+    public Button BTN_Remove_friend;
+
     public Button BTN_Send_massege;
     public Button BTN_close_profile;
 
@@ -45,24 +50,33 @@ public class Raw_model_user_profile : MonoBehaviour
 
             if (Result == 0)
             {
-                BTNs_Connection[0].gameObject.SetActive(false);
-                BTNs_Connection[1].gameObject.SetActive(true);
-                BTNs_Connection[2].gameObject.SetActive(false);
-                BTNs_Connection[3].gameObject.SetActive(false);
+                BTN_send_req_friend.gameObject.SetActive(false);
+                BTN_Aceept.gameObject.SetActive(false);
+                BTN_Pending.gameObject.SetActive(true);
+                BTN_Remove_friend.gameObject.SetActive(false);
+
             }
             else if (Result == 1)
             {
-                BTNs_Connection[0].gameObject.SetActive(false);
-                BTNs_Connection[1].gameObject.SetActive(false);
-                BTNs_Connection[2].gameObject.SetActive(true);
-                BTNs_Connection[3].gameObject.SetActive(false);
+                BTN_send_req_friend.gameObject.SetActive(false);
+                BTN_Aceept.gameObject.SetActive(true);
+                BTN_Pending.gameObject.SetActive(false);
+                BTN_Remove_friend.gameObject.SetActive(false);
             }
             else if (Result == 2)
             {
-                BTNs_Connection[0].gameObject.SetActive(false);
-                BTNs_Connection[1].gameObject.SetActive(false);
-                BTNs_Connection[2].gameObject.SetActive(false);
-                BTNs_Connection[3].gameObject.SetActive(true);
+                BTN_send_req_friend.gameObject.SetActive(false);
+                BTN_Aceept.gameObject.SetActive(false);
+                BTN_Pending.gameObject.SetActive(false);
+                BTN_Remove_friend.gameObject.SetActive(true);
+
+            }
+            else if (Result == 3)
+            {
+                BTN_send_req_friend.gameObject.SetActive(true);
+                BTN_Aceept.gameObject.SetActive(false);
+                BTN_Pending.gameObject.SetActive(false);
+                BTN_Remove_friend.gameObject.SetActive(false);
             }
 
             Chilligames_SDK.API_Client.Recive_Info_other_User<Schema_other_player>(new Req_recive_Info_player { _id = _id_other_player }, resul =>
@@ -79,33 +93,42 @@ public class Raw_model_user_profile : MonoBehaviour
         }, ERR => { });
 
 
-        BTNs_Connection[1].onClick.AddListener(() =>
+        BTN_send_req_friend.onClick.AddListener(() =>
         {
-            BTNs_Connection[0].gameObject.SetActive(false);
-            BTNs_Connection[1].gameObject.SetActive(false);
-            BTNs_Connection[2].gameObject.SetActive(true);
+            BTN_send_req_friend.gameObject.SetActive(false);
+            BTN_Aceept.gameObject.SetActive(false);
+            BTN_Pending.gameObject.SetActive(true);
+            BTN_Remove_friend.gameObject.SetActive(false);
             Chilligames_SDK.API_Client.Send_friend_requst(new Req_send_friend_requst { _id = _id, _id_other_player = _id_other_player }, () => { }, err => { });
-
         });
 
-        BTNs_Connection[2].onClick.AddListener(() =>
+        BTN_Aceept.onClick.AddListener(() =>
         {
-            BTNs_Connection[0].gameObject.SetActive(false);
-            BTNs_Connection[1].gameObject.SetActive(true);
-            BTNs_Connection[2].gameObject.SetActive(false);
+            BTN_send_req_friend.gameObject.SetActive(false);
+            BTN_Aceept.gameObject.SetActive(false);
+            BTN_Pending.gameObject.SetActive(false);
+            BTN_Remove_friend.gameObject.SetActive(true);
 
-            Chilligames_SDK.API_Client.Cancel_and_dellet_friend_requst(new req_cancel_and_dellet_send_freiend { _id = _id, _id_other_users = _id_other_player }, null, null);
+            Chilligames_SDK.API_Client.Accept_friend_req(new Req_accept_friend_req { }, () => { }, err => { });
         });
 
-        BTNs_Connection[3].onClick.AddListener(() =>
+        BTN_Pending.onClick.AddListener(() =>
         {
+            BTN_send_req_friend.gameObject.SetActive(true);
+            BTN_Aceept.gameObject.SetActive(false);
+            BTN_Pending.gameObject.SetActive(false);
+            BTN_Remove_friend.gameObject.SetActive(false);
 
-            BTNs_Connection[0].gameObject.SetActive(false);
-            BTNs_Connection[1].gameObject.SetActive(true);
-            BTNs_Connection[2].gameObject.SetActive(false);
-            BTNs_Connection[3].gameObject.SetActive(false);
-            Chilligames_SDK.API_Client.Cancel_and_dellet_friend_requst(new req_cancel_and_dellet_send_freiend { _id = _id, _id_other_users = _id_other_player }, null, null);
+            Chilligames_SDK.API_Client.Cancel_and_dellet_friend_requst(new req_cancel_and_dellet_send_freiend { }, () => { }, err => { });
+        });
 
+        BTN_Remove_friend.onClick.AddListener(() =>
+        {
+            BTN_send_req_friend.gameObject.SetActive(true);
+            BTN_Aceept.gameObject.SetActive(false);
+            BTN_Pending.gameObject.SetActive(false);
+            BTN_Remove_friend.gameObject.SetActive(false);
+            Chilligames_SDK.API_Client.Cancel_and_dellet_friend_requst(new req_cancel_and_dellet_send_freiend { }, () => { }, err => { });
         });
 
     }

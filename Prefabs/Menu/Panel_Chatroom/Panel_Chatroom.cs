@@ -196,14 +196,20 @@ public class Panel_Chatroom : MonoBehaviour
 
     public void OnDisable()
     {
-        for (int i = 0; i < Messages_Chatroom.Length; i++)
-        {
-            Destroy(Messages_Chatroom[i]);
-
-        }
+        //stop recive message chatroom
 
         StopCoroutine(Recive_messages_in_chatroom());
 
+        //destroy message chatroom
+        if (Messages_Chatroom!=null)
+        {
+        for (int i = 0; i < Messages_Chatroom.Length; i++)
+        {
+            Destroy(Messages_Chatroom[i]);
+        }
+        }
+
+        //destroy messages
         if (Content_Messages.activeInHierarchy != true && Messages != null)
         {
             for (int i = 0; i < Messages.Length; i++)
@@ -212,24 +218,40 @@ public class Panel_Chatroom : MonoBehaviour
             }
         }
 
+        Curent_content.SetActive(false);
+        Curent_content = Content_Chatroom;
+        Content_Chatroom.SetActive(true);
     }
 
     private void Update()
     {
-        if (Content_Chatroom.activeInHierarchy != true && Messages_Chatroom != null)
-        {
-            for (int i = 0; i < Messages_Chatroom.Length; i++)
-            {
-                Destroy(Messages_Chatroom[i]);
 
-            }
-        }
-        if (Content_Messages.activeInHierarchy != true && Messages != null)
+        if (Content_Chatroom.activeInHierarchy)
         {
-            for (int i = 0; i < Messages.Length; i++)
-            {
-                Destroy(Messages[i]);
-            }
+            BTN_Chatroom.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Chatroom.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        }
+
+        if (Content_Messages.activeInHierarchy)
+        {
+            BTN_Messages.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Messages.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        }
+
+
+        if (Content_Notifactions.activeInHierarchy)
+        {
+            BTN_Notifaction.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Notifaction.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
         }
     }
 

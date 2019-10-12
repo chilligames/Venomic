@@ -13,6 +13,9 @@ using Chilligames.SDK;
 /// </summary>
 public class Menu : MonoBehaviour
 {
+    public ParticleSystem Partical_Day;
+    public ParticleSystem Partical_Night;
+
     public static AudioSource Music_menu_;
     public static AudioSource music_game_play_;
 
@@ -64,6 +67,19 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
+        //paritical holder change color
+        if (PlayerPrefs.GetInt("Day_Night")==0)
+        {
+            Partical_Day.gameObject.SetActive(true);
+            Partical_Night.gameObject.SetActive(false);
+
+        }
+        else if (PlayerPrefs.GetInt("Day_Night")==1)
+        {
+            Partical_Day.gameObject.SetActive(false);
+            Partical_Night.gameObject.SetActive(true);
+        }
+
         //music controler
         music_game_play_ = Music_game_play;
         Music_menu_ = Music_menu;
@@ -178,6 +194,7 @@ public class Menu : MonoBehaviour
         });
 
         Cheack_net();
+
         StartCoroutine(Cheack_new_message());
 
         async void Cheack_net()
@@ -213,6 +230,7 @@ public class Menu : MonoBehaviour
     private void Update()
     {
         Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.2f);
+
 
         if (PlayerPrefs.GetInt("Sound")==0)
         {

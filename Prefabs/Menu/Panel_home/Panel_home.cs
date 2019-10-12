@@ -54,6 +54,17 @@ public class Panel_home : MonoBehaviour
 
     public void OnEnable()
     {
+        //starter
+        // destroy  no net  and recive after recive
+        if (Server_fild != null)
+        {
+            for (int i = 0; i < Server_fild.Length; i++)
+            {
+                Destroy(Server_fild[i]);
+            }
+        }
+
+
         /*....online....*/
 
         if (PlayerPrefs.GetString("_id").Length < 2)
@@ -62,24 +73,10 @@ public class Panel_home : MonoBehaviour
             {
                 print("register_new_user");
                 PlayerPrefs.SetString("_id", result._id);
-                OnEnable();
+                SceneManager.LoadScene(0);
             }, ERROR =>
             {
                 Offline_mode.SetActive(true);
-
-
-                BTN_return_online.onClick.AddListener(() =>
-                {
-                    Chilligames_SDK.API_Client.Quick_register(result =>
-                    {
-                        print("Register_new_user");
-                        PlayerPrefs.SetString("_id", result._id);
-                    }, err =>
-                    {
-                        print(err);
-                    });
-
-                });
 
                 for (int i = 0; i < object_hide_offline.Length; i++)
                 {
@@ -93,6 +90,7 @@ public class Panel_home : MonoBehaviour
             {
                 if (Result_login == "1")
                 {
+
                     Send_data();
 
                     Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result_server =>
@@ -105,7 +103,7 @@ public class Panel_home : MonoBehaviour
                         }
 
                     }, err => { });
-                 
+
                     Chilligames_SDK.API_Client.Recive_info_user(new Req_recive_Info_player { _id = _id }, result =>
                     {
                         Text_nickname.text = result.Nickname;
@@ -141,12 +139,12 @@ public class Panel_home : MonoBehaviour
                 }
                 else if (Result_login == "0")
                 {
+
                     print("Code not login here");
                 }
             }, ERR =>
             {
                 Offline_mode.SetActive(true);
-
 
                 for (int i = 0; i < object_hide_offline.Length; i++)
                 {
@@ -172,6 +170,18 @@ public class Panel_home : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         });
+        BTN_return_online.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Quick_register(result =>
+            {
+                print("Register_new_user");
+                PlayerPrefs.SetString("_id", result._id);
+            }, err =>
+            {
+                print(err);
+            });
+
+        });
 
     }
     private void OnDisable()
@@ -184,6 +194,8 @@ public class Panel_home : MonoBehaviour
             }
         }
     }
+
+
     public void Update()
     {
         Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();

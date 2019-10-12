@@ -64,6 +64,18 @@ public class Panel_shop : MonoBehaviour
     }
     public void OnEnable()
     {
+        //stater 
+        if (Offers!=null)
+        {
+            for (int i = 0; i < Offers.Length; i++)
+            {
+                Destroy(Offers[i]);
+            }
+            Offers = null;
+        }
+
+
+        //recive entity
         Recive_entity_wallet();
         Change_value_entity_shop_category();
 

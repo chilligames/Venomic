@@ -283,10 +283,11 @@ public class Panel_profile : MonoBehaviour
         {
             Chilligames_SDK.API_Client.Login_with_username_Password(new Req_login_with_username_password { Password = InputField_Password_panel_login.text, Username = InputField_Username_panel_login.text }, result =>
             {
+                if (result.Length>2)
+                {
                 PlayerPrefs.SetString("_id", result);
 
                 //coin cheack for reset all
-
                 Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = _id }, result_data =>
                       {
                           PlayerPrefs.SetInt("Freeze", result_data.Freeze);
@@ -298,6 +299,13 @@ public class Panel_profile : MonoBehaviour
 
                           SceneManager.LoadScene(0);
                       }, err => { });
+                }
+                else
+                {
+                    print("not login");
+                }
+
+
             }, err => { });
         });
 
@@ -363,7 +371,9 @@ public class Panel_profile : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        Curent_panel.SetActive(false);
+        Curent_panel = Content_panel_editprofile;
+        Content_panel_editprofile.SetActive(true);
 
     }
 
@@ -371,12 +381,38 @@ public class Panel_profile : MonoBehaviour
     {
         if (Content_panel_firend.activeInHierarchy!=true&&Friend_list!=null)
         {
-            print("delet");
             for (int i = 0; i < Friend_list.Length; i++)
             {
                 Destroy(Friend_list[i]);
             }
             Friend_list = null;
+        }
+
+        if (Content_panel_editprofile.activeInHierarchy)
+        {
+            BTN_Editprofile.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Editprofile.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        }
+
+        if (Content_panel_firend.activeInHierarchy)
+        {
+            BTN_Friend_list.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Friend_list.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        }
+
+        if (Content_login.activeInHierarchy)
+        {
+            BTN_Login.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+        else
+        {
+            BTN_Login.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
         }
     }
     class Raw_model_Friend : MonoBehaviour

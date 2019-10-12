@@ -188,6 +188,24 @@ public class Panel_Servers : MonoBehaviour
     {
 
         //starter
+        if (Entity_my_servers!=null)
+        {
+            for (int i = 0; i < Entity_my_servers.Length; i++)
+            {
+
+            Destroy(Entity_my_servers[i]);
+            }
+            Entity_my_servers = null;
+        }
+        if (Entity_servers != null)
+        {
+            for (int i = 0; i < Entity_servers.Length; i++)
+            {
+                Destroy(Entity_servers[i]);
+            }
+            Entity_servers = null;
+        }
+
         Curent_content = Content_Servers;
 
         //recive all server

@@ -36,6 +36,16 @@ public class Panel_Ranking : MonoBehaviour
     }
     private void OnEnable()
     {
+        //destroy after enable
+        if (Fild_leaderboard!=null)
+        {
+            for (int i = 0; i < Fild_leaderboard.Length; i++)
+            {
+                Destroy(Fild_leaderboard[i]);
+            }
+        }
+
+        //recive entity ranking
         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_Player", _id = _id }, result =>
         {
             Text_Rank.text = result;
@@ -54,6 +64,7 @@ public class Panel_Ranking : MonoBehaviour
     }
     private void OnDisable()
     {
+        //destroy on disable
         if (Fild_leaderboard != null)
         {
             for (int i = 0; i < Fild_leaderboard.Length; i++)
