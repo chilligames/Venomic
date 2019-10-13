@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Collections;
 using Chilligames.SDK.Model_Client;
 using Chilligames.SDK;
+using System;
 
 /// <summary>
 /// playerpref
 /// 1: Sound
+/// 2: Next_reward
 /// </summary>
 public class Menu : MonoBehaviour
 {
@@ -42,7 +44,7 @@ public class Menu : MonoBehaviour
     public GameObject Content_Message;
     public GameObject Content_Setting;
     public GameObject Content_bug;
-
+    public GameObject Content_gift;
 
     public RawImage Icon_Cheack_status_new_message;
 
@@ -67,14 +69,28 @@ public class Menu : MonoBehaviour
 
     void Start()
     {
+        //daylireward
+        if (DateTime.FromFileTime((long)PlayerPrefs.GetFloat("Next_reward")) < DateTime.Now && PlayerPrefs.GetInt("Help") == 1)
+        {
+            Content_gift.SetActive(true);
+            print("Panel_reward_show");
+        }
+        else
+        {
+            Content_gift.SetActive(false);
+            print("panel hide ");
+        }
+
+
+
         //paritical holder change color
-        if (PlayerPrefs.GetInt("Day_Night")==0)
+        if (PlayerPrefs.GetInt("Day_Night") == 0)
         {
             Partical_Day.gameObject.SetActive(true);
             Partical_Night.gameObject.SetActive(false);
 
         }
-        else if (PlayerPrefs.GetInt("Day_Night")==1)
+        else if (PlayerPrefs.GetInt("Day_Night") == 1)
         {
             Partical_Day.gameObject.SetActive(false);
             Partical_Night.gameObject.SetActive(true);
@@ -232,7 +248,7 @@ public class Menu : MonoBehaviour
         Holder.transform.position = Vector3.MoveTowards(Holder.transform.position, Curent_BTN_Taped.gameObject.transform.position, 0.2f);
 
 
-        if (PlayerPrefs.GetInt("Sound")==1)
+        if (PlayerPrefs.GetInt("Sound") == 1)
         {
             AudioListener.volume = 0;
         }
@@ -240,7 +256,6 @@ public class Menu : MonoBehaviour
         {
             AudioListener.volume = 1;
         }
-
     }
 
     public static void Play_music_menu()

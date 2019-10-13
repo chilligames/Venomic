@@ -20,7 +20,6 @@ public class Panel_Setting : MonoBehaviour
     public Button BTN_Fa;
     public Button BTN_EN;
     public Button BTN_Cotact_us;
-    public Button BTN_Other_game;
 
     public TextMeshProUGUI Text_vibrator;
     public TextMeshProUGUI Text_music;
@@ -57,7 +56,7 @@ public class Panel_Setting : MonoBehaviour
             Text_music.text = "OFF";
             Text_music.color = Color_Disable;
         }
-        
+
 
 
         BTN_vibrator.onClick.AddListener(() =>
@@ -113,6 +112,7 @@ public class Panel_Setting : MonoBehaviour
         {
             Instantiate(Contact_us);
         });
+
     }
 
 }
