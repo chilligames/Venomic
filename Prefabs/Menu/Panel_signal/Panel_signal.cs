@@ -35,7 +35,15 @@ public class Panel_signal : MonoBehaviour
                     Button_cheack_net.GetComponent<Image>().fillAmount = 1;
                     Button_cheack_net.GetComponent<Image>().color = Color.green;
                     Button_tab_signal.GetComponentInChildren<RawImage>().color = Color.green;
+                    if (PlayerPrefs.GetInt("Language")==1)
+                    {
+                        Text_Chack_signal.text = "ﺏﻮﻠﻄﻣ ﻝﺎﻨﮕﯿﺳ";
+                    }
+                    else
+                    {
+
                     Text_Chack_signal.text = "Good Connection";
+                    }
 
                     break;
                 }

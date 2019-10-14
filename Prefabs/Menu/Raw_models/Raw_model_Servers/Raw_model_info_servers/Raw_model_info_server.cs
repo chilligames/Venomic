@@ -1,8 +1,12 @@
-﻿using Chilligames.Json;
+﻿using System.Collections.Generic;
+using System.Collections;
+using Chilligames.Json;
 using Chilligames.SDK;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Linq;
 
 public class Raw_model_info_server : MonoBehaviour
 {
@@ -23,6 +27,13 @@ public class Raw_model_info_server : MonoBehaviour
     public GameObject Raw_model_profile;
     public Transform Place_fild_ranking;
 
+    public string id_player
+    {
+        get
+        {
+            return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
+        }
+    }
 
     public void Change_Values(string Server_name, string Freeze_number, string mines_number, string delet_number, string Chace_number, string Reset_number, int Active_day, string Player_number, string Like_number, string Coin_number, string Level_number, object[] Leader_board_server, string _id)
     {
@@ -39,51 +50,81 @@ public class Raw_model_info_server : MonoBehaviour
         Text_Level_number.text = Level_number;
 
 
+        //sort score player
+        int?[] scores = new int?[Leader_board_server.Length];
+        string[] IDs = new string[Leader_board_server.Length];
+
         for (int i = 0; i < Leader_board_server.Length; i++)
         {
-            GameObject filds = Instantiate(Raw_model_fild_ranking, Place_fild_ranking);
+            scores[i] = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[i].ToString()).Score;
+        }
 
-            string ID_other_player = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[i].ToString()).ID;
+        for (int i = 0; i < Leader_board_server.Length; i++)
+        {
 
+            IDs[i] = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[i].ToString()).ID;
+        }
 
-            foreach (var Text_Fild_ranking in filds.GetComponentsInChildren<TextMeshProUGUI>())
+        Array.Sort(scores);
+        Array.Reverse(scores);
+
+        string[] id_sort = new string[Leader_board_server.Length];
+
+        for (int i = 0; i < Leader_board_server.Length; i++)
+        {
+
+            for (int A = 0; A < Leader_board_server.Length; A++)
             {
-                switch (Text_Fild_ranking.name)
+                if (scores[i] == ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[A].ToString()).Score)
                 {
-                    case "Postion":
+                    id_sort[i] = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[A].ToString()).ID;
+                    break;
+                }
+            }
+        }
+
+        //instatn fild rankking
+        for (int i = 0; i < id_sort.Length; i++)
+        {
+            var fild_rankin = Instantiate(Raw_model_fild_ranking, Place_fild_ranking);
+
+            foreach (var Texts in fild_rankin.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+
+                switch (Texts.name)
+                {
+                    case "Postin":
                         {
-                            Text_Fild_ranking.text = i.ToString();
+                            Texts.text = i.ToString();
                         }
                         break;
                     case "Name_player":
                         {
-                            Chilligames_SDK.API_Client.Recive_info_user(new Chilligames.SDK.Model_Client.Req_recive_Info_player { _id = ID_other_player }, result =>
-                            {
-
-                                Text_Fild_ranking.text = result.Nickname;
-
-
-                            }, err => { });
+                            Chilligames_SDK.API_Client.Recive_info_user(new Chilligames.SDK.Model_Client.Req_recive_Info_player { _id = id_sort[i] }, result =>
+                               {
+                                   Texts.text = result.Nickname;
+                               }, err => { });
+                            Texts.text = id_sort[i];
                         }
                         break;
                     case "Score":
                         {
-                            Text_Fild_ranking.text = ChilligamesJson.DeserializeObject<Deserilies_leader_board>(Leader_board_server[i].ToString()).Score.ToString();
+                            Texts.text = scores[i].ToString();
                         }
                         break;
                 }
             }
+            var id_other_player = id_sort[i];
 
-            filds.GetComponent<Button>().onClick.AddListener(() =>
+            fild_rankin.GetComponent<Button>().onClick.AddListener(() =>
             {
-                GameObject Profile = Instantiate(Raw_model_profile);
-                Profile.GetComponent<Raw_model_user_profile>()._id = GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
-                Profile.GetComponent<Raw_model_user_profile>()._id_other_player = ID_other_player;
-
+                Instantiate(Raw_model_profile).GetComponent<Raw_model_user_profile>().Change_value(id_player, id_other_player);
             });
         }
 
     }
+
+
 
     void Start()
     {
@@ -103,3 +144,4 @@ public class Raw_model_info_server : MonoBehaviour
 
 
 }
+

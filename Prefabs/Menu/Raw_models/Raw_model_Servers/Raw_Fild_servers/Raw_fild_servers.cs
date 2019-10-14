@@ -77,6 +77,7 @@ public class Raw_fild_servers : MonoBehaviour
 
             }, ERR => { });
 
+            //change action btns
 
             BTN_info.onClick.AddListener(() =>
             {

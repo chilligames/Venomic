@@ -66,6 +66,8 @@ public class Help_game : MonoBehaviour
 
     void Start()
     {
+        
+
         if (PlayerPrefs.GetInt("Help") == 1)
         {
             Canvas_menu.SetActive(true);
