@@ -43,7 +43,15 @@ public class Raw_Content_ranking : MonoBehaviour
                     {
                         case "Postion":
                             {
+                                if (i==0)
+                                {
+                                    Text_fild.text = "King";
+                                }
+                                else
+                                {
+
                                 Text_fild.text = i.ToString();
+                                }
                             }
                             break;
                         case "Name_player":

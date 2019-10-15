@@ -283,12 +283,18 @@ public class Panel_profile : MonoBehaviour
         {
             Chilligames_SDK.API_Client.Login_with_username_Password(new Req_login_with_username_password { Password = InputField_Password_panel_login.text, Username = InputField_Username_panel_login.text }, result =>
             {
-                if (result.Length>2)
+                if (result.Length > 2)
                 {
-                PlayerPrefs.SetString("_id", result);
+                    PlayerPrefs.SetString("_id", result);
 
-                //coin cheack for reset all
-                Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = _id }, result_data =>
+                    //coin cheack for reset all
+                    Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin { _id = _id }, result_coin =>
+                    {
+                        PlayerPrefs.SetInt("Coin",(int)result_coin.Coin);
+
+                    }, err => { });
+
+                    Chilligames_SDK.API_Client.Recive_Data_user<Panel_home.Entity_Player>(new Req_recive_data { Name_App = "Venomic", _id = _id }, result_data =>
                       {
                           PlayerPrefs.SetInt("Freeze", result_data.Freeze);
                           PlayerPrefs.SetInt("Minuse", result_data.Minus);
@@ -379,7 +385,7 @@ public class Panel_profile : MonoBehaviour
 
     private void Update()
     {
-        if (Content_panel_firend.activeInHierarchy!=true&&Friend_list!=null)
+        if (Content_panel_firend.activeInHierarchy != true && Friend_list != null)
         {
             for (int i = 0; i < Friend_list.Length; i++)
             {

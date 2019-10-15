@@ -21,6 +21,8 @@ public class Panel_shop : MonoBehaviour
     public GameObject Raw_model_convert_panel;
     public GameObject Raw_model_fild_Offer;
     public GameObject Raw_model_panel_shop_entity;
+    public GameObject Raw_model_panel_shop_coin;
+
 
     public Texture[] Icons_offers;
 
@@ -38,6 +40,7 @@ public class Panel_shop : MonoBehaviour
 
     public Button BTN_Enter_convert;
     public Button BTN_Enter_shop_entity;
+    public Button BTN_enter_to_coin_shop;
 
     GameObject[] Offers = null;
     public string _id
@@ -54,18 +57,23 @@ public class Panel_shop : MonoBehaviour
         {
             Instantiate(Raw_model_convert_panel).GetComponent<Panel_Convert_Coins>().Change_value(gameObject);
         });
-        
+
         BTN_Enter_shop_entity.onClick.AddListener(() =>
         {
 
             Instantiate(Raw_model_panel_shop_entity).GetComponent<Panel_shop_entity>().Change_value(gameObject);
 
         });
+
+        BTN_enter_to_coin_shop.onClick.AddListener(() =>
+        {
+            Instantiate(Raw_model_panel_shop_coin);
+        });
     }
     public void OnEnable()
     {
         //stater 
-        if (Offers!=null)
+        if (Offers != null)
         {
             for (int i = 0; i < Offers.Length; i++)
             {
@@ -111,7 +119,7 @@ public class Panel_shop : MonoBehaviour
         Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin { _id = _id }, result =>
         {
             Text_Coin_number.text = result.Coin.ToString();
-            Text_Mony_number.text = System.Math.Round( (decimal)result.Money,1).ToString();
+            Text_Mony_number.text = System.Math.Round((decimal)result.Money, 1).ToString();
 
         }, err => { });
     }

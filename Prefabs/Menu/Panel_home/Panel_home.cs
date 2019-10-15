@@ -42,6 +42,7 @@ public class Panel_home : MonoBehaviour
 
     public Transform Place_missons;
 
+    [HideInInspector()]
     public GameObject Missions;
 
     public string _id
@@ -113,7 +114,22 @@ public class Panel_home : MonoBehaviour
 
                     void Send_data()
                     {
-                        Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
+                        Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin {_id=_id }, result =>
+                        {
+                            if (result.Coin > PlayerPrefs.GetInt("Coin"))
+                            {
+                                PlayerPrefs.SetInt("Coin", (int)result.Coin);
+                                print("Coin to game ");
+                            }
+                            else
+                            {
+                                print("coin to server");
+
+                                Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
+                            }
+
+                        }, err => { });
+
 
                         Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data
                         {
@@ -134,7 +150,15 @@ public class Panel_home : MonoBehaviour
 
                         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { _id = _id, Leader_board_name = "Venomic_Top_Player" }, result =>
                         {
-                            Text_ranking_number.text = result;
+                            if (result == "0")
+                            {
+                                Text_ranking_number.text = "King";
+                            }
+                            else
+                            {
+                                Text_ranking_number.text = result;
+
+                            }
                         }, err => { });
                     }
                 }

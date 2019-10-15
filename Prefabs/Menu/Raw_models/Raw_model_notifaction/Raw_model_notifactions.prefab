@@ -1019,8 +1019,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Messege body
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bfd9720bc67c3aa49b9b95cb9cb9500c, type: 2}
-  m_sharedMaterial: {fileID: 5864647046942626920, guid: bfd9720bc67c3aa49b9b95cb9cb9500c,
+  m_fontAsset: {fileID: 11400000, guid: 0fd95a777acccd34095af08ffb6a16ba, type: 2}
+  m_sharedMaterial: {fileID: 7299823393779547524, guid: 0fd95a777acccd34095af08ffb6a16ba,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
