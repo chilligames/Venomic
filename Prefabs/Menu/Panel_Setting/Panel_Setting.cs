@@ -31,8 +31,6 @@ public class Panel_Setting : MonoBehaviour
 
     public void Start()
     {
-        print(PlayerPrefs.GetInt("Sound"));
-        print(PlayerPrefs.GetInt("Vibrator"));
         //control on/off vibrator
         if (PlayerPrefs.GetInt("Vibrator") == 0)
         {

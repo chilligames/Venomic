@@ -28,7 +28,7 @@ public class Panel_Ranking : MonoBehaviour
 
     private void Start()
     {
-        
+
         BTN_Top_player.onClick.AddListener(() =>
         {
             Instantiate(Raw_model_leader_board).GetComponent<Raw_Content_ranking>().Change_value("Venomic_Top_Player");
@@ -37,7 +37,7 @@ public class Panel_Ranking : MonoBehaviour
     private void OnEnable()
     {
         //destroy after enable
-        if (Fild_leaderboard!=null)
+        if (Fild_leaderboard != null)
         {
             for (int i = 0; i < Fild_leaderboard.Length; i++)
             {
@@ -48,9 +48,17 @@ public class Panel_Ranking : MonoBehaviour
         //recive entity ranking
         Chilligames_SDK.API_Client.Recive_rank_postion(new Req_recive_rank_postion { Leader_board_name = "Venomic_Top_Player", _id = _id }, result =>
         {
-            Text_Rank.text = result;
+            if (result == "0")
+            {
+                Text_Rank.text = "King";
+            }
+            else
+            {
+                Text_Rank.text = result;
+            }
+
         }, err => { });
-       
+
         Chilligames_SDK.API_Client.Recive_leader_board_near_user(new Req_recive_leaderboard_near_user { Count = 20, Name_laederboard = "Venomic_Top_Player", _id = _id }, result =>
         {
             Fild_leaderboard = new GameObject[result.Length];

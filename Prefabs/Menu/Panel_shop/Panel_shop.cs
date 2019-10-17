@@ -5,7 +5,7 @@ using Chilligames.Json;
 using Chilligames.SDK;
 using Chilligames.SDK.Model_Client;
 using UnityEngine.UI;
-
+using UnityEngine.Rendering;
 
 /// <summary>
 /// playerprefe:
@@ -67,9 +67,10 @@ public class Panel_shop : MonoBehaviour
 
         BTN_enter_to_coin_shop.onClick.AddListener(() =>
         {
-            Instantiate(Raw_model_panel_shop_coin);
+            Instantiate(Raw_model_panel_shop_coin).GetComponent<Panel_coin_shop>().Update_entity_coin(Text_Coin_number);
         });
     }
+
     public void OnEnable()
     {
         //stater 
@@ -124,16 +125,27 @@ public class Panel_shop : MonoBehaviour
         }, err => { });
     }
 
+
     /// <summary>
     /// valure entity categori taghir mide 
     /// </summary>
     public void Change_value_entity_shop_category()
     {
+        //reset count can buy player
         Text_freeze_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString();
         Text_minuse_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
         Text_delete_number.text = (PlayerPrefs.GetInt("Coin") / 3).ToString();
         Text_chance_number.text = (PlayerPrefs.GetInt("Coin") / 2).ToString();
         Text_reset_number.text = (PlayerPrefs.GetInt("Coin") / 4).ToString();
+
+        Text_Coin_number.text = PlayerPrefs.GetInt("Coin").ToString();
+
+    }
+
+
+    public TextMeshProUGUI hand()
+    {
+        return Text_Coin_number;
     }
 
     class Raw_model_fild_offer : MonoBehaviour
@@ -298,6 +310,7 @@ public class Panel_shop : MonoBehaviour
     }
 
 }
+
 
 
 

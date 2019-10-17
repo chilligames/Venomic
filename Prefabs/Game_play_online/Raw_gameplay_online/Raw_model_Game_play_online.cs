@@ -52,12 +52,14 @@ public class Raw_model_game_play_online : MonoBehaviour
     public Transform Place_BTNS;
     public GameObject Parent;
 
+    public AudioSource Music_reject;
+
     GameObject[] BTNS;
 
     public int[] Count_map;
     public int[] tap_map;
 
-    int Mission_pass;
+    int Mission_pass = 0;
     public void Change_value(string _id, string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
     {
         Parent = parent;
@@ -132,10 +134,11 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         BTN_Freeze.onClick.AddListener(() =>
         {
-            BTN_Freeze.GetComponent<AudioSource>().Play();
-            Partical_freeze.Play();
             if (Freeze >= 1)
             {
+                Partical_freeze.Play();
+                BTN_Freeze.GetComponent<AudioSource>().Play();
+
                 foreach (var BTN in BTNS)
                 {
                     BTN.GetComponent<BTN>().Freeze_time = 0.005f;
@@ -144,16 +147,17 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
             else
             {
+                Music_reject.Play();
                 Partical_reject.Play();
             }
         });
 
         BTN_Minus.onClick.AddListener(() =>
         {
-            BTN_Minus.GetComponent<AudioSource>().Play();
-            Partical_Minus.Play();
             if (Minues >= 1)
             {
+                BTN_Minus.GetComponent<AudioSource>().Play();
+                Partical_Minus.Play();
                 Minues -= 1;
                 foreach (var BTN in BTNS)
                 {
@@ -174,16 +178,17 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
             else
             {
+                Music_reject.Play();
                 Partical_reject.Play();
             }
         });
 
         BTN_Delete.onClick.AddListener(() =>
         {
-            BTN_Delete.GetComponent<AudioSource>().Play();
-            Partical_delete.Play();
             if (Delete >= 1 && BTNS.Length > 1)
             {
+                BTN_Delete.GetComponent<AudioSource>().Play();
+                Partical_delete.Play();
                 Destroy(BTNS[BTNS.Length - 1]);
                 Delete -= 1;
                 GameObject[] New_BTNS = new GameObject[BTNS.Length - 1];
@@ -196,16 +201,17 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
             else
             {
+                Music_reject.Play();
                 Partical_reject.Play();
             }
         });
 
         BTN_Reset.onClick.AddListener(() =>
         {
-            BTN_Reset.GetComponent<AudioSource>().Play();
-            Partical_reset.Play();
             if (Reset >= 1)
             {
+                BTN_Reset.GetComponent<AudioSource>().Play();
+                Partical_reset.Play();
                 Reset -= 1;
                 for (int i = 0; i < BTNS.Length; i++)
                 {
@@ -216,6 +222,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
             else
             {
+                Music_reject.Play();
                 Partical_reject.Play();
             }
         });
@@ -287,78 +294,91 @@ public class Raw_model_game_play_online : MonoBehaviour
         Text_Chance_number.text = Chance.ToString();
         Text_reset_number.text = Reset.ToString();
 
-        Count_map = new int[BTNS.Length];
-        for (int i = 0; i < BTNS.Length; i++)
+        //mission control
+        if (Mission_pass == 0)
         {
-            Count_map[i] = BTNS[i].GetComponent<BTN>().Count;
-
-        }
-
-        tap_map = new int[BTNS.Length];
-
-        for (int i = 0; i < BTNS.Length; i++)
-        {
-            tap_map[i] = BTNS[i].GetComponent<BTN>().Tap;
-        }
-
-        //cheack pass mission
-        for (int i = 0; i < BTNS.Length; i++)
-        {
-            if (tap_map[i] == Count_map[i])
+            if (gameObject.transform.localScale != Vector3.one)
             {
-                Mission_pass = 1;
+                gameObject.transform.localScale = Vector3.MoveTowards(gameObject.transform.localScale, Vector3.one, 0.1f);
             }
             else
             {
-                Mission_pass = 0;
-                break;
-            }
-
-            if (Mission_pass == 1)
-            {
-                for (int a = 0; a < BTNS.Length; a++)
+                Count_map = new int[BTNS.Length];
+                for (int i = 0; i < BTNS.Length; i++)
                 {
-                    if (tap_map[a] == Count_map[i])
+                    Count_map[i] = BTNS[i].GetComponent<BTN>().Count;
+
+                }
+
+                tap_map = new int[BTNS.Length];
+
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    tap_map[i] = BTNS[i].GetComponent<BTN>().Tap;
+                }
+
+                //cheack pass mission
+                for (int i = 0; i < BTNS.Length; i++)
+                {
+                    if (tap_map[i] == Count_map[i])
                     {
                         Mission_pass = 1;
                     }
                     else
                     {
                         Mission_pass = 0;
+                        break;
+                    }
+
+                    if (Mission_pass == 1)
+                    {
+                        for (int a = 0; a < BTNS.Length; a++)
+                        {
+                            if (tap_map[a] == Count_map[i])
+                            {
+                                Mission_pass = 1;
+                            }
+                            else
+                            {
+                                Mission_pass = 0;
+                            }
+                        }
                     }
                 }
             }
         }
-
-
-        if (Mission_pass == 1)
+        else if (Mission_pass == 1)
         {
             Player.Cam.Change_color();
+
             if (Level + 1 > Totall_level)
             {
                 //insert new mission
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().End_Result_mission, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
-                Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
                 int average = Totall_level + Freeze + Minues + Delete + Chance + Reset;
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.AddComponent<End_mission>().Change_value(Name_server, Totall_level, Freeze, Minues, Delete, Chance, Reset, average, _id, _id_server, Parent);
 
-                //effect camera
-                Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
-
-
-                //destroy gameplay
-                Destroy(gameObject);
+                Mission_pass = 2;
             }
             else
             {
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions = Instantiate(Parent.GetComponent<Raw_model_fild_server_play>().Raw_model_mission_online, Parent.GetComponent<Raw_model_fild_server_play>().Place_mission);
                 Parent.GetComponent<Raw_model_fild_server_play>().Missions.GetComponent<Raw_model_game_play_online>().Change_value(_id, Name_server, Coin_server, Totall_level, Level + 1, Freeze, Minues, Delete, Chance, Reset, _id_server, Parent);
-                Parent.GetComponent<Raw_model_fild_server_play>().Missions.transform.position = new Vector3(transform.position.x + 10, transform.position.y + 10, 0);
-                Player.Cam.Move_camera(new Vector3(transform.position.x + 10, transform.position.y + 10, 0));
+                Mission_pass = 2;
+            }
+
+        }
+        else if (Mission_pass == 2)
+        {
+            if (gameObject.transform.localScale != Vector3.zero)
+            {
+                gameObject.transform.localScale = Vector3.MoveTowards(gameObject.transform.localScale, Vector3.zero, 0.1f);
+            }
+            else
+            {
                 Destroy(gameObject);
             }
         }
-
     }
 
 
@@ -420,8 +440,10 @@ public class Raw_model_game_play_online : MonoBehaviour
                     else
                     {
                         Parent.GetComponent<Raw_model_game_play_online>().Level -= 1;
+                        Parent.GetComponent<Raw_model_game_play_online>().Chance -= 1;//cheack
                         Parent.GetComponent<Raw_model_game_play_online>().Partical_reject.Play();
-
+                        Parent.GetComponent<Raw_model_game_play_online>().Music_reject.Play();
+                       
                         //vibrator control
                         if (PlayerPrefs.GetInt("Vibrator") == 0)
                         {
@@ -640,6 +662,7 @@ public class Raw_model_game_play_online : MonoBehaviour
             {
                 Destroy(parent.GetComponent<Raw_model_fild_server_play>().Missions);
                 Player.Cam.Move_Camera_To_Menu();
+                Menu.Play_music_menu();
             });
             BTN_Send_score_to_server.onClick.AddListener(() =>
             {

@@ -24,6 +24,10 @@ public class Raw_fild_servers : MonoBehaviour
     public Button BTN_info;
     public Button BTN_Exit_server;
     public Button BTN_Enter_server;
+    public Button BTN_Like;
+
+    public Color Color_dislike;
+    public Color Color_Like;
 
     string _id_player
     {
@@ -32,6 +36,8 @@ public class Raw_fild_servers : MonoBehaviour
             return GameObject.Find("Canvas_menu").GetComponent<Menu>().ID_player;
         }
     }
+
+
     public void Change_value(string _id_server)
     {
         Chilligames_SDK.API_Client.Recive_data_server<Deserilse_data_server>(new Req_data_server { Name_app = "Venomic", _id_server = _id_server }, (result) =>
@@ -49,7 +55,7 @@ public class Raw_fild_servers : MonoBehaviour
             string Coines = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Coine.ToString();
             object[] leader_board = ChilligamesJson.DeserializeObject<Deserilse_data_server.Desrilise_setting_server>(result.Setting.ToString()).Leader_board;
 
-            Active_days = Mathf.Abs(Active_days) / 60 / 60 / 24 +1;
+            Active_days = Mathf.Abs(Active_days) / 60 / 60 / 24 + 1;
 
             Text_Name_server.text = Name_server;
             Text_Freeze.text = Freeze;
@@ -112,6 +118,13 @@ public class Raw_fild_servers : MonoBehaviour
                 Chilligames_SDK.API_Client.Pluse_or_minuse_value_fild_server(new Req_change_server_data_fild { Data_inject = "1", _id_server = _id_server, Pipe_line_data = "Setting.Player", Name_app = "Venomic" }, null, null);
             });
 
+
+            BTN_Like.onClick.AddListener(() =>
+            {
+                BTN_Like.gameObject.SetActive(false);
+                Chilligames_SDK.API_Client.Pluse_or_minuse_value_fild_server(new Req_change_server_data_fild { _id_server = _id_server, Name_app = "Venomic", Pipe_line_data = "Setting.like", Data_inject = "1" }, () => { }, () => { });
+                Text_Like.text = (int.Parse(Like) + 1).ToString();
+            });
 
         }, ERROR => { });
 

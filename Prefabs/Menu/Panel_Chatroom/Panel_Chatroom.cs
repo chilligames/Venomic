@@ -292,6 +292,7 @@ public class Panel_Chatroom : MonoBehaviour
     /// <param name="Icon_status_messege">icon status bayad dad </param>
     public void Cheack_new_message(RawImage Icon_status_messege)
     {
+
         Chilligames_SDK.API_Client.Cheack_status_new_message(new Req_cheack_new_message { _id = _id_player }, result =>
         {
             if (result == "1")
@@ -407,26 +408,26 @@ public class Panel_Chatroom : MonoBehaviour
             }
         }
 
-        TextMeshProUGUI Text_Time
-        {
-            get
-            {
-                TextMeshProUGUI Finder = null;
+        //TextMeshProUGUI Text_Time
+        //{
+        //    get
+        //    {
+        //        TextMeshProUGUI Finder = null;
 
-                foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
-                {
-                    switch (Texts.name)
-                    {
-                        case "TTN":
-                            {
-                                Finder = Texts;
-                            }
-                            break;
-                    }
-                }
-                return Finder;
-            }
-        }
+        //        foreach (var Texts in GetComponentsInChildren<TextMeshProUGUI>())
+        //        {
+        //            switch (Texts.name)
+        //            {
+        //                case "TTN":
+        //                    {
+        //                        Finder = Texts;
+        //                    }
+        //                    break;
+        //            }
+        //        }
+        //        return Finder;
+        //    }
+        //}
 
         Button BTN_Report
         {
@@ -471,7 +472,7 @@ public class Panel_Chatroom : MonoBehaviour
         {
             Text_nickname.text = Nick_Name;
             Text_Message.text = Message;
-            Text_Time.text = Time;
+            //Text_Time.text = Time;
 
             BTN_Profile.onClick.AddListener(() =>
             {

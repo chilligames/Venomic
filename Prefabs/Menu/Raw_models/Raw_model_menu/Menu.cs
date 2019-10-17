@@ -23,6 +23,7 @@ public class Menu : MonoBehaviour
 
     public AudioSource Music_menu;
     public AudioSource Music_game_play;
+    
 
     public Button BTN_signal;
     public Button BTN_Profile;
@@ -51,7 +52,6 @@ public class Menu : MonoBehaviour
 
     public Color Color_select;
     public Color Color_deselect;
-    public Color Color_bug;
 
     public GameObject Holder;
 
@@ -278,7 +278,16 @@ public class Menu : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1);
-            Content_Message.GetComponent<Panel_Chatroom>().Cheack_new_message(Icon_Cheack_status_new_message);
+
+            if (PlayerPrefs.GetString("_id").Length < 2)
+            {
+                print("cancel recive message");
+                StopAllCoroutines();
+            }
+            else
+            {
+                Content_Message.GetComponent<Panel_Chatroom>().Cheack_new_message(Icon_Cheack_status_new_message);
+            }
         }
     }
 

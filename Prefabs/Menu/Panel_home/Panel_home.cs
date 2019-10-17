@@ -233,8 +233,6 @@ public class Panel_home : MonoBehaviour
     public void Insert_mission_Offline(Vector3 Pos_mission)
     {
         Missions = Instantiate(Raw_model_mission_offline, Place_missons);
-        Missions.transform.position = new Vector3(Pos_mission.x + 10, Pos_mission.y + 10, 0);
-        Player.Cam.Move_camera(Missions.transform.position);
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
         Player.Cam.Change_color();

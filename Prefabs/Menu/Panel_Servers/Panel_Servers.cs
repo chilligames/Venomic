@@ -127,6 +127,10 @@ public class Panel_Servers : MonoBehaviour
 
         BTN_submit_creat_server.onClick.AddListener(() =>
         {
+            //minuse coin server
+            PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") - (int)Coin);
+            Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id_player }, () => { }, err => { });
+           
             Model_server.Setting_servers setting = new Model_server.Setting_servers
             {
                 Name_server = Text_name_server.text,
@@ -137,12 +141,11 @@ public class Panel_Servers : MonoBehaviour
                 Reset = (int)Value_Reset.value,
                 Active_Days = (int)DateTime.UtcNow.Subtract(DateTime.UtcNow.AddDays((int)Value_Active_Days.value)).TotalSeconds,
                 Level = (int)Value_Level.value,
-                Coine = Coin*3,
+                Coine = Coin * 3,
                 Player = 1,
                 like = 0,
                 Leader_board = new object[0],
             };
-
             Chilligames_SDK.API_Client.Creat_server(new Req_creat_server { _id = _id_player, Setting = setting, Name_App = "Venomic" }, () =>
             {
                 Content_My_servers.SetActive(true);
@@ -188,12 +191,12 @@ public class Panel_Servers : MonoBehaviour
     {
 
         //starter
-        if (Entity_my_servers!=null)
+        if (Entity_my_servers != null)
         {
             for (int i = 0; i < Entity_my_servers.Length; i++)
             {
 
-            Destroy(Entity_my_servers[i]);
+                Destroy(Entity_my_servers[i]);
             }
             Entity_my_servers = null;
         }

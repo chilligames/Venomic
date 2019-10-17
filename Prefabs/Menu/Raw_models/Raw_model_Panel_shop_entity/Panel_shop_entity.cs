@@ -92,6 +92,7 @@ public class Panel_shop_entity : MonoBehaviour
 
             Instantiate(gameObject).GetComponent<Panel_shop_entity>().Change_value(Parent);
             Parent.GetComponent<Panel_shop>().Change_value_entity_shop_category();
+         
             Destroy(gameObject);
 
         });
