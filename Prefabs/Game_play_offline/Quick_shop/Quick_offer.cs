@@ -254,7 +254,7 @@ public class Quick_offer : Panel_coin_shop
 
                 };
 
-                Chilligames_SDK.API_Client.Add_purchasses_history(new Chilligames.SDK.Model_Client.Req_add_purchasses_history { data_purchass = ChilligamesJson.SerializeObject(data_Buy), _id = _id }, () => { }, err => { }); ;
+                Chilligames_SDK.API_Client.Add_purchasses_history(new Chilligames.SDK.Model_Client.Req_add_purchasses_history { data_purchass = ChilligamesJson.SerializeObject(data_Buy), _id = _id, Name_app = "Venomic" }, () => { }, err => { }); ;
             };
 
         IABEventManager.purchaseFailedEvent +=

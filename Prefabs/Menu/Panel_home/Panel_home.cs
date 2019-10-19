@@ -17,6 +17,7 @@ using UnityEngine.UI;
 /// 6: Coin
 /// 7: Level
 /// 8: _id
+/// 9: Top_Score
 /// </summary>
 /// 
 public class Panel_home : MonoBehaviour
@@ -234,6 +235,14 @@ public class Panel_home : MonoBehaviour
     {
         Missions = Instantiate(Raw_model_mission_offline, Place_missons);
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+
+
+        if (PlayerPrefs.GetInt("Level")>PlayerPrefs.GetInt("Top_Score"))
+        {
+            PlayerPrefs.SetInt("Top_Score", PlayerPrefs.GetInt("Level"));
+        }
+
+
         Missions.GetComponent<Raw_model_game_play_offline>().Change_value(PlayerPrefs.GetInt("Level"), gameObject);
         Player.Cam.Change_color();
     }

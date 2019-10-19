@@ -19963,7 +19963,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0.7, y: 0.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1649185638565167888
 CanvasRenderer:
@@ -27764,6 +27764,7 @@ MonoBehaviour:
   BTN_Leave_mission: {fileID: 1649185638565167890}
   Place_BTNS: {fileID: 4469632065231144116}
   Parent: {fileID: 0}
+  Music_reject: {fileID: 3635619957496424325}
   Count_map: 
   tap_map: 
 --- !u!82 &7581867781721254407

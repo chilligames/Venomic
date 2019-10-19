@@ -24,6 +24,9 @@ public class Day_night_controler : MonoBehaviour
     public Color Color_day_shadow;
     public Color Color_night_shadow;
 
+  public   TextMeshProUGUI fonts;
+    public GameObject ss;
+
     private void Start()
     {
 
@@ -52,7 +55,7 @@ public class Day_night_controler : MonoBehaviour
     }
     private void Update()
     {
-
+        //change shadow and color control day night
         if (PlayerPrefs.GetInt("Day_Night") == 1)
         {
             foreach (var Raw_Image in GameObject.FindGameObjectsWithTag("Change_Color_RawImage"))
@@ -97,11 +100,12 @@ public class Day_night_controler : MonoBehaviour
 
         }
 
-
+        //contorol no color change 
         foreach (var Raw_iamge_no_change_color in GameObject.FindGameObjectsWithTag("Just_shadow"))
         {
             Raw_iamge_no_change_color.GetComponent<Shadow>().effectDistance = new Vector2(Input.acceleration.x / Float_Shadow, Input.acceleration.y / Float_Shadow);
         }
+        
     }
 
 }

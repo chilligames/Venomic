@@ -11,6 +11,7 @@ using UnityEngine.UI;
 /// 5: Reset
 /// 6: Coin
 /// 7: Vibrator
+/// 8: Top_Score
 /// </summary>
 public class Raw_model_game_play_offline : MonoBehaviour
 {
@@ -157,6 +158,9 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 foreach (var BTNS in BTNS_mission)
                 {
                     BTNS.GetComponent<BTN>().Time_animation = 0.003f;
+
+                    //show anim freeze
+                    BTNS.GetComponent<BTN>().show_anim_freeze();
                 }
 
                 PlayerPrefs.SetInt("Freeze", PlayerPrefs.GetInt("Freeze") - 1);
@@ -184,10 +188,14 @@ public class Raw_model_game_play_offline : MonoBehaviour
                     if (btn.GetComponent<BTN>().Count > 1)
                     {
                         btn.GetComponent<BTN>().Count -= 1;
+
                         if (btn.GetComponent<BTN>().Count - 1 < btn.GetComponent<BTN>().Tap)
                         {
                             btn.GetComponent<BTN>().Tap -= 1;
                         }
+
+                        //show anim minuse
+                        btn.GetComponent<BTN>().Show_anim_minuse();
                     }
                 }
 
@@ -209,9 +217,10 @@ public class Raw_model_game_play_offline : MonoBehaviour
                 BTN_Delete.GetComponent<AudioSource>().Play();
                 Partical_delete.Play();
 
-                //work delet
-                Destroy(BTNS_mission[BTNS_mission.Length - 1]);
+                //anim delete
+                BTNS_mission[BTNS_mission.Length - 1].GetComponent<BTN>().Anim = 1;
 
+                //work delet
                 GameObject[] BTN_new_mission = new GameObject[BTNS_mission.Length - 1];
                 for (int i = 0; i < BTN_new_mission.Length; i++)
                 {
@@ -276,6 +285,7 @@ public class Raw_model_game_play_offline : MonoBehaviour
 
     private void Update()
     {
+
         //control entitys
         Text_level_number.text = PlayerPrefs.GetInt("Level").ToString();
         Text_freeze_number.text = PlayerPrefs.GetInt("Freeze").ToString();
@@ -338,8 +348,19 @@ public class Raw_model_game_play_offline : MonoBehaviour
             Parent.GetComponent<Panel_home>().Insert_mission_Offline(transform.position);
             int rand_bounce = Random.Range(1, 6);
 
-            int Rand_coin = Random.Range(1, 5);
-            PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + Rand_coin);
+            int Rand_coin = Random.Range(1, 10);
+
+            int rand_coin_duplicate_misison = Random.Range(1, 4);
+
+            if (PlayerPrefs.GetInt("Level") < PlayerPrefs.GetInt("Top_Score"))
+            {
+                PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + rand_coin_duplicate_misison);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + Rand_coin);
+            }
+
 
             int rand_count_bounce = Random.Range(1, 3);
 
@@ -407,6 +428,39 @@ public class Raw_model_game_play_offline : MonoBehaviour
             }
         }
 
+        ParticleSystem ParticleFreeze
+        {
+            get
+            {
+                ParticleSystem Partical_freeze = null;
+                foreach (var Particle in GetComponentsInChildren<ParticleSystem>())
+                {
+                    if (Particle.name == "P_F")
+                    {
+                        Partical_freeze = Particle;
+                    }
+                }
+                return Partical_freeze;
+            }
+        }
+
+        ParticleSystem Particleminuse
+        {
+            get
+            {
+                ParticleSystem Partical_minuse = null;
+                foreach (var Partical in GetComponentsInChildren<ParticleSystem>())
+                {
+                    if (Partical.name == "P_M")
+                    {
+                        Partical_minuse = Partical;
+
+                    }
+                }
+                return Partical_minuse;
+            }
+        }
+
         Transform Place_mission;
         public float Time_animation = 0.01f;
 
@@ -414,6 +468,8 @@ public class Raw_model_game_play_offline : MonoBehaviour
         public int Tap;
         public int show_hint = 0;
         public int show_off = 1;
+
+        public int Anim;
 
         public void Change_value(Transform Place_mission, GameObject Parent)
         {
@@ -494,6 +550,30 @@ public class Raw_model_game_play_offline : MonoBehaviour
             {
                 Text_BTN.text = Tap.ToString();
             }
+
+            //anim destroy
+            if (Anim == 1)
+            {
+                gameObject.transform.localScale = Vector3.MoveTowards(gameObject.transform.localScale, Vector3.zero, 0.1f);
+
+                if (gameObject.transform.localScale == Vector3.zero)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
+
+        public void show_anim_freeze()
+        {
+
+            ParticleFreeze.Play();
+        }
+
+        public void Show_anim_minuse()
+        {
+
+            Particleminuse.Play();
         }
 
     }

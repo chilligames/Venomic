@@ -185,7 +185,7 @@ public class Panel_coin_shop : MonoBehaviour
                 Type = success.Type,
             };
 
-            Chilligames_SDK.API_Client.Add_purchasses_history(new Req_add_purchasses_history { _id = _id, data_purchass = ChilligamesJson.SerializeObject(data_purchase) }, () => { }, err => { });
+            Chilligames_SDK.API_Client.Add_purchasses_history(new Req_add_purchasses_history { _id = _id, data_purchass = ChilligamesJson.SerializeObject(data_purchase),Name_app="Venomic" }, () => { }, err => { });
         }
 
     }

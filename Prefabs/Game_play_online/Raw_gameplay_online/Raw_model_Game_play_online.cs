@@ -50,6 +50,7 @@ public class Raw_model_game_play_online : MonoBehaviour
     public Button BTN_Leave_mission;
 
     public Transform Place_BTNS;
+    [HideInInspector()]
     public GameObject Parent;
 
     public AudioSource Music_reject;
@@ -60,12 +61,14 @@ public class Raw_model_game_play_online : MonoBehaviour
     public int[] tap_map;
 
     int Mission_pass = 0;
+
+
     public void Change_value(string _id, string name_server, int coin_server, int totall_level, int level, int freeze, int minus, int delete, int chance, int reset, string _id_server, GameObject parent)
     {
         Parent = parent;
         Name_server = name_server;
         Count_Player = 99;
-        Rank_player = 99;
+        Rank_player = 0;
         Coin_server = coin_server;
         Totall_level = totall_level;
         Level = level;
@@ -83,10 +86,14 @@ public class Raw_model_game_play_online : MonoBehaviour
 
     private void Start()
     {
+        BTN_Freeze.onClick.RemoveAllListeners();
+        BTN_Minus.onClick.RemoveAllListeners();
+        BTN_Delete.onClick.RemoveAllListeners();
+        BTN_Reset.onClick.RemoveAllListeners();
+        BTN_Leave_mission.onClick.RemoveAllListeners();
         //level QA
         if (Level <= 10)
         {
-            print("level_easy");
             int Count = Random.Range(1, 5);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
@@ -96,7 +103,6 @@ public class Raw_model_game_play_online : MonoBehaviour
         }
         else if (Level >= 11 && Level <= 20)
         {
-            print("Level_mediom");
             int Count = Random.Range(2, 7);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
@@ -106,7 +112,6 @@ public class Raw_model_game_play_online : MonoBehaviour
         }
         else if (Level >= 21 && Level <= 40)
         {
-            print("level_hard");
             int Count = Random.Range(3, 8);
             BTNS = new GameObject[Count];
             for (int i = 0; i < BTNS.Length; i++)
@@ -116,7 +121,6 @@ public class Raw_model_game_play_online : MonoBehaviour
         }
         else if (Level >= 41)
         {
-            print("expert");
             int Count = Random.Range(3, 9);
             BTNS = new GameObject[Count];
             for (int i = 0; i < Count; i++)
@@ -142,6 +146,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                 foreach (var BTN in BTNS)
                 {
                     BTN.GetComponent<BTN>().Freeze_time = 0.005f;
+                    BTN.GetComponent<BTN>().Show_anim_freeze();
                 }
                 Freeze -= 1;
             }
@@ -169,6 +174,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                         }
 
                         BTN.GetComponent<BTN>().Count -= 1;
+                        BTN.GetComponent<BTN>().Show_anim_minuse();
                     }
                     else
                     {
@@ -185,11 +191,17 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         BTN_Delete.onClick.AddListener(() =>
         {
-            if (Delete >= 1 && BTNS.Length > 1)
+            if (Delete >= 1 && BTNS.Length > 2)
             {
                 BTN_Delete.GetComponent<AudioSource>().Play();
                 Partical_delete.Play();
-                Destroy(BTNS[BTNS.Length - 1]);
+
+                //animation delete
+                BTNS[BTNS.Length-1].GetComponent<BTN>().Anim = 1;
+
+
+                //work
+
                 Delete -= 1;
                 GameObject[] New_BTNS = new GameObject[BTNS.Length - 1];
 
@@ -250,11 +262,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                       Count_Player = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Player;
                   }, ERR => { });
 
-            //recive coin server
-            Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { _id_server = _id_server, Name_app = "Venomic" }, result =>
-            {
-                Coin_server = (int)ChilligamesJson.DeserializeObject<Panel_Servers.Model_server.Setting_servers>(result.Setting.ToString()).Coine;
-            }, err => { });
+
 
             // recive ranking 
             Chilligames_SDK.API_Client.Recive_data_server<Panel_Servers.Model_server>(new Req_data_server { Name_app = "Venomic", _id_server = _id_server }, result =>
@@ -400,6 +408,41 @@ public class Raw_model_game_play_online : MonoBehaviour
             }
         }
 
+        ParticleSystem partical_minuse
+        {
+            get
+            {
+                ParticleSystem particle_m = null;
+                foreach (var particle in GetComponentsInChildren<ParticleSystem>())
+                {
+                    if (particle.name == "P_M")
+                    {
+                        particle_m = particle;
+                    }
+                }
+                return particle_m;
+            }
+        }
+
+        ParticleSystem Parical_freeze
+        {
+            get
+            {
+                ParticleSystem particle = null;
+                foreach (var item in GetComponentsInChildren<ParticleSystem>())
+                {
+
+                    if (item.name == "P_F")
+                    {
+                        particle = item;
+                    }
+                }
+                return particle;
+            }
+
+        }
+
+
         public float Freeze_time = 0.01f;
 
         public int Count;
@@ -407,6 +450,9 @@ public class Raw_model_game_play_online : MonoBehaviour
 
         int show_hint = 0;
         int show_off = 0;
+
+        public int Anim;
+
         internal void Change_value(GameObject Parent)
         {
             Count = Random.Range(1, 9);
@@ -443,7 +489,7 @@ public class Raw_model_game_play_online : MonoBehaviour
                         Parent.GetComponent<Raw_model_game_play_online>().Chance -= 1;//cheack
                         Parent.GetComponent<Raw_model_game_play_online>().Partical_reject.Play();
                         Parent.GetComponent<Raw_model_game_play_online>().Music_reject.Play();
-                       
+
                         //vibrator control
                         if (PlayerPrefs.GetInt("Vibrator") == 0)
                         {
@@ -479,8 +525,31 @@ public class Raw_model_game_play_online : MonoBehaviour
             {
                 Text_BTN.text = Tap.ToString();
             }
+
+
+
+            if (Anim == 1)
+            {
+                gameObject.transform.localScale = Vector3.MoveTowards(gameObject.transform.localScale, Vector3.zero, 0.1f);
+
+                if (gameObject.transform.localScale == Vector3.zero)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
 
+
+        public void Show_anim_freeze()
+        {
+            Parical_freeze.Play();
+
+        }
+
+        public void Show_anim_minuse()
+        {
+            partical_minuse.Play();
+        }
     }
 
     class End_mission : MonoBehaviour
