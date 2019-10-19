@@ -51,6 +51,9 @@ public class Panel_Chatroom : MonoBehaviour
     GameObject[] Messages = null;
     GameObject[] Notifactions = null;
     GameObject Result_search = null;
+
+
+
     public string _id_player
     {
         get
@@ -62,9 +65,12 @@ public class Panel_Chatroom : MonoBehaviour
 
     void Start()
     {
+        //starter
         Curent_content = Content_Chatroom;
         Curent_BTN_tab = BTN_Chatroom;
 
+
+        //change action btn
         BTN_Chatroom.onClick.AddListener(() =>
         {
             Curent_content.SetActive(false);
@@ -165,6 +171,7 @@ public class Panel_Chatroom : MonoBehaviour
             }
         });
 
+        //serche user
 
         Input_search.onValueChanged.AddListener((Text_typed) =>
         {
@@ -199,6 +206,7 @@ public class Panel_Chatroom : MonoBehaviour
 
             Messages_Chatroom = null;
         }
+
         if (Messages != null)
         {
             for (int i = 0; i < Messages.Length; i++)
@@ -209,6 +217,14 @@ public class Panel_Chatroom : MonoBehaviour
             Messages = null;
         }
 
+        if (Notifactions!=null)
+        {
+            for (int i = 0; i < Notifactions.Length; i++)
+            {
+                Destroy(Notifactions[i]);
+            }
+        }
+        
         StartCoroutine(Recive_messages_in_chatroom());
 
         Chilligames_SDK.API_Client.Mark_all_messages_as_read(new Req_mark_messeges_as_read { _id = _id_player });
@@ -219,6 +235,16 @@ public class Panel_Chatroom : MonoBehaviour
         //stop recive message chatroom
 
         StopCoroutine(Recive_messages_in_chatroom());
+
+        //destroy notifaction
+        if (Notifactions!=null)
+        {
+            for (int i = 0; i < Notifactions.Length; i++)
+            {
+                Destroy(Notifactions[i]);
+            }
+        }
+
 
         //destroy message chatroom
         if (Messages_Chatroom != null)

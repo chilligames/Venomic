@@ -43,6 +43,7 @@ public class Panel_shop : MonoBehaviour
     public Button BTN_enter_to_coin_shop;
 
     GameObject[] Offers = null;
+
     public string _id
     {
         get
