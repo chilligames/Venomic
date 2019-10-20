@@ -23,7 +23,7 @@ public class Menu : MonoBehaviour
 
     public AudioSource Music_menu;
     public AudioSource Music_game_play;
-    
+
 
     public Button BTN_signal;
     public Button BTN_Profile;
@@ -34,7 +34,7 @@ public class Menu : MonoBehaviour
     public Button BTN_Messages;
     public Button BTN_Setting;
     public Button BTN_bug;
-
+    public Button BTN_Update;
 
     public GameObject Content_Signal;
     public GameObject Content_Profile;
@@ -46,6 +46,8 @@ public class Menu : MonoBehaviour
     public GameObject Content_Setting;
     public GameObject Content_bug;
     public GameObject Content_gift;
+    public GameObject Content_Update;
+
 
     public RawImage Icon_Cheack_status_new_message;
 
@@ -82,6 +84,31 @@ public class Menu : MonoBehaviour
         }
 
 
+        //cheack new update
+        Chilligames_SDK.API_Admin.Recive_version_game(new Chilligames.SDK.Model_Admin.Req_recive_version { Name_app = "Venomic" }, result =>
+           {
+               if (result.Length > 2)
+               {
+                   if (result != Application.version)
+                   {
+                       BTN_signal.gameObject.SetActive(false);
+                       BTN_Profile.gameObject.SetActive(false);
+                       BTN_Home.gameObject.SetActive(false);
+                       BTN_Ranking.gameObject.SetActive(false);
+                       BTN_Servers.gameObject.SetActive(false);
+                       BTN_Shop.gameObject.SetActive(false);
+                       BTN_Messages.gameObject.SetActive(false);
+
+                       Curent_panel.SetActive(false);
+                       Curent_panel = Content_Update;
+                       Content_Update.SetActive(true);
+                       Curent_BTN_Taped = BTN_Update;
+                       BTN_Update.gameObject.SetActive(true);
+                       BTN_Update.GetComponentInChildren<RawImage>().color = Color_select;
+                   }
+               }
+
+           }, err => { });
 
         //paritical holder change color
         if (PlayerPrefs.GetInt("Day_Night") == 0)
@@ -207,6 +234,17 @@ public class Menu : MonoBehaviour
             Curent_BTN_Taped.GetComponentInChildren<RawImage>().color = Color_deselect;
             Curent_BTN_Taped = BTN_bug;
             BTN_bug.GetComponentInChildren<RawImage>().color = Color_select;
+        });
+
+        BTN_Update.onClick.AddListener(() =>
+        {
+            Curent_panel.SetActive(false);
+            Curent_panel = Content_Update;
+            Content_Update.SetActive(true);
+
+            Curent_BTN_Taped.GetComponentInChildren<RawImage>().color = Color_deselect;
+            Curent_BTN_Taped = BTN_Update;
+            BTN_Update.GetComponentInChildren<RawImage>().color = Color_select;
         });
 
         Cheack_net();

@@ -93,7 +93,6 @@ public class Panel_home : MonoBehaviour
             {
                 if (Result_login == "1")
                 {
-
                     Send_data();
 
                     Chilligames_SDK.API_Client.Recive_List_server_user(new Req_recive_list_servers_User { Name_app = "Venomic", _id = _id }, Result_server =>
@@ -115,21 +114,21 @@ public class Panel_home : MonoBehaviour
 
                     void Send_data()
                     {
-                        Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin {_id=_id }, result =>
-                        {
-                            if (result.Coin > PlayerPrefs.GetInt("Coin"))
-                            {
-                                PlayerPrefs.SetInt("Coin", (int)result.Coin);
-                                print("Coin to game ");
-                            }
-                            else
-                            {
-                                print("coin to server");
+                        Chilligames_SDK.API_Client.Recive_Coin_mony(new Req_recive_coin { _id = _id }, result =>
+                           {
+                               if (result.Coin > PlayerPrefs.GetInt("Coin"))
+                               {
+                                   PlayerPrefs.SetInt("Coin", (int)result.Coin);
+                                   print("Coin to game ");
+                               }
+                               else
+                               {
+                                   print("coin to server");
 
-                                Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
-                            }
+                                   Chilligames_SDK.API_Client.Sync_coin_with_server(new Req_sync_coin_with_server { Coin = PlayerPrefs.GetInt("Coin"), _id = _id }, () => { }, err => { });
+                               }
 
-                        }, err => { });
+                           }, err => { });
 
 
                         Chilligames_SDK.API_Client.Send_Data_user(new Req_send_data
@@ -161,11 +160,13 @@ public class Panel_home : MonoBehaviour
 
                             }
                         }, err => { });
+
+                        Chilligames_SDK.API_Admin.Send_log_user(new Chilligames.SDK.Model_Admin.Req_send_logPlayer { _id = _id });
+
                     }
                 }
                 else if (Result_login == "0")
                 {
-
                     print("Code not login here");
                 }
             }, ERR =>
@@ -210,6 +211,7 @@ public class Panel_home : MonoBehaviour
         });
 
     }
+
     private void OnDisable()
     {
         if (Server_fild != null)
@@ -237,7 +239,7 @@ public class Panel_home : MonoBehaviour
         PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
 
-        if (PlayerPrefs.GetInt("Level")>PlayerPrefs.GetInt("Top_Score"))
+        if (PlayerPrefs.GetInt("Level") > PlayerPrefs.GetInt("Top_Score"))
         {
             PlayerPrefs.SetInt("Top_Score", PlayerPrefs.GetInt("Level"));
         }

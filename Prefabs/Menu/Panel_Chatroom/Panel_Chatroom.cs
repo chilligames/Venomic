@@ -319,7 +319,7 @@ public class Panel_Chatroom : MonoBehaviour
     public void Cheack_new_message(RawImage Icon_status_messege)
     {
 
-        Chilligames_SDK.API_Client.Cheack_status_new_message(new Req_cheack_new_message { _id = _id_player }, result =>
+        Chilligames_SDK.API_Client.Cheack_status_new_message(new Req_cheack_new_message { _id = _id_player ,Name_App="Venomic"}, result =>
         {
             if (result == "1")
             {
