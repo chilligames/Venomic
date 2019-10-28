@@ -6,51 +6,64 @@ using UnityEngine.UI;
 
 public class Help_game : MonoBehaviour
 {
+    [Header("Hlep object")]
     public GameObject Canvas_menu;
 
     public Button BTN_close_help;
 
+    [Header("Step1 Object")]
     public Button BTN_En;
     public Button BTN_FA;
 
+    [Header("Step login")]
+    public Button BTN_Login;
+    public Button BTN_register;
+    public Button BTN_Skip;
+    public Button BNT_regiter_register;
+    public Button BTN_login_login;
+    public GameObject Content_reg_login;
+    public GameObject Content_login;
+    public GameObject Content_register;
+
+    [Header("Step2 Object")]
     public Button BTN_mission_step_2;
     public Button BTN_next_setep_2;
 
-
+    [Header("Step3 Object")]
     public Button BTN_next_mission_3;
     public Button BTN_mission_3_1;
     public Button BTN_mission_3_2;
 
-
+    [Header("Step4 Object")]
     public Button BTN_next_misson4;
     public Button BTN_misson_4_1;
     public Button BTN_freeze;
 
-
+    [Header("Step5 Object")]
     public Button BTN_next_mission_5;
     public Button BTN_minuse;
     public Button mission_5_1;
 
-
+    [Header("Step6 Object")]
     public Button BTN_next_mission_6;
     public Button BTN_delete;
     public Button BTN_mission_6_1;
     public Button BTN_Mission_6_2;
 
-
+    [Header("Step7 Object")]
     public Button BTN_next_mission_7;
     public Button BTN_mission_7_1;
     public Button BTN_missin_7_2;
     public TextMeshProUGUI Text_Score_number;
     public TextMeshProUGUI Text_chance_number;
 
-
+    [Header("Step8 Object")]
     public Button BTN_next_mission_8;
     public Button BTN_raw_model_BTN_mission;
     public Button BTN_reset_mission;
     public GameObject Place_btn_mission;
 
-
+    [Header("Stepfinish Object")]
     public Button BTN_finish;
 
     public GameObject Step_1;
@@ -80,17 +93,31 @@ public class Help_game : MonoBehaviour
         {
             PlayerPrefs.SetInt("Language", 0);
             Step_1.SetActive(false);
-            Step_2.SetActive(true);
+            Step_login.SetActive(true);
         });
         BTN_FA.onClick.AddListener(() =>
         {
             PlayerPrefs.SetInt("Language", 1);
             Step_1.SetActive(false);
-            Step_2.SetActive(true);
+            Step_login.SetActive(true);
         });
 
         //stepLogin
+        BTN_Skip.onClick.AddListener(() =>
+        {
+            Step_login.SetActive(false);
+            Step_2.SetActive(true);
 
+        });
+        BTN_Login.onClick.AddListener(() =>
+        {
+            Content_reg_login.SetActive(false);
+            Content_login.SetActive(true);
+        });
+        BTN_register.onClick.AddListener(() => {
+            Content_reg_login.SetActive(false);
+            Content_register.SetActive(true);
+        });
 
         //step2
         BTN_next_setep_2.onClick.AddListener(() =>
@@ -173,15 +200,6 @@ public class Help_game : MonoBehaviour
     }
 
 
-    class Raw_step_login
-    {
-
-        public void change_value()
-        {
-
-        }
-
-    }
 
     class Raw_Step_2 : MonoBehaviour
     {
