@@ -54,6 +54,7 @@ public class Help_game : MonoBehaviour
     public Button BTN_finish;
 
     public GameObject Step_1;
+    public GameObject Step_login;
     public GameObject Step_2;
     public GameObject Step_3;
     public GameObject Step_4;
@@ -66,7 +67,7 @@ public class Help_game : MonoBehaviour
 
     void Start()
     {
-        
+
 
         if (PlayerPrefs.GetInt("Help") == 1)
         {
@@ -87,6 +88,9 @@ public class Help_game : MonoBehaviour
             Step_1.SetActive(false);
             Step_2.SetActive(true);
         });
+
+        //stepLogin
+
 
         //step2
         BTN_next_setep_2.onClick.AddListener(() =>
@@ -169,6 +173,15 @@ public class Help_game : MonoBehaviour
     }
 
 
+    class Raw_step_login
+    {
+
+        public void change_value()
+        {
+
+        }
+
+    }
 
     class Raw_Step_2 : MonoBehaviour
     {
