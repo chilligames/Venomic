@@ -19,11 +19,16 @@ public class Help_game : MonoBehaviour
     public Button BTN_Login;
     public Button BTN_register;
     public Button BTN_Skip;
-    public Button BNT_regiter_register;
+    public Button BTN_regiter_register;
     public Button BTN_login_login;
     public GameObject Content_reg_login;
     public GameObject Content_login;
     public GameObject Content_register;
+    public TMP_InputField input_username_login;
+    public TMP_InputField input_password_login;
+    public TMP_InputField input_username_register;
+    public TMP_InputField input_email_register;
+    public TMP_InputField input_password_register;
 
     [Header("Step2 Object")]
     public Button BTN_mission_step_2;
@@ -114,10 +119,18 @@ public class Help_game : MonoBehaviour
             Content_reg_login.SetActive(false);
             Content_login.SetActive(true);
         });
-        BTN_register.onClick.AddListener(() => {
+        BTN_register.onClick.AddListener(() =>
+        {
             Content_reg_login.SetActive(false);
             Content_register.SetActive(true);
         });
+        BTN_login_login.onClick.AddListener(() =>
+        {
+
+
+        });
+        BTN_regiter_register.onClick.AddListener(() => { });
+
 
         //step2
         BTN_next_setep_2.onClick.AddListener(() =>

@@ -13148,7 +13148,7 @@ GameObject:
   - component: {fileID: 353718867}
   - component: {fileID: 353718866}
   m_Layer: 5
-  m_Name: InputField_Email
+  m_Name: InputField_Email_register
   m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18452,7 +18452,7 @@ GameObject:
   - component: {fileID: 513687595}
   - component: {fileID: 513687598}
   m_Layer: 5
-  m_Name: InputField_username
+  m_Name: InputField_username_login
   m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74261,7 +74261,7 @@ GameObject:
   - component: {fileID: 1795647389}
   - component: {fileID: 1795647388}
   m_Layer: 5
-  m_Name: InputField_Password
+  m_Name: InputField_Password_register
   m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87766,6 +87766,11 @@ MonoBehaviour:
   Content_reg_login: {fileID: 896984737}
   Content_login: {fileID: 1527390445}
   Content_register: {fileID: 450923952}
+  input_username_login: {fileID: 513687595}
+  input_password_login: {fileID: 2057657658}
+  input_username_register: {fileID: 2132467038}
+  input_email_register: {fileID: 353718867}
+  input_password_register: {fileID: 1795647389}
   BTN_mission_step_2: {fileID: 824604093}
   BTN_next_setep_2: {fileID: 5001875}
   BTN_next_mission_3: {fileID: 1182956864}
@@ -88644,7 +88649,7 @@ GameObject:
   - component: {fileID: 2057657658}
   - component: {fileID: 2057657661}
   m_Layer: 5
-  m_Name: InputField_Password
+  m_Name: InputField_Password_login
   m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92005,7 +92010,7 @@ GameObject:
   - component: {fileID: 2132467038}
   - component: {fileID: 2132467037}
   m_Layer: 5
-  m_Name: InputField_username
+  m_Name: InputField_username_register
   m_TagString: Change_Color_Image
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
