@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Chilligames.SDK;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,11 @@ public class Help_game : MonoBehaviour
     public TMP_InputField input_username_register;
     public TMP_InputField input_email_register;
     public TMP_InputField input_password_register;
+    public TextMeshProUGUI Text_notavailable;
+    public TextMeshProUGUI Text_email_not_correct;
+    public Button BTN_back_login;
+    public Button BTN_back_register;
+
 
     [Header("Step2 Object")]
     public Button BTN_mission_step_2;
@@ -126,11 +132,75 @@ public class Help_game : MonoBehaviour
         });
         BTN_login_login.onClick.AddListener(() =>
         {
+            Chilligames_SDK.API_Client.Login_with_username_Password(new Chilligames.SDK.Model_Client.Req_login_with_username_password { Password = input_password_login.text, Username = input_username_login.text }, result =>
+            {
+                PlayerPrefs.SetString("_id", result);
+                Step_login.SetActive(false);
+                Step_2.SetActive(true);
 
+            }, err => { });
 
         });
-        BTN_regiter_register.onClick.AddListener(() => { });
+        BTN_regiter_register.onClick.AddListener(() =>
+        {
+            Chilligames_SDK.API_Client.Register_with_username_password(new Chilligames.SDK.Model_Client.Req_register_with_username_pass_email { Email = input_email_register.text, Password = input_password_register.text, Username = input_username_register.text }, resul =>
+                     {
+                         PlayerPrefs.SetString("_id", resul);
 
+                         Step_login.SetActive(false);
+                         Step_2.SetActive(true);
+
+                     }, err => { });
+
+        });
+        input_username_register.onValueChanged.AddListener(value =>
+        {
+            Chilligames_SDK.API_Client.Cheack_user_name(new Chilligames.SDK.Model_Client.Req_cheack_username { Username = value }, result =>
+            {
+                if (result == "0")
+                {
+                    Text_notavailable.gameObject.SetActive(true);
+                }
+                else if (result == "1")
+                {
+                    Text_notavailable.gameObject.SetActive(false);
+                }
+
+            }, err => { });
+
+        });
+        input_email_register.onEndEdit.AddListener((text) =>
+        {
+            int finde = 0;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == '@')
+                {
+                    finde = 1;
+                }
+            }
+            if (finde == 0)
+            {
+                Text_email_not_correct.gameObject.SetActive(true);
+            }
+            else
+            {
+                Text_email_not_correct.gameObject.SetActive(false);
+            }
+
+        });
+        BTN_back_login.onClick.AddListener(() =>
+        {
+            Content_login.SetActive(false);
+            Content_reg_login.SetActive(true);
+        });
+        BTN_back_register.onClick.AddListener(() =>
+        {
+            Content_register.SetActive(false);
+            Content_reg_login.SetActive(true);
+
+        });
 
         //step2
         BTN_next_setep_2.onClick.AddListener(() =>
@@ -212,7 +282,30 @@ public class Help_game : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Step_login.activeInHierarchy)
+        {
+            if (input_username_register.text==""||input_password_register.text=="")
+            {
+                BTN_regiter_register.interactable = false;
 
+            }
+            else
+            {
+                BTN_regiter_register.interactable = true;
+            }
+
+            if (input_username_login.text=="" || input_password_login.text=="")
+            {
+                BTN_login_login.interactable = false;
+            }
+            else
+            {
+                BTN_login_login.interactable = true;
+            }
+        }
+    }
 
     class Raw_Step_2 : MonoBehaviour
     {
