@@ -99,12 +99,18 @@ public class Menu : MonoBehaviour
                        BTN_Shop.gameObject.SetActive(false);
                        BTN_Messages.gameObject.SetActive(false);
 
+
                        Curent_panel.SetActive(false);
                        Curent_panel = Content_Update;
                        Content_Update.SetActive(true);
                        Curent_BTN_Taped = BTN_Update;
                        BTN_Update.gameObject.SetActive(true);
                        BTN_Update.GetComponentInChildren<RawImage>().color = Color_select;
+                       
+                       if (Content_gift.activeInHierarchy)
+                       {
+                           Content_gift.SetActive(false);
+                       }
                    }
                }
 
